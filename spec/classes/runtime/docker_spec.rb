@@ -26,6 +26,11 @@ describe 'kubeinstall::runtime::docker' do
         }
       else
       end
+
+      it {
+        is_expected.to contain_file('/etc/docker')
+          .with_ensure('directory')
+      }
     end
   end
 end

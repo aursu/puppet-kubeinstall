@@ -1,3 +1,9 @@
 ---
 kubeinstall::dockerd_version: installed
 kubeinstall::containerd_version: installed
+kubeinstall::kubernetes_version: innstalled
+kubeinstall::manage_kernel_modules: true
+kubeinstall::manage_sysctl_settings: true
+kubeinstall::disable_swap: true
+kubeinstall::disable_firewall: true
+kubeinstall::disable_selinux: true

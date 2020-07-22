@@ -3,6 +3,9 @@
 ---
 fixtures:
   forge_modules:
+    firewalld:
+      repo: "puppet/firewalld"
+      ref: "4.3.0"
     stdlib:
       repo: "puppetlabs/stdlib"
       ref: "6.3.0"
@@ -12,8 +15,23 @@ fixtures:
     puppet_agent:
       repo: "puppetlabs/puppet_agent"
       ref: "4.0.0"
+    kmod:
+      repo: "camptocamp/kmod"
+      ref: "2.5.0"
+    selinux:
+      repo: "puppet/selinux"
+      ref: "3.2.0"
+    sysctl:
+      repo: "thias/sysctl"
+      ref: "1.0.6"
+    systemd:
+      repo: 'camptocamp/systemd'
+      ref: "2.9.0"
   repositories:
     dockerinstall: "https://github.com/aursu/puppet-dockerinstall.git"
+    augeas_core:
+      repo: https://github.com/puppetlabs/puppetlabs-augeas_core.git
+      puppet_version: ">= 6.0.0"
     yumrepo_core:
       repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
       puppet_version: ">= 6.0.0"
