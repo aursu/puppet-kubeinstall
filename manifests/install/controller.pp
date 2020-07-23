@@ -13,5 +13,5 @@ class kubeinstall::install::controller {
 
   include tlsinfo
   include tlsinfo::tools::cfssl
-  class { 'kubeinstall::service': }
+  include kubeinstall::service
 }
