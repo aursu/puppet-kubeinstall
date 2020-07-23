@@ -5,4 +5,13 @@
 # @example
 #   include kubeinstall::install::controller
 class kubeinstall::install::controller {
+  # --control-plane-endpoint
+  # --cri-socket /var/run/docker.sock
+  # --apiserver-advertise-address=
+
+  # TODO: https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#options-for-software-load-balancing
+
+  include tlsinfo
+  include tlsinfo::tools::cfssl
+  class { 'kubeinstall::service': }
 }

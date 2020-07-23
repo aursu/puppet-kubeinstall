@@ -4,6 +4,8 @@ require 'spec_helper'
 
 describe 'kubeinstall::system::selinux::noop' do
   on_supported_os.each do |os, os_facts|
+    os_facts[:os]['selinux'] = { "enabled": false }
+
     context "on #{os}" do
       let(:facts) { os_facts }
 

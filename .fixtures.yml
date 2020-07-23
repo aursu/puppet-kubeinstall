@@ -9,9 +9,6 @@ fixtures:
     stdlib:
       repo: "puppetlabs/stdlib"
       ref: "6.3.0"
-    systemd:
-      repo: "camptocamp/systemd"
-      ref: "2.9.0"
     puppet_agent:
       repo: "puppetlabs/puppet_agent"
       ref: "4.0.0"
@@ -29,6 +26,7 @@ fixtures:
       ref: "2.9.0"
   repositories:
     dockerinstall: "https://github.com/aursu/puppet-dockerinstall.git"
+    tlsinfo: "https://github.com/aursu/puppet-tlsinfo.git"
     augeas_core:
       repo: https://github.com/puppetlabs/puppetlabs-augeas_core.git
       puppet_version: ">= 6.0.0"

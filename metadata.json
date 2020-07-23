@@ -13,6 +13,10 @@
       "version_requirement": ">= 0.3.0 < 1.0.0"
     },
     {
+      "name": "aursu/tlsinfo",
+      "version_requirement": ">= 0.3.1 < 1.0.0"
+    },
+    {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.13.0 < 7.0.0"
     },
