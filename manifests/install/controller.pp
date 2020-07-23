@@ -11,7 +11,7 @@ class kubeinstall::install::controller {
 
   # TODO: https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#options-for-software-load-balancing
 
+  include kubeinstall::service
   include tlsinfo
   include tlsinfo::tools::cfssl
-  include kubeinstall::service
 }
