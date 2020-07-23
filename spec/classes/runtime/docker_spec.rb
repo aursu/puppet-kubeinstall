@@ -24,7 +24,6 @@ describe 'kubeinstall::runtime::docker' do
             .with_name('containerd.io')
             .with_ensure('1.2.13-3.2.el7')
         }
-      else
       end
 
       it {

@@ -133,5 +133,7 @@ Style/AsciiComments:
   Enabled: false
 Style/IfUnlessModifier:
   Enabled: false
+Style/NumericLiterals:
+  Enabled: false
 Style/SymbolProc:
   Enabled: false
