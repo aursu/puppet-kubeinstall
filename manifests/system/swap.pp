@@ -6,7 +6,7 @@
 #   include kubeinstall::system::swap
 class kubeinstall::system::swap {
   # proceed  only if swap exists
-  if $facts['memory']['swap'] {
+  if $facts['memory'] and $facts['memory']['swap'] {
     exec { 'swapoff -a':
       path => '/usr/sbin:/sbin:/usr/bin:/bin',
     }
