@@ -2,7 +2,69 @@
 #
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
-ipaddress: "172.16.254.254"
-ipaddress6: "FE80:0000:0000:0000:AAAA:AAAA:AAAA"
+ipaddress: 172.16.100.49
+ipaddress6: fe80::f816:3eff:fed2:f3db
 is_pe: false
-macaddress: "AA:AA:AA:AA:AA:AA"
+macaddress: fa:16:3e:d2:f3:db
+networking:
+    dhcp: 172.16.100.2
+    domain: domain.tld
+    fqdn: kubec-01.domain.tld
+    hostname: kubec-01
+    interfaces:
+      docker0:
+        bindings:
+        - address: 172.17.0.1
+          netmask: 255.255.0.0
+          network: 172.17.0.0
+        ip: 172.17.0.1
+        mac: 02:42:2a:d6:94:f0
+        mtu: 1500
+        netmask: 255.255.0.0
+        network: 172.17.0.0
+      eth0:
+        bindings:
+        - address: 172.16.100.49
+          netmask: 255.255.255.0
+          network: 172.16.100.0
+        bindings6:
+        - address: fe80::f816:3eff:fed2:f3db
+          netmask: 'ffff:ffff:ffff:ffff::'
+          network: 'fe80::'
+        dhcp: 172.16.100.2
+        ip: 172.16.100.49
+        ip6: fe80::f816:3eff:fed2:f3db
+        mac: fa:16:3e:d2:f3:db
+        mtu: 1450
+        netmask: 255.255.255.0
+        netmask6: 'ffff:ffff:ffff:ffff::'
+        network: 172.16.100.0
+        network6: 'fe80::'
+        scope6: link
+      lo:
+        bindings:
+        - address: 127.0.0.1
+          netmask: 255.0.0.0
+          network: 127.0.0.0
+        bindings6:
+        - address: "::1"
+          netmask: ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+          network: "::1"
+        ip: 127.0.0.1
+        ip6: "::1"
+        mtu: 65536
+        netmask: 255.0.0.0
+        netmask6: ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+        network: 127.0.0.0
+        network6: "::1"
+        scope6: host
+    ip: 172.16.100.49
+    ip6: fe80::f816:3eff:fed2:f3db
+    mac: fa:16:3e:d2:f3:db
+    mtu: 1450
+    netmask: 255.255.255.0
+    netmask6: 'ffff:ffff:ffff:ffff::'
+    network: 172.16.100.0
+    network6: 'fe80::'
+    primary: eth0
+    scope6: link
