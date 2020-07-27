@@ -9,7 +9,7 @@
 #   CRISocket is used to retrieve container runtime info. This information will
 #   be annotated to the Node API object, for later re-use
 class kubeinstall::kubeadm::config (
-  Optional[Pattern[/^[a-z0-9]{6}.[a-z0-9]{16}$/]]
+  Optional[Kubeinstall::Token]
           $bootstrap_token             = undef,
   String[2]
           $token_ttl                   = '24h0m0s',
