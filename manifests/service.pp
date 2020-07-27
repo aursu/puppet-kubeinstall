@@ -6,9 +6,7 @@
 #   include kubeinstall::service
 class kubeinstall::service
 {
-  include kubeinstall::runtime::docker
   include kubeinstall::install
-  include kubeinstall::system
 
   # kubelet[26217]: F0722 16:24:01.751284   26217 server.go:199] failed to load
   # Kubelet config file /var/lib/kubelet/config.yaml, error failed to read kubelet
@@ -17,10 +15,6 @@ class kubeinstall::service
   service { 'kubelet':
     ensure  => running,
     enable  => true,
-    require => [
-      Class['kubeinstall::runtime::docker'],
-      Class['kubeinstall::system'],
-      Class['kubeinstall::install']
-    ]
+    require => Class['kubeinstall::install'],
   }
 }

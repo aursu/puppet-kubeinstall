@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Kubernetes conntroller setup
 #
-# A description of what this class does
+# Kubernetes conntroller setup
 #
 # @example
 #   include kubeinstall::profile::controller

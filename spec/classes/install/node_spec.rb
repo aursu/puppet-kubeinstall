@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'kubeinstall::install::worker' do
+describe 'kubeinstall::install::node' do
   let(:pre_condition) { 'include kubeinstall' }
 
   on_supported_os.each do |os, os_facts|

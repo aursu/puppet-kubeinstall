@@ -1,10 +1,10 @@
-# @summary Base setup for any kubernetes host
+# @summary Base setup for any kubernetes node
 #
-# Base setup for any kubernetes host
+# Base setup for any kubernetes node
 #
 # @example
 #   include kubeinstall::profile::kubernetes
 class kubeinstall::profile::kubernetes {
   class { 'kubeinstall': }
-  class { 'kubeinstall::service': }
+  include kubeinstall::install::node
 }

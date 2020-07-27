@@ -5,4 +5,5 @@
 # @example
 #   include kubeinstall::install::worker
 class kubeinstall::install::worker {
+  include kubeinstall::install::node
 }
