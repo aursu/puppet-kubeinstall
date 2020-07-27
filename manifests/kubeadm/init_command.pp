@@ -13,7 +13,7 @@ class kubeinstall::kubeadm::init_command (
 
   exec { 'kubeadm init':
     command     => 'kubeadm init --config=/etc/kubernetes/kubeadm-init.conf',
-    path        => '/bin:/usr/bin',
+    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],
