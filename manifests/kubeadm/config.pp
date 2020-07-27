@@ -37,7 +37,7 @@ class kubeinstall::kubeadm::config (
   ]       $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
 )
 {
-  unless $token_ttl =~ Kubeinstall::Token {
+  unless $token_ttl =~ Kubeinstall::TokenTTL {
     fail("parameter 'token_ttl' expects a match for Pattern[/^([0-9]+h)?([0-5]?[0-9]m)?([0-5]?[0-9]s)?$/], got '${token_ttl}'")
   }
 
