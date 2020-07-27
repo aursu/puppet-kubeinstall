@@ -26,7 +26,7 @@ describe 'kubeinstall::kubeadm::config' do
           .with_content(%r{name: kubec-01.domain.tld})
       }
 
-      context "check token validity" do
+      context 'check token validity' do
         let(:params) do
           {
             bootstrap_token: 'secret',
@@ -37,7 +37,7 @@ describe 'kubeinstall::kubeadm::config' do
           is_expected.to compile.and_raise_error(%r{parameter 'bootstrap_token' expects an undef value or a match for Pattern})
         }
 
-        context "when valid" do
+        context 'when valid' do
           let(:params) do
             {
               bootstrap_token: 'abcdef.0123456789abcdef',
