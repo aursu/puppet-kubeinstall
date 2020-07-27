@@ -34,7 +34,7 @@ describe 'kubeinstall::kubeadm::config' do
         end
 
         it {
-          is_expected.to compile.and_raise_error(%r{parameter 'bootstrap_token' expects an undef value or a match for Pattern})
+          is_expected.to compile.and_raise_error(%r{parameter 'bootstrap_token' expects a match for Kubeinstall::Token})
         }
 
         context 'when valid' do
