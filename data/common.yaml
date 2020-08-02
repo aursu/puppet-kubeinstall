@@ -7,3 +7,4 @@ kubeinstall::manage_sysctl_settings: true
 kubeinstall::disable_swap: true
 kubeinstall::disable_firewall: true
 kubeinstall::disable_selinux: true
+kubeinstall::calico_cni_version: v3.15

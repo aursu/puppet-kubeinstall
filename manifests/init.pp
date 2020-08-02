@@ -14,7 +14,7 @@ class kubeinstall (
   Boolean $disable_swap,
   Boolean $disable_firewall,
   Boolean $disable_selinux,
-
+  String $calico_cni_version,
   Stdlib::Fqdn
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
