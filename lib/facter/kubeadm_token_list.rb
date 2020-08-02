@@ -1,0 +1,37 @@
+require 'yaml'
+require 'openssl'
+require 'base64'
+
+Facter.add(:kubeadm_token_list) do
+  setcode do
+    token_list_yaml = %x(/usr/bin/kubeadm token list -o yaml) if File.executable?('/usr/bin/kubeadm')
+
+    if token_list_yaml && $?.success?
+      token_list = token_list_yaml.split('---').map do |t|
+        begin
+          YAML.load(t)
+        rescue Psych::SyntaxError
+          false
+        end
+      end
+      token_list.select { |t| t.is_a?(Hash) && t.any? }
+    else
+      []
+    end
+  end
+end
+
+Facter.add(:kubeadm_discovery_token_ca_cert_hash) do
+  setcode do
+    begin
+      c = File.read('/etc/kubernetes/pki/ca.crt')
+      p = OpenSSL::X509::Certificate.new(c).public_key.to_der
+      OpenSSL::Digest::SHA256.new.hexdigest(p)
+    rescue OpenSSL::X509::CertificateError => e
+      Puppet.warning(_('Failed to read X.509 Certificate data (%{message})') % { message: e.message })
+      nil
+    rescue SystemCallError # Errno::ENOENT
+      nil
+    end
+  end
+end
