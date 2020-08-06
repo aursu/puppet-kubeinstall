@@ -1,15 +1,16 @@
 require 'yaml'
 require 'openssl'
 require 'base64'
+require 'English'
 
 Facter.add(:kubeadm_token_list) do
   setcode do
-    token_list_yaml = %x(/usr/bin/kubeadm token list -o yaml) if File.executable?('/usr/bin/kubeadm')
+    token_list_yaml = `/usr/bin/kubeadm token list -o yaml` if File.executable?('/usr/bin/kubeadm')
 
-    if token_list_yaml && $?.success?
+    if token_list_yaml && $CHILD_STATUS.success?
       token_list = token_list_yaml.split('---').map do |t|
         begin
-          YAML.load(t)
+          YAML.safe_load(t)
         rescue Psych::SyntaxError
           false
         end
