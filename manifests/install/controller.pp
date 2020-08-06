@@ -10,6 +10,9 @@ class kubeinstall::install::controller {
   include kubeinstall::kubeadm::init_command
   include kubeinstall::install::calico
 
+  @@kubeadm_token { 'default': }
+  Kubeadm_token <<| title == 'default' |>>
+
   Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::calico']
 
   # TODO: https://kubernetes.io/docs/setup/best-practices/certificates/
