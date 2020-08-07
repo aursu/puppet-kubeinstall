@@ -18,7 +18,11 @@ Puppet::Type.newtype(:kubeadm_token) do
   newparam(:name, namevar: true) do
     desc 'Token Name'
 
-    newvalues(%r{^(bootstrap-token-)?[a-z0-9]{6}$}, :default)
+    newvalues(%r{^(bootstrap-token-)?[a-z0-9]{6}$}, 'default')
+
+    munge do |value|
+      value.to_s
+    end
   end
 
   newproperty(:id) do
@@ -56,6 +60,11 @@ Puppet::Type.newtype(:kubeadm_token) do
       else
         value
       end
+    end
+
+    # we do not try to sync  it
+    def insync?(_is)
+      true
     end
   end
 
