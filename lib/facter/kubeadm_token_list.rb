@@ -27,7 +27,8 @@ Facter.add(:kubeadm_discovery_token_ca_cert_hash) do
     begin
       c = File.read('/etc/kubernetes/pki/ca.crt')
       p = OpenSSL::X509::Certificate.new(c).public_key.to_der
-      OpenSSL::Digest::SHA256.new.hexdigest(p)
+      h = OpenSSL::Digest::SHA256.new.hexdigest(p)
+      "sha256:#{h}"
     rescue OpenSSL::X509::CertificateError => e
       Puppet.warning(_('Failed to read X.509 Certificate data (%{message})') % { message: e.message })
       nil
