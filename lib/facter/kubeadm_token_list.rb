@@ -1,6 +1,6 @@
 require 'yaml'
 require 'openssl'
-require 'base64'
+require 'date'
 require 'English'
 
 Facter.add(:kubeadm_token_list) do
@@ -16,6 +16,8 @@ Facter.add(:kubeadm_token_list) do
         end
       end
       token_list.select { |t| t.is_a?(Hash) && t.any? }
+                .sort_by { |e| (e['expires']) ? DateTime.parse(e['expires']) : DateTime.new(0) }
+                .reverse
     else
       []
     end
