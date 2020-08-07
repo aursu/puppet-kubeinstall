@@ -6,4 +6,8 @@
 #   include kubeinstall::install::worker
 class kubeinstall::install::worker {
   include kubeinstall::install::node
+
+  $join_token = kubeinstall::discovery_hosts('kubeadm_token')
+  notify { $join_token: }
+
 }

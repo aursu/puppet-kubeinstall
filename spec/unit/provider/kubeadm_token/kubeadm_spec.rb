@@ -181,7 +181,7 @@ describe Puppet::Type.type(:kubeadm_token).provider(:kubeadm) do
     end
   end
 
-  describe "#create" do
+  describe '#create' do
     let(:resource) do
       Puppet::Type.type(:kubeadm_token).new(
         name: resource_name,
