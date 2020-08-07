@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary kubernetes installation on controller node
 #
-# A description of what this class does
+# kubernetes installation on controller node
 #
 # @example
 #   include kubeinstall::install::controller
