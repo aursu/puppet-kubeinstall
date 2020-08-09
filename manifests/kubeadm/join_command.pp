@@ -48,11 +48,10 @@ class kubeinstall::kubeadm::join_command (
   }
 
   # set Join credentials to those provided via parameters (by cluster administrator via parameters)
-  if $admin_token and $admin_ca_cert_hash and $admin_apiserver_address  {
-    $token             = $admin_token
-    $ca_cert_hash      = $admin_ca_cert_hash
-    $apiserver_address = $admin_apiserver_address
-    $apiserver_port    = $admin_apiserver_port
+  if $admin_token and $admin_ca_cert_hash and $admin_apiserver_address {
+    $token               = $admin_token
+    $ca_cert_hash        = $admin_ca_cert_hash
+    $api_server_endpoint = "${admin_apiserver_address}:${admin_apiserver_port}"
   }
   else  {
     # get controller join credentials for k8s cluster
@@ -65,28 +64,27 @@ class kubeinstall::kubeadm::join_command (
     # if not empty - use first credentials' set
     if $join_discovery[0] {
       [$token, $ca_cert_hash, $apiserver_address, $apiserver_port] = $join_discovery[0]
+
+      $api_server_endpoint = "${apiserver_address}:${apiserver_port}"
     }
     else {
       $token = undef
       $ca_cert_hash = undef
-      $apiserver_address = undef
-      $apiserver_port = 6443
+      $api_server_endpoint = undef
     }
   }
 
-  notify { [$token, $ca_cert_hash, $apiserver_address, $apiserver_port]: }
+  notify { [$token, $ca_cert_hash, $api_server_endpoint]: }
 
   # provided via parameters (Kubernetes controller credentials)
-  if $token and $apiserver_address and $ca_cert_hash {
+  if $token and $api_server_endpoint and $ca_cert_hash {
     $init_discovery = {
       'discovery' => {
         'bootstrapToken'    => {
-          'apiServerEndpoint'        => "${apiserver_address}:${apiserver_port}",
+          'apiServerEndpoint'        => $api_server_endpoint,
           'token'                    => $token,
           'unsafeSkipCAVerification' => false,
-          'caCertHashes'             => [
-            $ca_cert_hash,
-          ]
+          'caCertHashes'             => [$ca_cert_hash],
         },
         'timeout'           => '5m0s',
         'tlsBootstrapToken' => $token,
