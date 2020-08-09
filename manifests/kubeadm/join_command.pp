@@ -62,7 +62,16 @@ class kubeinstall::kubeadm::join_command (
       ['cluster_name', '==', $cluster_name],
     )
 
-    [$token, $ca_cert_hash, $apiserver_address, $apiserver_port] = $join_discovery
+    # if not empty - use first credentials' set
+    if $join_discovery[0] {
+      [$token, $ca_cert_hash, $apiserver_address, $apiserver_port] = $join_discovery[0]
+    }
+    else {
+      $token = undef
+      $ca_cert_hash = undef
+      $apiserver_address = undef
+      $apiserver_port = 6443
+    }
   }
 
   notify { [$token, $ca_cert_hash, $apiserver_address, $apiserver_port]: }
