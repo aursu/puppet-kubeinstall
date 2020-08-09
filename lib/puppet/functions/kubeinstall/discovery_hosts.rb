@@ -60,8 +60,7 @@ Puppet::Functions.create_function(:'kubeinstall::discovery_hosts', Puppet::Funct
     resources = exported_collector_collect(scope, lookup_type, equery)
 
     p = lookup_param.map { |n| n.to_sym }
-    resources.reject { |r| r[p].nil? }.map do |r|
-      p.map { |n| (n == :title) ? r.title.to_s : r[n].to_s }
-    end
+    resources.map { |r| p.map { |n| (n == :title) ? r.title.to_s : r[n].to_s } }
+             .select { |r| r.any? } # at least one parameter should be set
   end
 end
