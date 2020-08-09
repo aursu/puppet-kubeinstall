@@ -1,9 +1,10 @@
-# @summary A short summary of the purpose of this class
+# @summary Kubernetes installation on worker node
 #
-# A description of what this class does
+# Kubernetes installation on worker node
 #
 # @example
 #   include kubeinstall::install::worker
 class kubeinstall::install::worker {
   include kubeinstall::install::node
+  include kubeinstall::kubeadm::join_command
 }
