@@ -1,0 +1,5 @@
+---
+kubeinstall::join_token: o9o8vw.fe02deotcm0dv8z5
+kubeinstall::join_ca_cert_hash: sha256:63cfe60bdc6d53e4a163448c069a3a78bf33486948efcae2b6eab85d3dac61fa
+kubeinstall::join_apiserver_address: 172.16.100.49
+kubeinstall::join_apiserver_port: 6443
