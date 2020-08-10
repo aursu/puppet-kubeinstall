@@ -61,7 +61,7 @@ class kubeinstall::kubeadm::join_command (
 
   exec { 'kubeadm-join-config':
     command => $kubeadm_join_command,
-    path    => '/usr/bin:/bin',
+    path    => '/usr/bin:/bin:/sbin:/usr/sbin',
     creates => '/etc/kubernetes/kubelet.conf',
     require => File['/etc/kubernetes/kubeadm-join.conf'],
   }
