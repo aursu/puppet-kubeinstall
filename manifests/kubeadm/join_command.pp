@@ -53,14 +53,14 @@ class kubeinstall::kubeadm::join_command (
   }
 
   if $control_plane {
-    $kubeadm_join_config_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf --control-plane'
+    $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf --control-plane'
   }
   else {
-    $kubeadm_join_config_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf'
+    $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf'
   }
 
   exec { 'kubeadm-join-config':
-    command => $kubeadm_join_config_command,
+    command => $kubeadm_join_command,
     path    => '/usr/bin:/bin',
     creates => '/etc/kubernetes/kubelet.conf',
     require => File['/etc/kubernetes/kubeadm-join.conf'],
