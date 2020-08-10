@@ -10,6 +10,11 @@ class kubeinstall::install::controller {
   include kubeinstall::kubeadm::init_command
   include kubeinstall::install::calico
 
+  # create bootstrap token
+  kubeadm_token { 'default':
+    ensure => present,
+  }
+
   include kubeinstall::cluster
 
   Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::calico']
