@@ -18,7 +18,7 @@ define kubeinstall::token_discovery (
 {
   exec { 'kubeadm-join':
     command => "kubeadm join --token ${token} ${apiserver_address}:${apiserver_port} --discovery-token-ca-cert-hash ${ca_cert_hash}",
-    path    => '/usr/bin:/bin',
+    path    => '/usr/bin:/bin:/sbin:/usr/sbin',
     creates => '/etc/kubernetes/kubelet.conf',
     tag     => $cluster_name,
   }

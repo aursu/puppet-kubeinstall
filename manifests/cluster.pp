@@ -33,7 +33,7 @@ class kubeinstall::cluster (
 
     @@exec { 'kubeadm-join-control-plane':
       command => "kubeadm join --token ${bootstrap_token} ${apiserver_address}:${apiserver_port} --discovery-token-ca-cert-hash ${ca_cert_hash} --control-plane", # lint:ignore:140chars
-      path    => '/usr/bin:/bin',
+      path    => '/usr/bin:/bin:/sbin:/usr/sbin',
       creates => '/etc/kubernetes/kubelet.conf',
       tag     => $cluster_name,
     }
