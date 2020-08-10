@@ -15,6 +15,14 @@ class kubeinstall (
   Boolean $disable_firewall,
   Boolean $disable_selinux,
   String  $calico_cni_version,
+  Boolean $join_control_plane,
+  Optional[Kubeinstall::Token]
+          $join_token,
+  Optional[Kubeinstall::CACertHash]
+          $join_ca_cert_hash,
+  Optional[Kubeinstall::Address]
+          $join_apiserver_address,
+  Integer $join_apiserver_port,
   Stdlib::Fqdn
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
@@ -25,7 +33,7 @@ class kubeinstall (
           $service_dns_domain         = 'cluster.local',
   Stdlib::IP::Address
           $service_cidr               = '10.96.0.0/12',
-  Optional[String]
+  Optional[Kubeinstall::Address]
           $control_plane_endpoint     = undef,
 )
 {

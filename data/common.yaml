@@ -8,3 +8,8 @@ kubeinstall::disable_swap: true
 kubeinstall::disable_firewall: true
 kubeinstall::disable_selinux: true
 kubeinstall::calico_cni_version: v3.15
+kubeinstall::join_control_plane: false
+kubeinstall::join_token: ~
+kubeinstall::join_ca_cert_hash: ~
+kubeinstall::join_apiserver_address: ~
+kubeinstall::join_apiserver_port: 6443

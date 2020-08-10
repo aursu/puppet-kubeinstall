@@ -9,7 +9,7 @@ describe 'kubeinstall::install::worker' do
     os_facts[:os]['selinux'] = { 'enabled' => false }
 
     context "on #{os}" do
-      let(:facts) { os_facts }
+      let(:facts) { os_facts.merge(stype: 'worker') }
 
       it { is_expected.to compile }
     end
