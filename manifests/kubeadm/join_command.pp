@@ -39,7 +39,8 @@ class kubeinstall::kubeadm::join_command (
     $token             = $kubeinstall::cluster::join_token
     $ca_cert_hash      = $kubeinstall::cluster::join_ca_cert_hash
     $apiserver_address = $kubeinstall::cluster::join_apiserver_address
-    $apiserver_port    = $kubeinstall::cluster::join_apiserver_port
+    # cast into integer variable
+    $apiserver_port    = $kubeinstall::cluster::join_apiserver_port + 0
   }
 
   class { 'kubeinstall::kubeadm::join_config':
