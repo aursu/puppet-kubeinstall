@@ -45,7 +45,7 @@ class kubeinstall::kubeadm::join_config (
     'nodeRegistration' => {
       'criSocket' => $cri_socket,
       'name'      => $node_name,
-      'taints'    => nil,
+      'taints'    => [],
     }
   }
 
