@@ -11,7 +11,7 @@ class kubeinstall::kubeadm::init_command (
 {
   include kubeinstall::kubeadm::config
 
-  exec { 'kubeadm init':
+  exec { 'kubeadm-init':
     command     => 'kubeadm init --config=/etc/kubernetes/kubeadm-init.conf',
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
