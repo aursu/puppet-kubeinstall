@@ -24,6 +24,7 @@ class kubeinstall::kubeadm::join_command (
   Optional[Kubeinstall::Address]
           $join_apiserver_address     = $kubeinstall::join_apiserver_address,
   Integer $join_apiserver_port        = $kubeinstall::join_apiserver_port,
+  Boolean $control_plane              = $kubeinstall::join_control_plane,
 )
 {
   include kubeinstall::cluster
@@ -48,10 +49,18 @@ class kubeinstall::kubeadm::join_command (
     ca_cert_hash      => $ca_cert_hash,
     apiserver_address => $apiserver_address,
     apiserver_port    => $apiserver_port,
+    control_plane     => $control_plane,
+  }
+
+  if $control_plane {
+    $kubeadm_join_config_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf --control-plane'
+  }
+  else {
+    $kubeadm_join_config_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf'
   }
 
   exec { 'kubeadm-join-config':
-    command => 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf',
+    command => $kubeadm_join_config_command,
     path    => '/usr/bin:/bin',
     creates => '/etc/kubernetes/kubelet.conf',
     require => File['/etc/kubernetes/kubeadm-join.conf'],
