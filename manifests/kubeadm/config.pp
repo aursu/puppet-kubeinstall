@@ -13,10 +13,8 @@ class kubeinstall::kubeadm::config (
           $bootstrap_token             = undef,
   String[2]
           $token_ttl                   = '24h0m0s',
-  Variant[
-    Stdlib::Fqdn,
-    Stdlib::IP::Address::Nosubnet
-  ]       $apiserver_advertise_address = $kubeinstall::apiserver_advertise_address,
+  Kubeinstall::Address
+          $apiserver_advertise_address = $kubeinstall::apiserver_advertise_address,
   Integer $apiserver_bind_port         = $kubeinstall::apiserver_bind_port,
   Stdlib::Fqdn
           $node_name                   = $kubeinstall::node_name,
@@ -29,12 +27,8 @@ class kubeinstall::kubeadm::config (
           $service_dns_domain          = $kubeinstall::service_dns_domain,
   Stdlib::IP::Address
           $service_cidr                = $kubeinstall::service_cidr,
-  Optional[
-      Variant[
-        Stdlib::Fqdn,
-        Stdlib::IP::Address::Nosubnet
-      ]
-  ]       $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
+  Optional[Kubeinstall::Address]
+          $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
 )
 {
   unless $token_ttl =~ Kubeinstall::TokenTTL {
