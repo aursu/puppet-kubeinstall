@@ -4,11 +4,16 @@
 #
 # @example
 #   include kubeinstall::install::controller
-class kubeinstall::install::controller {
+class kubeinstall::install::controller (
+  Boolean $web_ui_dashboard = $kubeinstall::web_ui_dashboard,
+){
   include kubeinstall::install::node
   include kubeinstall::kubeadm::config
   include kubeinstall::kubeadm::init_command
   include kubeinstall::install::calico
+  if $web_ui_dashboard  {
+    include kubeinstall::install::dashboard
+  }
 
   # create bootstrap token
   kubeadm_token { 'default':

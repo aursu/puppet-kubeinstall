@@ -9,7 +9,7 @@ class kubeinstall::runtime::docker (
   String $dockerd_version    = $kubeinstall::dockerd_version,
   String $containerd_version = $kubeinstall::containerd_version,
   Optional[Integer]
-          $mtu               = undef,
+          $mtu               = $kubeinstall::docker_mtu,
 )
 {
   class { 'dockerinstall::profile::install':

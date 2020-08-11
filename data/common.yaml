@@ -8,6 +8,7 @@ kubeinstall::disable_swap: true
 kubeinstall::disable_firewall: true
 kubeinstall::disable_selinux: true
 kubeinstall::calico_cni_version: v3.15
+kubeinstall::web_ui_dashboard: true
 kubeinstall::join_control_plane: false
 kubeinstall::join_token: ~
 kubeinstall::join_ca_cert_hash: ~

@@ -2,6 +2,9 @@
 #
 # A description of what this class does
 #
+# @param web_ui_dashboard
+#   Whether to install Web UI on controller node or not
+#
 # @example
 #   include kubeinstall
 class kubeinstall (
@@ -23,18 +26,25 @@ class kubeinstall (
   Optional[Kubeinstall::Address]
           $join_apiserver_address,
   Integer $join_apiserver_port,
+  Boolean $web_ui_dashboard,
+  Optional[Kubeinstall::Address]
+          $control_plane_endpoint      = undef,
+  Optional[Integer]
+          $docker_mtu                  = undef,
+  String  $cluster_name                = 'kubernetes',
   Stdlib::Fqdn
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
-  Integer $apiserver_bind_port         = 6443,
-  String  $cri_socket                  = '/var/run/dockershim.sock',
-  String  $cluster_name                = 'kubernetes',
+  Integer $apiserver_bind_port         = $kubeinstall::params::apiserver_bind_port,
+  String  $cri_socket                  = $kubeinstall::params::cri_socket,
   Stdlib::Fqdn
-          $service_dns_domain         = 'cluster.local',
+          $service_dns_domain          = $kubeinstall::params::service_dns_domain,
   Stdlib::IP::Address
-          $service_cidr               = '10.96.0.0/12',
-  Optional[Kubeinstall::Address]
-          $control_plane_endpoint     = undef,
-)
+          $service_cidr                = $kubeinstall::params::service_cidr,
+  Variant[
+    Stdlib::HTTPUrl,
+    Stdlib::Unixpath
+  ]       $dashboard_configuration     = $kubeinstall::params::dashboard_configuration,
+) inherits kubeinstall::params
 {
 }

@@ -1,7 +1,7 @@
 # @summary Token discovery resource
 #
 # Resource to export into PuppetDB for distributing
-# k8s join credentials
+# k8s join credentials among cluster nodes
 #
 # @example
 #   kubeinstall::token_discovery { 'o9o8vw.fe02deotcm0dv8z5': }
