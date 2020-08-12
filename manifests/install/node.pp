@@ -9,6 +9,13 @@ class kubeinstall::install::node {
   include kubeinstall::runtime::docker
   include kubeinstall::service
 
+  file { '/root/.kube':
+    ensure => directory,
+    mode   => '0700',
+    owner  => 'root',
+    group  => 'root',
+  }
+
   Class['kubeinstall::system'] -> Class['kubeinstall::service']
   Class['kubeinstall::runtime::docker'] -> Class['kubeinstall::service']
 }

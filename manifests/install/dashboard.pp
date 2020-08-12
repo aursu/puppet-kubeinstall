@@ -13,6 +13,7 @@ class kubeinstall::install::dashboard (
           $node_name               = $kubeinstall::node_name,
 ) {
   # https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+  # https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
   exec { 'dashboard-install':
     command     => "kubectl apply -f ${dashboard_configuration}",
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
