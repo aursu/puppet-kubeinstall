@@ -28,10 +28,12 @@ class kubeinstall (
   Integer $join_apiserver_port,
   Boolean $web_ui_dashboard,
   Optional[Kubeinstall::Address]
-          $control_plane_endpoint      = undef,
+          $control_plane_endpoint,
   Optional[Integer]
-          $docker_mtu                  = undef,
-  String  $cluster_name                = 'kubernetes',
+          $docker_mtu,
+  Optional[Integer]
+          $calico_mtu,
+  String  $cluster_name,
   Stdlib::Fqdn
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],

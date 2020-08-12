@@ -42,20 +42,20 @@ end
 
 Facter.add(:kubectl_calico_veth_mtu) do
   setcode do
-      env = { 'KUBECONFIG' => '/etc/kubernetes/admin.conf' }
-      jsonpath = %q("{.data.veth_mtu}")
-      cmd = "kubectl get -n kube-system configmap/calico-config -o jsonpath=#{jsonpath}"
+    env = { 'KUBECONFIG' => '/etc/kubernetes/admin.conf' }
+    jsonpath = '"{.data.veth_mtu}"'
+    cmd = "kubectl get -n kube-system configmap/calico-config -o jsonpath=#{jsonpath}"
 
-      begin
-        Puppet::Util.withenv(env) do
-          cmdout = Puppet::Util::Execution.execute(cmd)
-          return nil if cmdout.nil?
-          return nil if cmdout.empty?
-          cmdout.to_i
-        end
-      rescue Puppet::ExecutionFailure => detail
-        Puppet.debug "Execution of #{@cmd} command failed: #{detail}"
-        nil
+    begin
+      Puppet::Util.withenv(env) do
+        cmdout = Puppet::Util::Execution.execute(cmd)
+        return nil if cmdout.nil?
+        return nil if cmdout.empty?
+        cmdout.to_i
       end
+    rescue Puppet::ExecutionFailure => detail
+      Puppet.debug "Execution of #{@cmd} command failed: #{detail}"
+      nil
+    end
   end
 end

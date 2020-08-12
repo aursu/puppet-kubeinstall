@@ -10,6 +10,10 @@ kubeinstall::disable_selinux: true
 kubeinstall::calico_cni_version: v3.15
 kubeinstall::web_ui_dashboard: true
 kubeinstall::join_control_plane: false
+kubeinstall::control_plane_endpoint: ~
+kubeinstall::docker_mtu: ~
+kubeinstall::calico_mtu: ~
+kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~
 kubeinstall::join_ca_cert_hash: ~
 kubeinstall::join_apiserver_address: ~
