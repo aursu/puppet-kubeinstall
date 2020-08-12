@@ -37,7 +37,7 @@ class kubeinstall::calico::calicoctl (
     }
   }
 
-  file { '/root/.kube/config':
+  file { '/etc/calico/calicoctl.cfg':
     ensure  => file,
     content => to_yaml($calicoctl_config),
     mode    => '0600',
