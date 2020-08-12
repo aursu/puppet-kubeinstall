@@ -7,11 +7,12 @@ kubeinstall::manage_sysctl_settings: true
 kubeinstall::disable_swap: true
 kubeinstall::disable_firewall: true
 kubeinstall::disable_selinux: true
-kubeinstall::calico_cni_version: v3.15
 kubeinstall::web_ui_dashboard: true
 kubeinstall::join_control_plane: false
 kubeinstall::control_plane_endpoint: ~
 kubeinstall::docker_mtu: ~
+kubeinstall::install_calicoctl: true
+kubeinstall::calico_cni_version: v3.15
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~

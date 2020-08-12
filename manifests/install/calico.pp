@@ -5,11 +5,12 @@
 # @example
 #   include kubeinstall::install::calico
 class kubeinstall::install::calico (
-  String  $version    = $kubeinstall::calico_cni_version,
+  String  $version   = $kubeinstall::calico_cni_version,
   Stdlib::Fqdn
           $node_name = $kubeinstall::node_name,
   Optional[Integer]
           $mtu       = $kubeinstall::calico_mtu,
+  Boolean $calicoctl = $kubeinstall::install_calicoctl,
 ){
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
@@ -30,5 +31,9 @@ class kubeinstall::install::calico (
       mtu     => $mtu,
       require => Exec['calico-install'],
     }
+  }
+
+  if $calicoctl {
+    include kubeinstall::calico::calicoctl
   }
 }

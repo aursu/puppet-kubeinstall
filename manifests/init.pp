@@ -34,6 +34,7 @@ class kubeinstall (
   Optional[Integer]
           $calico_mtu,
   String  $cluster_name,
+  Boolean $install_calicoctl,
   Stdlib::Fqdn
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
