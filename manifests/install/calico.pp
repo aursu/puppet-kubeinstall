@@ -33,12 +33,12 @@ class kubeinstall::install::calico (
     }
   }
 
-    file { '/etc/calico':
-      ensure => directory,
-      mode   => '0700',
-      owner  => 'root',
-      group  => 'root',
-    }
+  file { '/etc/calico':
+    ensure => directory,
+    mode   => '0700',
+    owner  => 'root',
+    group  => 'root',
+  }
 
   if $calicoctl {
     include kubeinstall::calico::calicoctl
