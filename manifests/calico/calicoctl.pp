@@ -29,6 +29,7 @@ class kubeinstall::calico::calicoctl (
   # https://godoc.org/github.com/projectcalico/libcalico-go/lib/apiconfig#CalicoAPIConfig
   $calicoctl_config = {
     'apiVersion' => 'projectcalico.org/v3',
+    'kind'       => 'CalicoAPIConfig',
     'metadata' => {},
     'spec' => {
       'datastoreType' => 'kubernetes',
