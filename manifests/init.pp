@@ -49,6 +49,7 @@ class kubeinstall (
     Stdlib::Unixpath
   ]       $dashboard_configuration     = $kubeinstall::params::dashboard_configuration,
   String  $calicoctl_version           = $kubeinstall::params::calicoctl_version,
+  String  $helm_version                = $kubeinstall::params::helm_version,
 ) inherits kubeinstall::params
 {
 }

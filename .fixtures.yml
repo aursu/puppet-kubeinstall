@@ -3,33 +3,36 @@
 ---
 fixtures:
   forge_modules:
+    archive:
+      repo: "puppet/archive"
+      ref: "4.4.0"
     firewalld:
       repo: "puppet/firewalld"
       ref: "4.3.0"
-    stdlib:
-      repo: "puppetlabs/stdlib"
-      ref: "6.3.0"
-    puppet_agent:
-      repo: "puppetlabs/puppet_agent"
-      ref: "4.0.0"
     kmod:
       repo: "camptocamp/kmod"
       ref: "2.5.0"
+    puppet_agent:
+      repo: "puppetlabs/puppet_agent"
+      ref: "4.0.0"
     selinux:
       repo: "puppet/selinux"
       ref: "3.2.0"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "6.3.0"
     sysctl:
       repo: "thias/sysctl"
       ref: "1.0.6"
     systemd:
-      repo: 'camptocamp/systemd'
+      repo: "camptocamp/systemd"
       ref: "2.9.0"
   repositories:
-    dockerinstall: "https://github.com/aursu/puppet-dockerinstall.git"
-    tlsinfo: "https://github.com/aursu/puppet-tlsinfo.git"
     augeas_core:
       repo: https://github.com/puppetlabs/puppetlabs-augeas_core.git
       puppet_version: ">= 6.0.0"
+    dockerinstall: "https://github.com/aursu/puppet-dockerinstall.git"
+    tlsinfo: "https://github.com/aursu/puppet-tlsinfo.git"
     yumrepo_core:
       repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
       puppet_version: ">= 6.0.0"

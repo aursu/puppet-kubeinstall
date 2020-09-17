@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Setup bridged traffic processing with iptables
 #
-# A description of what this class does
+# Setup bridged traffic processing with iptables
 #
 # @example
 #   include kubeinstall::system::sysctl::net_bridge

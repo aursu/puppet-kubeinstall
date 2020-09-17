@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Set selinux in permissive mode
 #
-# A description of what this class does
+# Set selinux in permissive mode
 #
 # @example
 #   include kubeinstall::system::selinux::noop

@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -9,32 +9,36 @@
   "issues_url": "https://github.com/aursu/puppet-kubeinstall/issues",
   "dependencies": [
     {
+      "name": "puppet/archive",
+      "version_requirement": ">= 4.4.0 < 5.0.0"
+    },
+    {
       "name": "aursu/dockerinstall",
       "version_requirement": ">= 0.3.0 < 1.0.0"
-    },
-    {
-      "name": "aursu/tlsinfo",
-      "version_requirement": ">= 0.3.1 < 1.0.0"
-    },
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.0 < 7.0.0"
     },
     {
       "name": "camptocamp/kmod",
       "version_requirement": ">= 2.4.0 < 3.0.0"
     },
     {
-      "name": "thias/sysctl",
-      "version_requirement": ">= 1.0.6 < 2.0.0"
-    },
-    {
       "name": "puppet/selinux",
       "version_requirement": ">= 3.2.0 < 4.0.0"
     },
     {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.13.0 < 7.0.0"
+    },
+    {
+      "name": "thias/sysctl",
+      "version_requirement": ">= 1.0.6 < 2.0.0"
+    },
+    {
       "name": "camptocamp/systemd",
       "version_requirement": ">= 2.9.0 < 3.0.0"
+    },
+    {
+      "name": "aursu/tlsinfo",
+      "version_requirement": ">= 0.3.1 < 1.0.0"
     }
   ],
   "operatingsystem_support": [

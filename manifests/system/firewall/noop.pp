@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Disable firewalld service
 #
-# A description of what this class does
+# Disable firewalld service
 #
 # @example
 #   include kubeinstall::system::firewall::noop

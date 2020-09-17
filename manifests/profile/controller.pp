@@ -4,8 +4,18 @@
 #
 # @example
 #   include kubeinstall::profile::controller
-class kubeinstall::profile::controller {
+#
+# @param helm_client
+#   Whether to install Helm client binary or not
+#
+class kubeinstall::profile::controller (
+  Boolean $helm_client = true,
+)
+{
   include kubeinstall::profile::kubernetes
 
   class { 'kubeinstall::install::controller': }
+  if $helm_client {
+    class { 'kubeinstall::install::helm': }
+  }
 }

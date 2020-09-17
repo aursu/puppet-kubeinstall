@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Load netfilter bridge kernel module
 #
-# A description of what this class does
+# Load netfilter bridge kernel module
 #
 # @example
 #   include kubeinstall::system::bridged_traffic
