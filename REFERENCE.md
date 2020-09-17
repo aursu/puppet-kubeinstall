@@ -548,7 +548,7 @@ Data type: `Stdlib::HTTPUrl`
 
 
 
-Default value: `"https://get.helm.sh/helm-${version}s-linux-amd64.tar.gz"`
+Default value: `"https://get.helm.sh/helm-${version}-linux-amd64.tar.gz"`
 
 ### `kubeinstall::install::node`
 
