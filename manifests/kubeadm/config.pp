@@ -27,12 +27,24 @@ class kubeinstall::kubeadm::config (
           $service_dns_domain          = $kubeinstall::service_dns_domain,
   Stdlib::IP::Address
           $service_cidr                = $kubeinstall::service_cidr,
+  Kubeinstall::Range5X
+          $service_node_port_range     = $kubeinstall::service_node_port_range,
   Optional[Kubeinstall::Address]
           $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
 )
 {
   unless $token_ttl =~ Kubeinstall::TokenTTL {
     fail("parameter 'token_ttl' expects a match for Pattern[/^([0-9]+h)?([0-5]?[0-9]m)?([0-5]?[0-9]s)?$/], got '${token_ttl}'")
+  }
+
+  [$svc_port_min, $svc_port_max] = split($service_node_port_range, '-')
+  if $svc_port_min =~ Kubeinstall::Port and $svc_port_max =~ Kubeinstall::Port {
+    if (0 + $svc_port_min) > (0 + $svc_port_max) {
+      fail("parameter 'service_node_port_range' must be a valid port range (min < max)")
+    }
+  }
+  else {
+    fail("parameter 'service_node_port_range' must be a valid port range (min = 1, max = 65535)")
   }
 
   # it could be RPM package version
@@ -86,6 +98,9 @@ class kubeinstall::kubeadm::config (
   $cluster_base = {
     'apiServer'         => {
       'timeoutForControlPlane' => '4m0s',
+      'extraArgs' => {
+        'service-node-port-range' => $service_node_port_range,
+      },
     },
     'certificatesDir'   => '/etc/kubernetes/pki',
     'clusterName'       => $cluster_name,

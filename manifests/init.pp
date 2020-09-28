@@ -44,6 +44,7 @@ class kubeinstall (
           $service_dns_domain          = $kubeinstall::params::service_dns_domain,
   Stdlib::IP::Address
           $service_cidr                = $kubeinstall::params::service_cidr,
+  String  $service_node_port_range     = $kubeinstall::params::service_node_port_range,
   Variant[
     Stdlib::HTTPUrl,
     Stdlib::Unixpath

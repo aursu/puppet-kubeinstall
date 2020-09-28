@@ -26,6 +26,18 @@ describe 'kubeinstall::kubeadm::config' do
           .with_content(%r{name: kubec-01.domain.tld})
       }
 
+      context 'check Service NodePort range validity' do
+        let(:params) do
+          {
+            service_node_port_range: '20000-65536',
+          }
+        end
+
+        it {
+          is_expected.to compile.and_raise_error(%r{parameter 'service_node_port_range' must be a valid port range \(min = 1, max = 65535\)})
+        }
+      end
+
       context 'check token validity' do
         let(:params) do
           {
