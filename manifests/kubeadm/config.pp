@@ -8,6 +8,11 @@
 # @param cri_socket
 #   CRISocket is used to retrieve container runtime info. This information will
 #   be annotated to the Node API object, for later re-use
+#
+# @param service_node_port_range
+#   A port range to reserve for services with NodePort visibility.
+#   Example: '30000-32767'. Inclusive at both ends of the range.
+#
 class kubeinstall::kubeadm::config (
   Optional[Kubeinstall::Token]
           $bootstrap_token             = undef,

@@ -52,6 +52,8 @@
 
 * [`Kubeinstall::Address`](#kubeinstalladdress)
 * [`Kubeinstall::CACertHash`](#kubeinstallcacerthash)
+* [`Kubeinstall::Port`](#kubeinstallport): 65535
+* [`Kubeinstall::Range5X`](#kubeinstallrange5x): 1-99999
 * [`Kubeinstall::Token`](#kubeinstalltoken)
 * [`Kubeinstall::TokenTTL`](#kubeinstalltokenttl)
 * [`Kubeinstall::Version`](#kubeinstallversion): https://kubernetes.io/docs/setup/release/version-skew-policy/
@@ -241,6 +243,14 @@ Data type: `Stdlib::IP::Address`
 
 
 Default value: `$kubeinstall::params::service_cidr`
+
+##### `service_node_port_range`
+
+Data type: `String`
+
+
+
+Default value: `$kubeinstall::params::service_node_port_range`
 
 ##### `dashboard_configuration`
 
@@ -598,6 +608,15 @@ CRISocket is used to retrieve container runtime info. This information will
 be annotated to the Node API object, for later re-use
 
 Default value: `$kubeinstall::cri_socket`
+
+##### `service_node_port_range`
+
+Data type: `Kubeinstall::Range5X`
+
+A port range to reserve for services with NodePort visibility.
+Example: '30000-32767'. Inclusive at both ends of the range.
+
+Default value: `$kubeinstall::service_node_port_range`
 
 ##### `bootstrap_token`
 
@@ -1319,6 +1338,18 @@ Alias of `Variant[Stdlib::Fqdn, Stdlib::IP::Address::Nosubnet]`
 The Kubeinstall::CACertHash data type.
 
 Alias of `Pattern[/^sha256:[0-9a-f]{64}$/]`
+
+### `Kubeinstall::Port`
+
+65535
+
+Alias of `Pattern[/^(655([0-2][0-9]|3[0-5])|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{,3})$/]`
+
+### `Kubeinstall::Range5X`
+
+1-99999
+
+Alias of `Pattern[/^[1-9][0-9]{,4}-[1-9][0-9]{,4}$/]`
 
 ### `Kubeinstall::Token`
 
