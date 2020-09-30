@@ -44,14 +44,6 @@ class kubeinstall::kubeadm::join_command (
     $apiserver_port    = $kubeinstall::cluster::join_apiserver_port + 0
   }
 
-  class { 'kubeinstall::kubeadm::join_config':
-    token             => $token,
-    ca_cert_hash      => $ca_cert_hash,
-    apiserver_address => $apiserver_address,
-    apiserver_port    => $apiserver_port,
-    control_plane     => $control_plane,
-  }
-
   if $control_plane {
     $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf --control-plane'
   }
@@ -59,10 +51,21 @@ class kubeinstall::kubeadm::join_command (
     $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf'
   }
 
-  exec { 'kubeadm-join-config':
-    command => $kubeadm_join_command,
-    path    => '/usr/bin:/bin:/sbin:/usr/sbin',
-    creates => '/etc/kubernetes/kubelet.conf',
-    require => File['/etc/kubernetes/kubeadm-join.conf'],
+  # we can proceed only haing token, ca_cert_hash and apiserver_address in place
+  if $token and $ca_cert_hash and $apiserver_address {
+    class { 'kubeinstall::kubeadm::join_config':
+      token             => $token,
+      ca_cert_hash      => $ca_cert_hash,
+      apiserver_address => $apiserver_address,
+      apiserver_port    => $apiserver_port,
+      control_plane     => $control_plane,
+    }
+
+    exec { 'kubeadm-join-config':
+      command => $kubeadm_join_command,
+      path    => '/usr/bin:/bin:/sbin:/usr/sbin',
+      creates => '/etc/kubernetes/kubelet.conf',
+      require => File['/etc/kubernetes/kubeadm-join.conf'],
+    }
   }
 }
