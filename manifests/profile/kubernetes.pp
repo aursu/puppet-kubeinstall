@@ -5,6 +5,6 @@
 # @example
 #   include kubeinstall::profile::kubernetes
 class kubeinstall::profile::kubernetes {
-  class { 'kubeinstall': }
+  include kubeinstall
   include kubeinstall::install::node
 }

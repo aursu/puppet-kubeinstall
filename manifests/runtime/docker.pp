@@ -10,6 +10,8 @@ class kubeinstall::runtime::docker (
   String $containerd_version = $kubeinstall::containerd_version,
   Optional[Integer]
           $mtu               = $kubeinstall::docker_mtu,
+  Optional[String]
+          $network_bridge_ip = $kubeinstall::network_bridge_ip,
 )
 {
   class { 'dockerinstall::profile::install':
@@ -18,15 +20,16 @@ class kubeinstall::runtime::docker (
   }
 
   class { 'dockerinstall::profile::daemon':
-    cgroup_driver  => 'systemd',
-    log_driver     => 'json-file',
-    log_opts       => {
+    cgroup_driver     => 'systemd',
+    log_driver        => 'json-file',
+    log_opts          => {
       'max-size' => '100m',
     },
-    storage_driver => 'overlay2',
-    storage_opts   => [
+    storage_driver    => 'overlay2',
+    storage_opts      => [
       'overlay2.override_kernel_check=true',
     ],
-    mtu            => $mtu,
+    mtu               => $mtu,
+    network_bridge_ip => $network_bridge_ip,
   }
 }

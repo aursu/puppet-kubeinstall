@@ -31,6 +31,8 @@ class kubeinstall (
           $control_plane_endpoint,
   Optional[Integer]
           $docker_mtu,
+  Optional[String]
+          $network_bridge_ip,
   Optional[Integer]
           $calico_mtu,
   String  $cluster_name,

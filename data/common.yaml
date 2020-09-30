@@ -11,6 +11,7 @@ kubeinstall::web_ui_dashboard: true
 kubeinstall::join_control_plane: false
 kubeinstall::control_plane_endpoint: ~
 kubeinstall::docker_mtu: ~
+kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
 kubeinstall::calico_cni_version: v3.15
 kubeinstall::calico_mtu: ~
