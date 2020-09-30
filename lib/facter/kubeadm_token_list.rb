@@ -41,6 +41,7 @@ Facter.add(:kubeadm_discovery_token_ca_cert_hash) do
 end
 
 Facter.add(:kubectl_calico_veth_mtu) do
+  confine { File.exist? '/etc/kubernetes/admin.conf' }
   setcode do
     env = { 'KUBECONFIG' => '/etc/kubernetes/admin.conf' }
     jsonpath = '"{.data.veth_mtu}"'
