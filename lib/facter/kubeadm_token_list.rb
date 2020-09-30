@@ -4,6 +4,7 @@ require 'date'
 require 'English'
 
 Facter.add(:kubeadm_token_list) do
+  confine { File.exist? '/etc/kubernetes/admin.conf' }
   setcode do
     token_list_yaml = `/usr/bin/kubeadm token list -o yaml` if File.executable?('/usr/bin/kubeadm')
 
