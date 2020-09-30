@@ -5,6 +5,10 @@
 #
 # @example
 #   include kubeinstall::runtime::docker
+#
+# @param network_bridge_ip
+#   Default bridge network address (conform to daemon.json bip parameter)
+#
 class kubeinstall::runtime::docker (
   String $dockerd_version    = $kubeinstall::dockerd_version,
   String $containerd_version = $kubeinstall::containerd_version,

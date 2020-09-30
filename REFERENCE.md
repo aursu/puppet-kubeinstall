@@ -178,6 +178,12 @@ Data type: `Optional[Integer]`
 
 
 
+##### `network_bridge_ip`
+
+Data type: `Optional[String]`
+
+
+
 ##### `calico_mtu`
 
 Data type: `Optional[Integer]`
@@ -952,6 +958,14 @@ include kubeinstall::runtime::docker
 #### Parameters
 
 The following parameters are available in the `kubeinstall::runtime::docker` class.
+
+##### `network_bridge_ip`
+
+Data type: `Optional[String]`
+
+Default bridge network address (conform to daemon.json bip parameter)
+
+Default value: `$kubeinstall::network_bridge_ip`
 
 ##### `dockerd_version`
 

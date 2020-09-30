@@ -21,3 +21,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.2.3
+
+**Features**
+
+* Added Docker default bridge network address setup (conform to daemon.json bip parameter)
+
+**Bugfixes**
+
+**Known Issues**
