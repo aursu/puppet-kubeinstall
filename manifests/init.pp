@@ -55,4 +55,6 @@ class kubeinstall (
   String  $helm_version                = $kubeinstall::params::helm_version,
 ) inherits kubeinstall::params
 {
+  # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md
+  # https://kubernetes.io/docs/concepts/storage/storage-classes/#openstack-cinder
 }
