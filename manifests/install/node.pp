@@ -16,6 +16,13 @@ class kubeinstall::install::node {
     group  => 'root',
   }
 
+  file { ['/etc/kubernetes', '/etc/kubernetes/manifests']:
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
+  }
+
   Class['kubeinstall::system'] -> Class['kubeinstall::service']
   Class['kubeinstall::runtime::docker'] -> Class['kubeinstall::service']
 }
