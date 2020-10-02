@@ -22,6 +22,14 @@ class kubeinstall::install::controller (
 
   include kubeinstall::cluster
 
+  # persistent volumes objects directory
+  file { '/etc/kubernetes/manifests/persistentvolumes':
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
+  }
+
   Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::calico']
 
   # TODO: https://kubernetes.io/docs/setup/best-practices/certificates/
