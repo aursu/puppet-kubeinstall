@@ -81,6 +81,20 @@ kubeinstall::cluster_name: projectname
 kubeinstall::control_plane_endpoint: kube.intern.domain.tld
 ```
 
+### Cluster features
+
+Class `kubeinstall::cluster` is responsible for bootstrap token exchange between
+controller and worker nodes (for worker bootstrap). For this PuppetDB is required
+because exported resource (`kubeinstall::token_discovery`) and exported resources
+collector (implemnted via custom function `kubeinstall::discovery_hosts`) are
+in use.
+
+Also there is a feature of exporting local PersistentVolume resources from worker
+nodes into controller directory `/etc/kubernetes/manifests/persistentvolumes`.
+To activate it is required to setup properly flag `kubeinstall::cluster::cluster_role`
+on both worker and controller hosts and provide all required to export PVs on
+worker node.
+
 ## Reference
 
 See REFERENCE.md for reference
