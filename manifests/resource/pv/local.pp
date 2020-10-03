@@ -12,7 +12,7 @@ define kubeinstall::resource::pv::local (
   Optional[String]
           $storage_class_name = undef,
 ) {
-  kubeinstall::resource::pv { $title:
+  kubeinstall::resource::pv { $name:
     volume_storage     => $volume_storage,
     local_path         => $path,
     match_expressions  => [
