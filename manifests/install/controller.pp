@@ -14,13 +14,12 @@ class kubeinstall::install::controller (
   if $web_ui_dashboard  {
     include kubeinstall::install::dashboard
   }
+  include kubeinstall::cluster
 
   # create bootstrap token
   kubeadm_token { 'default':
     ensure => present,
   }
-
-  include kubeinstall::cluster
 
   # persistent volumes objects directory
   file { '/etc/kubernetes/manifests/persistentvolumes':
