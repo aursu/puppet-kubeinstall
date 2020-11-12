@@ -72,18 +72,16 @@ class kubeinstall::cluster (
     }
     'worker': {
       # Local persistent volumes export
-      if $local_persistent_volumes[0] {
-        $local_persistent_volumes.each |$volume, $volume_settings| {
-          # default hostnname is puppet FQDN fact
-          $hostname_param = $volume_settings['hostname'] ? {
-            String  => {},
-            default => { 'hostname' => $facts['fqdn'] },
-          }
+      $local_persistent_volumes.each |$volume, $volume_settings| {
+        # default hostnname is puppet FQDN fact
+        $hostname_param = $volume_settings['hostname'] ? {
+          String  => {},
+          default => { 'hostname' => $facts['fqdn'] },
+        }
 
-          @@kubeinstall::resource::pv::local { $volume:
-            *   => $volume_settings + $hostname_param,
-            tag => $cluster_name,
-          }
+        @@kubeinstall::resource::pv::local { $volume:
+          *   => $volume_settings + $hostname_param,
+          tag => $cluster_name,
         }
       }
     }
