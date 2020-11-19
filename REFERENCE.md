@@ -9,7 +9,7 @@
 * [`kubeinstall`](#kubeinstall): A short summary of the purpose of this class
 * [`kubeinstall::calico::calicoctl`](#kubeinstallcalicocalicoctl): Installing calicoctl as a binary on a single host
 * [`kubeinstall::calico::veth_mtu`](#kubeinstallcalicoveth_mtu): Configure Calico MTU
-* [`kubeinstall::cluster`](#kubeinstallcluster): A short summary of the purpose of this defined type.
+* [`kubeinstall::cluster`](#kubeinstallcluster): Cluster resources definition, export and import
 * [`kubeinstall::etcd::backup`](#kubeinstalletcdbackup): Backing up an etcd cluster
 * [`kubeinstall::install`](#kubeinstallinstall): A short summary of the purpose of this class
 * [`kubeinstall::install::calico`](#kubeinstallinstallcalico): Install Project Calico CNI service
@@ -38,6 +38,9 @@
 
 ### Defined types
 
+* [`kubeinstall::resource::pv`](#kubeinstallresourcepv): Create a PersistentVolume object
+* [`kubeinstall::resource::pv::local`](#kubeinstallresourcepvlocal): Local persistent storage volume
+* [`kubeinstall::resource::secret`](#kubeinstallresourcesecret): Kubernetes Secrets object
 * [`kubeinstall::token_discovery`](#kubeinstalltoken_discovery): Token discovery resource
 
 ### Resource types
@@ -51,8 +54,24 @@
 ### Data types
 
 * [`Kubeinstall::Address`](#kubeinstalladdress)
+* [`Kubeinstall::BinaryQuantity`](#kubeinstallbinaryquantity)
 * [`Kubeinstall::CACertHash`](#kubeinstallcacerthash)
+* [`Kubeinstall::DNSLabel`](#kubeinstalldnslabel)
+* [`Kubeinstall::DNSName`](#kubeinstalldnsname)
+* [`Kubeinstall::DNSSubdomain`](#kubeinstalldnssubdomain): https://kubernetes.io/docs/concepts/overview/working-with-objects/names#dns-subdomain-names contain no more than 253 characters contain only 
+* [`Kubeinstall::DecimalQuantity`](#kubeinstalldecimalquantity)
+* [`Kubeinstall::ExponentQuantity`](#kubeinstallexponentquantity)
+* [`Kubeinstall::Label`](#kubeinstalllabel): Labels are key/value pairs. Valid annotation keys have two segments: an optional prefix and name, separated by a slash (/). The name segment 
+* [`Kubeinstall::LocalPV`](#kubeinstalllocalpv)
+* [`Kubeinstall::MatchExpression`](#kubeinstallmatchexpression)
+* [`Kubeinstall::MatchExpressionExists`](#kubeinstallmatchexpressionexists)
+* [`Kubeinstall::MatchExpressionIn`](#kubeinstallmatchexpressionin)
+* [`Kubeinstall::MatchExpressionNum`](#kubeinstallmatchexpressionnum)
+* [`Kubeinstall::Metadata`](#kubeinstallmetadata): https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#objectmeta-v1-meta
+* [`Kubeinstall::Name`](#kubeinstallname)
+* [`Kubeinstall::NodeSelectorTerms`](#kubeinstallnodeselectorterms)
 * [`Kubeinstall::Port`](#kubeinstallport): 65535
+* [`Kubeinstall::Quantity`](#kubeinstallquantity): https://godoc.org/k8s.io/apimachinery/pkg/api/resource#Quantity  <quantity> ::= <signedNumber><suffix> (Note that <suffix> may be empty, from
 * [`Kubeinstall::Range5X`](#kubeinstallrange5x): 1-99999
 * [`Kubeinstall::Token`](#kubeinstalltoken)
 * [`Kubeinstall::TokenTTL`](#kubeinstalltokenttl)
@@ -337,7 +356,7 @@ Default value: `$kubeinstall::calico_mtu`
 
 ### `kubeinstall::cluster`
 
-A description of what this defined type does
+Cluster resources definition, export and import
 
 #### Examples
 
@@ -350,6 +369,14 @@ include kubeinstall::cluster
 #### Parameters
 
 The following parameters are available in the `kubeinstall::cluster` class.
+
+##### `cluster_role`
+
+Data type: `Optional[Enum['controller', 'worker']]`
+
+Role inside cluster - either 'worker' or 'controller'
+
+Default value: ``undef``
 
 ##### `apiserver_address`
 
@@ -382,6 +409,14 @@ Data type: `Optional[Kubeinstall::CACertHash]`
 
 
 Default value: `$facts['kubeadm_discovery_token_ca_cert_hash']`
+
+##### `local_persistent_volumes`
+
+Data type: `Hash[Kubeinstall::DNSSubdomain, Kubeinstall::LocalPV]`
+
+
+
+Default value: `{}`
 
 ### `kubeinstall::etcd::backup`
 
@@ -930,6 +965,20 @@ A description of what this class does
 include kubeinstall::profile::worker
 ```
 
+#### Parameters
+
+The following parameters are available in the `kubeinstall::profile::worker` class.
+
+##### `local_persistent_volumes`
+
+Data type: `Hash[String, Hash]`
+
+Added ability for cluster administrator to setup local persistent volumes
+into Kubernetes cluster. This hash should containn only volumes located on
+currennt worker node.
+
+Default value: `{}`
+
 ### `kubeinstall::repos`
 
 A description of what this class does
@@ -1128,6 +1177,224 @@ Data type: `Boolean`
 Default value: `$kubeinstall::manage_sysctl_settings`
 
 ## Defined types
+
+### `kubeinstall::resource::pv`
+
+Create a PersistentVolume object
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#persistentvolume-v1-core
+
+#### Examples
+
+##### 
+
+```puppet
+kubeinstall::resource::pv { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::resource::pv` defined type.
+
+##### `local_path`
+
+Data type: `Optional[Stdlib::Unixpath]`
+
+The full path to the volume on the node. It can be either a directory or
+block device (disk, partition, ...)
+
+Default value: ``undef``
+
+##### `match_expressions`
+
+Data type: `Kubeinstall::NodeSelectorTerms`
+
+A list of node selector requirements by node's labels
+correspond to nodeAffinity.required.nodeSelectorTerms.matchExpressions
+see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#nodeselectorterm-v1-core
+
+Default value: `[]`
+
+##### `match_fields`
+
+Data type: `Kubeinstall::NodeSelectorTerms`
+
+A list of node selector requirements by node's fields
+correspond to nodeAffinity.required.nodeSelectorTerms.matchFields
+
+Default value: `[]`
+
+##### `volume_storage`
+
+Data type: `Kubeinstall::Quantity`
+
+
+
+##### `volume_name`
+
+Data type: `Kubeinstall::DNSName`
+
+
+
+Default value: `$title`
+
+##### `volume_mode`
+
+Data type: `Enum['Filesystem', 'Block']`
+
+
+
+Default value: `'Filesystem'`
+
+##### `access_modes`
+
+Data type: `Array[Enum['ReadWriteOnce', 'ReadOnlyMany', 'ReadWriteMany']]`
+
+
+
+Default value: `['ReadWriteOnce']`
+
+##### `reclaim_policy`
+
+Data type: `Enum['Delete', 'Retain', 'Recycle']`
+
+
+
+Default value: `'Delete'`
+
+##### `storage_class_name`
+
+Data type: `Optional[String]`
+
+
+
+Default value: ``undef``
+
+### `kubeinstall::resource::pv::local`
+
+Local persistent storage volume
+
+#### Examples
+
+##### 
+
+```puppet
+kubeinstall::resource::pv::local { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::resource::pv::local` defined type.
+
+##### `volume_storage`
+
+Data type: `String`
+
+
+
+##### `path`
+
+Data type: `String`
+
+
+
+##### `hostname`
+
+Data type: `Stdlib::Fqdn`
+
+
+
+##### `storage_class_name`
+
+Data type: `Optional[String]`
+
+
+
+Default value: ``undef``
+
+### `kubeinstall::resource::secret`
+
+Kubernetes Secrets let you store and manage sensitive information
+https://kubernetes.io/docs/concepts/configuration/secret/
+
+#### Examples
+
+##### 
+
+```puppet
+kubeinstall::resource::secret { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::resource::secret` defined type.
+
+##### `metadata`
+
+Data type: `Kubeinstall::Metadata`
+
+Standard object's metadata.
+Available fields are annotations, labels, and namespace
+
+Default value: `{}`
+
+##### `data`
+
+Data type: `Hash[
+    Kubeinstall::Name,
+    Stdlib::Base64
+  ]`
+
+Data contains the secret data. Each key must consist of alphanumeric
+characters, '-', '_' or '.'. The serialized form of the secret data is a
+base64 encoded string, representing the arbitrary (possibly non-string)
+data value here
+
+Default value: `{}`
+
+##### `raw_data`
+
+Data type: `Hash[Kubeinstall::Name, String]`
+
+Same as parameter `data` but values should be in raw form and will be
+serialized in there
+
+Default value: `{}`
+
+##### `string_data`
+
+Data type: `Hash[Kubeinstall::Name, String]`
+
+stringData allows specifying non-binary secret data in string form. It is
+provided as a write-only convenience method. All keys and values are merged
+into the data field on write, overwriting any existing values. It is never
+output when reading from the API.
+
+Default value: `{}`
+
+##### `object_name`
+
+Data type: `Kubeinstall::DNSName`
+
+
+
+Default value: `$title`
+
+##### `type`
+
+Data type: `Enum[
+    'Opaque',                              # arbitrary user-defined data
+    'kubernetes.io/service-account-token', # service account token
+    'kubernetes.io/dockercfg',             # serialized ~/.dockercfg file
+    'kubernetes.io/dockerconfigjson',      # serialized ~/.docker/config.json file
+    'kubernetes.io/basic-auth',            # credentials for basic authentication
+    'kubernetes.io/ssh-auth',              # credentials for SSH authentication
+    'kubernetes.io/tls',                   # data for a TLS client or server
+    'bootstrap.kubernetes.io/token'        # bootstrap token data
+  ]`
+
+
+
+Default value: `'Opaque'`
 
 ### `kubeinstall::token_discovery`
 
@@ -1347,17 +1614,170 @@ The Kubeinstall::Address data type.
 
 Alias of `Variant[Stdlib::Fqdn, Stdlib::IP::Address::Nosubnet]`
 
+### `Kubeinstall::BinaryQuantity`
+
+The Kubeinstall::BinaryQuantity data type.
+
+Alias of `Pattern[/^[+-]?([0-9]+(\.[0-9]*)?|\.[0-9]+)[KMGTPE]i$/]`
+
 ### `Kubeinstall::CACertHash`
 
 The Kubeinstall::CACertHash data type.
 
 Alias of `Pattern[/^sha256:[0-9a-f]{64}$/]`
 
+### `Kubeinstall::DNSLabel`
+
+The Kubeinstall::DNSLabel data type.
+
+Alias of `Pattern[/^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/]`
+
+### `Kubeinstall::DNSName`
+
+The Kubeinstall::DNSName data type.
+
+Alias of `Pattern[/^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)*[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$/]`
+
+### `Kubeinstall::DNSSubdomain`
+
+https://kubernetes.io/docs/concepts/overview/working-with-objects/names#dns-subdomain-names
+contain no more than 253 characters
+contain only lowercase alphanumeric characters, '-' or '.'
+start with an alphanumeric character
+end with an alphanumeric character
+
+Alias of `Pattern[/^[a-z0-9]([.a-z0-9-]{0,251}[a-z0-9])?$/]`
+
+### `Kubeinstall::DecimalQuantity`
+
+The Kubeinstall::DecimalQuantity data type.
+
+Alias of `Pattern[/^[+-]?([0-9]+(\.[0-9]*)?|\.[0-9]+)[mkMGTPE]?$/]`
+
+### `Kubeinstall::ExponentQuantity`
+
+The Kubeinstall::ExponentQuantity data type.
+
+Alias of `Pattern[/^[+-]?([0-9]+(\.[0-9]*)?|\.[0-9]+)[eE][+-]?([0-9]+(\.[0-9]*)?|\.[0-9]+)$/]`
+
+### `Kubeinstall::Label`
+
+Labels are key/value pairs. Valid annotation keys have two segments: an
+optional prefix and name, separated by a slash (/). The name segment is
+required and must be 63 characters or less, beginning and ending with an
+alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_),
+dots (.), and alphanumerics between. The prefix is optional. If specified,
+the prefix must be a DNS subdomain: a series of DNS labels separated by
+dots (.), not longer than 253 characters in total, followed by a slash (/).
+
+Alias of `Pattern[/^([a-z0-9]([.a-z0-9-]{0,251}[a-z0-9])?\/)?[a-z0-9A-Z]([_.a-z0-9A-Z-]{0,61}[a-z0-9A-Z])?$/]`
+
+### `Kubeinstall::LocalPV`
+
+The Kubeinstall::LocalPV data type.
+
+Alias of `Struct[{
+  path               => Stdlib::Unixpath,
+  volume_storage     => Kubeinstall::Quantity,
+  name               => Optional[Kubeinstall::DNSName],
+  hostname           => Optional[Stdlib::Fqdn],
+  storage_class_name => Optional[String],
+}]`
+
+### `Kubeinstall::MatchExpression`
+
+The Kubeinstall::MatchExpression data type.
+
+Alias of `Variant[Kubeinstall::MatchExpressionIn, Kubeinstall::MatchExpressionExists, Kubeinstall::MatchExpressionNum]`
+
+### `Kubeinstall::MatchExpressionExists`
+
+The Kubeinstall::MatchExpressionExists data type.
+
+Alias of `Struct[{
+  key      => String,
+  operator => Enum['Exists', 'DoesNotExist'],
+  values   => Array[String, 0, 0],
+}]`
+
+### `Kubeinstall::MatchExpressionIn`
+
+The Kubeinstall::MatchExpressionIn data type.
+
+Alias of `Struct[{
+  key      => String,
+  operator => Enum['In', 'NotIn'],
+  values   => Array[String, 1],
+}]`
+
+### `Kubeinstall::MatchExpressionNum`
+
+The Kubeinstall::MatchExpressionNum data type.
+
+Alias of `Struct[{
+  key      => String,
+  operator => Enum['Gt', 'Lt'],
+  values   => Array[Pattern[/^[0-9]+$/], 1, 1],
+}]`
+
+### `Kubeinstall::Metadata`
+
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#objectmeta-v1-meta
+
+Alias of `Struct[{
+  annotations => Optional[Hash[Kubeinstall::Label, String]],
+  labels      => Optional[
+                    Hash[
+                      Kubeinstall::Label,
+                      Variant[Enum[''], Kubeinstall::DNSLabel]
+                    ]
+                  ],
+  namespace   => Optional[Kubeinstall::DNSLabel],
+}]`
+
+#### Parameters
+
+The following parameters are available in the `Kubeinstall::Metadata` data type.
+
+##### `annotations`
+
+Annotations is an unstructured key value map stored with a resource that
+may be set by external tools to store and retrieve arbitrary metadata.
+
+### `Kubeinstall::Name`
+
+The Kubeinstall::Name data type.
+
+Alias of `Pattern[/^[_.a-z0-9A-Z-]+$/]`
+
+### `Kubeinstall::NodeSelectorTerms`
+
+The Kubeinstall::NodeSelectorTerms data type.
+
+Alias of `Array[Kubeinstall::MatchExpression]`
+
 ### `Kubeinstall::Port`
 
 65535
 
 Alias of `Pattern[/^(655([0-2][0-9]|3[0-5])|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{,3})$/]`
+
+### `Kubeinstall::Quantity`
+
+https://godoc.org/k8s.io/apimachinery/pkg/api/resource#Quantity
+
+<quantity> ::= <signedNumber><suffix> (Note that <suffix> may be empty, from the "" case in <decimalSI>.)
+<digit> ::= 0 \| 1 \| …​ \| 9
+<digits> ::= <digit> \| <digit><digits>
+<number> ::= <digits> \| <digits>.<digits> \| <digits>. \| .<digits>
+<sign> ::= "+" \| "-"
+<signedNumber> ::= <number> \| <sign><number>
+<suffix> ::= <binarySI> \| <decimalExponent> \| <decimalSI>
+<binarySI> ::= Ki \| Mi \| Gi \| Ti \| Pi \| Ei (International System of units; See: http://physics.nist.gov/cuu/Units/binary.html)
+<decimalSI> ::= m \| "" \| k \| M \| G \| T \| P \| E (Note that 1024 = 1Ki but 1000 = 1k; I didn't choose the capitalization.)
+<decimalExponent> ::= "e" <signedNumber> \| "E" <signedNumber>
+
+Alias of `Variant[Kubeinstall::BinaryQuantity, Kubeinstall::DecimalQuantity, Kubeinstall::ExponentQuantity]`
 
 ### `Kubeinstall::Range5X`
 
@@ -1381,5 +1801,5 @@ Alias of `Pattern[/^([0-9]+h)?([0-5]?[0-9]m)?([0-5]?[0-9]s)?$/]`
 
 https://kubernetes.io/docs/setup/release/version-skew-policy/
 
-Alias of `Pattern[/^1\.1[6-8]\.[0-9]+/]`
+Alias of `Pattern[/^1\.1[6-9]\.[0-9]+/]`
 

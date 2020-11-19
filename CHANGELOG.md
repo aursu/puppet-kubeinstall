@@ -31,3 +31,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.2.4
+
+**Features**
+
+* Added resource for Kubernetes Secret object
+
+**Bugfixes**
+
+**Known Issues**
