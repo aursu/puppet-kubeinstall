@@ -36,6 +36,8 @@ class kubeinstall::kubeadm::config (
           $service_node_port_range     = $kubeinstall::service_node_port_range,
   Optional[Kubeinstall::Address]
           $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
+  Kubeinstall::CgroupDriver
+          $cgroup_driver               = $kubeinstall::cgroup_driver,
 )
 {
   unless $token_ttl =~ Kubeinstall::TokenTTL {
@@ -78,6 +80,10 @@ class kubeinstall::kubeadm::config (
     $bootstrap_tokens = {}
   }
 
+  $kubelet_extra_args = {
+    'cgroup-driver' => $cgroup_driver,
+  }
+
   $init_base = {
     'localAPIEndpoint' => {
       'advertiseAddress' => $apiserver_advertise_address,
@@ -91,7 +97,8 @@ class kubeinstall::kubeadm::config (
           'effect' => 'NoSchedule',
           'key'    => 'node-role.kubernetes.io/master',
         }
-      ]
+      ],
+      'kubeletExtraArgs' => $kubelet_extra_args,
     }
   }
 

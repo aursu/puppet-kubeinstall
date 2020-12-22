@@ -17,6 +17,14 @@ describe 'kubeinstall::kubeadm::join_config' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+
+      case os
+      when %r{centos}
+        it {
+          is_expected.to contain_file('/etc/kubernetes/kubeadm-join.conf')
+            .with_content(%r{cgroup-driver: systemd$})
+        }
+      end
     end
   end
 end

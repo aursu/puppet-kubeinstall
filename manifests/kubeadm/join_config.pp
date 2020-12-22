@@ -32,6 +32,8 @@ class kubeinstall::kubeadm::join_config (
   Stdlib::Fqdn
           $node_name                   = $kubeinstall::node_name,
   Boolean $control_plane               = $kubeinstall::join_control_plane,
+  Kubeinstall::CgroupDriver
+          $cgroup_driver               = $kubeinstall::cgroup_driver,
 ){
   # https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#JoinConfiguration
   # kubeadm config print join-defaults
@@ -40,12 +42,18 @@ class kubeinstall::kubeadm::join_config (
     'kind' => 'JoinConfiguration'
   }
 
+  # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#configure-cgroup-driver-used-by-kubelet-on-control-plane-node
+  $kubelet_extra_args = {
+    'cgroup-driver' => $cgroup_driver,
+  }
+
   $join_base = {
     'caCertPath' => '/etc/kubernetes/pki/ca.crt',
     'nodeRegistration' => {
-      'criSocket' => $cri_socket,
-      'name'      => $node_name,
-      'taints'    => [],
+      'criSocket'        => $cri_socket,
+      'name'             => $node_name,
+      'taints'           => [],
+      'kubeletExtraArgs' => $kubelet_extra_args,
     }
   }
 
