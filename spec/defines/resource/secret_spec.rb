@@ -21,19 +21,19 @@ describe 'kubeinstall::resource::secret' do
           .with_content(%r{^type: Opaque$})
       }
 
-      context "when data in use" do
+      context 'when data in use' do
         let(:title) { 'secret-sa-sample' }
         let(:params) do
           {
             metadata: {
               annotations: {
                 'kubernetes.io/service-account.name' => 'sa-name',
-              }
+              },
             },
             type: 'kubernetes.io/service-account-token',
             data: {
               extra: 'YmFyCg==',
-            }
+            },
           }
         end
 
@@ -47,13 +47,13 @@ describe 'kubeinstall::resource::secret' do
         }
       end
 
-      context "when raw_data in use" do
+      context 'when raw_data in use' do
         let(:title) { 'secret-sa-sample' }
         let(:params) do
           {
             raw_data: {
               extra: "bar\n",
-            }
+            },
           }
         end
 
@@ -64,7 +64,7 @@ describe 'kubeinstall::resource::secret' do
         }
       end
 
-      context "when string_data in use" do
+      context 'when string_data in use' do
         let(:title) { 'secret-basic-auth' }
         let(:params) do
           {
@@ -72,7 +72,7 @@ describe 'kubeinstall::resource::secret' do
             string_data: {
               username: 'admin',
               password: 't0p-Secret',
-            }
+            },
           }
         end
 
