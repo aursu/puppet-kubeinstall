@@ -1,6 +1,6 @@
-# @summary A short summary of the purpose of this class
+# @summary Setup Kubernetes repositories
 #
-# A description of what this class does
+# Setup Kubernetes repositories
 #
 # @example
 #   include kubeinstall::repos
