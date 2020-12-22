@@ -10,8 +10,11 @@
 class kubeinstall (
   Kubeinstall::Version
           $kubernetes_version,
+  Kubeinstall::Runtime
+          $container_runtime,
   String  $dockerd_version,
   String  $containerd_version,
+  String  $crio_version,
   Boolean $manage_kernel_modules,
   Boolean $manage_sysctl_settings,
   Boolean $disable_swap,
@@ -25,6 +28,8 @@ class kubeinstall (
           $join_ca_cert_hash,
   Optional[Kubeinstall::Address]
           $join_apiserver_address,
+  Kubeinstall::CgroupDriver
+          $cgroup_driver,
   Integer $join_apiserver_port,
   Boolean $web_ui_dashboard,
   Optional[Kubeinstall::Address]
@@ -41,7 +46,11 @@ class kubeinstall (
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
   Integer $apiserver_bind_port         = $kubeinstall::params::apiserver_bind_port,
-  String  $cri_socket                  = $kubeinstall::params::cri_socket,
+  Stdlib::Unixpath
+          $cri_socket                  = $container_runtime ? {
+                                            'cri-o' => $kubeinstall::params::crio_socket,
+                                            default => $kubeinstall::params::docker_socket,
+                                          },
   Stdlib::Fqdn
           $service_dns_domain          = $kubeinstall::params::service_dns_domain,
   Stdlib::IP::Address
@@ -57,4 +66,11 @@ class kubeinstall (
 {
   # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md
   # https://kubernetes.io/docs/concepts/storage/storage-classes/#openstack-cinder
+
+  $version_data = split($kubernetes_version, '[.]')
+  $major_version = $version_data[0]
+  $minor_version = $version_data[1]
+
+  # kubernetes_release is Kubernetes version for minor release (Kube X.Y)
+  $kubernetes_release = "${major_version}.${minor_version}"
 }

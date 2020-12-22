@@ -1,7 +1,10 @@
 ---
 kubeinstall::dockerd_version: installed
 kubeinstall::containerd_version: installed
-kubeinstall::kubernetes_version: 1.18.6
+kubeinstall::crio_version: installed
+kubeinstall::kubernetes_version: 1.19.6
+kubeinstall::container_runtime: docker
+kubeinstall::cgroup_driver: cgroupfs
 kubeinstall::manage_kernel_modules: true
 kubeinstall::manage_sysctl_settings: true
 kubeinstall::disable_swap: true
