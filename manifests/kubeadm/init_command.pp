@@ -1,6 +1,7 @@
 # @summary A short summary of the purpose of this class
 #
 # A description of what this class does
+# see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 #
 # @example
 #   include kubeinstall::kubeadm::init_command

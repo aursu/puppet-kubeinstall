@@ -26,14 +26,23 @@
 * [`kubeinstall::profile::controller`](#kubeinstallprofilecontroller): Kubernetes conntroller setup
 * [`kubeinstall::profile::kubernetes`](#kubeinstallprofilekubernetes): Base setup for any kubernetes node
 * [`kubeinstall::profile::worker`](#kubeinstallprofileworker): A short summary of the purpose of this class
-* [`kubeinstall::repos`](#kubeinstallrepos): A short summary of the purpose of this class
+* [`kubeinstall::repos`](#kubeinstallrepos): Setup Kubernetes repositories
+* [`kubeinstall::repos::crio`](#kubeinstallreposcrio): CRI-O repository setup
+* [`kubeinstall::runtime`](#kubeinstallruntime): Kubernetes CRI setup
+* [`kubeinstall::runtime::crio`](#kubeinstallruntimecrio): CRI-O container runtime installation
+* [`kubeinstall::runtime::crio::config`](#kubeinstallruntimecrioconfig): CRI-O configuration file setup
+* [`kubeinstall::runtime::crio::install`](#kubeinstallruntimecrioinstall): CRI-O packages installation
+* [`kubeinstall::runtime::crio::service`](#kubeinstallruntimecrioservice): CRI-O service management
 * [`kubeinstall::runtime::docker`](#kubeinstallruntimedocker): Docker container runtime setup
 * [`kubeinstall::service`](#kubeinstallservice): A short summary of the purpose of this class
+* [`kubeinstall::service::stop`](#kubeinstallservicestop): Stop kubelet service
 * [`kubeinstall::system`](#kubeinstallsystem): A short summary of the purpose of this class
 * [`kubeinstall::system::bridged_traffic`](#kubeinstallsystembridged_traffic): Load netfilter bridge kernel module
 * [`kubeinstall::system::firewall::noop`](#kubeinstallsystemfirewallnoop): Disable firewalld service
+* [`kubeinstall::system::overlay`](#kubeinstallsystemoverlay): Load overlay kernel module to support Overlay FS
 * [`kubeinstall::system::selinux::noop`](#kubeinstallsystemselinuxnoop): Set selinux in permissive mode
 * [`kubeinstall::system::swap`](#kubeinstallsystemswap): Disable swap on the system
+* [`kubeinstall::system::sysctl::ip_forward`](#kubeinstallsystemsysctlip_forward): Enable IPv4 forwarding
 * [`kubeinstall::system::sysctl::net_bridge`](#kubeinstallsystemsysctlnet_bridge): Setup bridged traffic processing with iptables
 
 ### Defined types
@@ -56,6 +65,7 @@
 * [`Kubeinstall::Address`](#kubeinstalladdress)
 * [`Kubeinstall::BinaryQuantity`](#kubeinstallbinaryquantity)
 * [`Kubeinstall::CACertHash`](#kubeinstallcacerthash)
+* [`Kubeinstall::CgroupDriver`](#kubeinstallcgroupdriver)
 * [`Kubeinstall::DNSLabel`](#kubeinstalldnslabel)
 * [`Kubeinstall::DNSName`](#kubeinstalldnsname)
 * [`Kubeinstall::DNSSubdomain`](#kubeinstalldnssubdomain): https://kubernetes.io/docs/concepts/overview/working-with-objects/names#dns-subdomain-names contain no more than 253 characters contain only 
@@ -73,6 +83,8 @@
 * [`Kubeinstall::Port`](#kubeinstallport): 65535
 * [`Kubeinstall::Quantity`](#kubeinstallquantity): https://godoc.org/k8s.io/apimachinery/pkg/api/resource#Quantity  <quantity> ::= <signedNumber><suffix> (Note that <suffix> may be empty, from
 * [`Kubeinstall::Range5X`](#kubeinstallrange5x): 1-99999
+* [`Kubeinstall::Release`](#kubeinstallrelease)
+* [`Kubeinstall::Runtime`](#kubeinstallruntime)
 * [`Kubeinstall::Token`](#kubeinstalltoken)
 * [`Kubeinstall::TokenTTL`](#kubeinstalltokenttl)
 * [`Kubeinstall::Version`](#kubeinstallversion): https://kubernetes.io/docs/setup/release/version-skew-policy/
@@ -107,6 +119,12 @@ Data type: `Kubeinstall::Version`
 
 
 
+##### `container_runtime`
+
+Data type: `Kubeinstall::Runtime`
+
+
+
 ##### `dockerd_version`
 
 Data type: `String`
@@ -114,6 +132,12 @@ Data type: `String`
 
 
 ##### `containerd_version`
+
+Data type: `String`
+
+
+
+##### `crio_version`
 
 Data type: `String`
 
@@ -176,6 +200,12 @@ Data type: `Optional[Kubeinstall::CACertHash]`
 ##### `join_apiserver_address`
 
 Data type: `Optional[Kubeinstall::Address]`
+
+
+
+##### `cgroup_driver`
+
+Data type: `Kubeinstall::CgroupDriver`
 
 
 
@@ -247,11 +277,11 @@ Default value: `$kubeinstall::params::apiserver_bind_port`
 
 ##### `cri_socket`
 
-Data type: `String`
+Data type: `Stdlib::Unixpath`
 
 
 
-Default value: `$kubeinstall::params::cri_socket`
+Default value: `$container_runtime`
 
 ##### `service_dns_domain`
 
@@ -739,9 +769,18 @@ Data type: `Optional[Kubeinstall::Address]`
 
 Default value: `$kubeinstall::control_plane_endpoint`
 
+##### `cgroup_driver`
+
+Data type: `Kubeinstall::CgroupDriver`
+
+
+
+Default value: `$kubeinstall::cgroup_driver`
+
 ### `kubeinstall::kubeadm::init_command`
 
 A description of what this class does
+see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 
 #### Examples
 
@@ -905,6 +944,14 @@ Data type: `Stdlib::Fqdn`
 
 Default value: `$kubeinstall::node_name`
 
+##### `cgroup_driver`
+
+Data type: `Kubeinstall::CgroupDriver`
+
+
+
+Default value: `$kubeinstall::cgroup_driver`
+
 ### `kubeinstall::params`
 
 A description of what this class does
@@ -981,7 +1028,7 @@ Default value: `{}`
 
 ### `kubeinstall::repos`
 
-A description of what this class does
+Setup Kubernetes repositories
 
 #### Examples
 
@@ -989,6 +1036,123 @@ A description of what this class does
 
 ```puppet
 include kubeinstall::repos
+```
+
+### `kubeinstall::repos::crio`
+
+CRI-O repository setup
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::repos::crio
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::repos::crio` class.
+
+##### `kuberel`
+
+Data type: `Kubeinstall::Release`
+
+
+
+Default value: `$kubeinstall::kubernetes_release`
+
+### `kubeinstall::runtime`
+
+Kubernetes CRI setup
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::runtime
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::runtime` class.
+
+##### `container_runtime`
+
+Data type: `Kubeinstall::Runtime`
+
+
+
+Default value: `$kubeinstall::container_runtime`
+
+##### `docker_decomission`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+### `kubeinstall::runtime::crio`
+
+CRI-O container runtime installation
+see https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::runtime::crio
+```
+
+### `kubeinstall::runtime::crio::config`
+
+CRI-O configuration file setup
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::runtime::crio::config
+```
+
+### `kubeinstall::runtime::crio::install`
+
+CRI-O packages installation
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::runtime::crio::install
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::runtime::crio::install` class.
+
+##### `crio_version`
+
+Data type: `String`
+
+
+
+Default value: `$kubeinstall::crio_version`
+
+### `kubeinstall::runtime::crio::service`
+
+CRI-O service management
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::runtime::crio::service
 ```
 
 ### `kubeinstall::runtime::docker`
@@ -1050,6 +1214,18 @@ A description of what this class does
 
 ```puppet
 include kubeinstall::service
+```
+
+### `kubeinstall::service::stop`
+
+Stop kubelet service
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::service::stop
 ```
 
 ### `kubeinstall::system`
@@ -1128,6 +1304,30 @@ Disable firewalld service
 include kubeinstall::system::firewall::noop
 ```
 
+### `kubeinstall::system::overlay`
+
+Load overlay kernel module to support Overlay FS
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::system::overlay
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::system::overlay` class.
+
+##### `manage_kernel_modules`
+
+Data type: `Boolean`
+
+
+
+Default value: `$kubeinstall::manage_kernel_modules`
+
 ### `kubeinstall::system::selinux::noop`
 
 Set selinux in permissive mode
@@ -1151,6 +1351,30 @@ Disable swap on the system
 ```puppet
 include kubeinstall::system::swap
 ```
+
+### `kubeinstall::system::sysctl::ip_forward`
+
+Enable IPv4 forwarding
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::system::sysctl::ip_forward
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::system::sysctl::ip_forward` class.
+
+##### `manage_sysctl_settings`
+
+Data type: `Boolean`
+
+
+
+Default value: `$kubeinstall::manage_sysctl_settings`
 
 ### `kubeinstall::system::sysctl::net_bridge`
 
@@ -1626,6 +1850,12 @@ The Kubeinstall::CACertHash data type.
 
 Alias of `Pattern[/^sha256:[0-9a-f]{64}$/]`
 
+### `Kubeinstall::CgroupDriver`
+
+The Kubeinstall::CgroupDriver data type.
+
+Alias of `Enum['systemd', 'cgroupfs']`
+
 ### `Kubeinstall::DNSLabel`
 
 The Kubeinstall::DNSLabel data type.
@@ -1785,6 +2015,18 @@ Alias of `Variant[Kubeinstall::BinaryQuantity, Kubeinstall::DecimalQuantity, Kub
 
 Alias of `Pattern[/^[1-9][0-9]{,4}-[1-9][0-9]{,4}$/]`
 
+### `Kubeinstall::Release`
+
+The Kubeinstall::Release data type.
+
+Alias of `Variant[Pattern[/^1\.1[6-9]/], Pattern[/^1\.2[01]/]]`
+
+### `Kubeinstall::Runtime`
+
+The Kubeinstall::Runtime data type.
+
+Alias of `Enum['containerd', 'cri-o', 'docker']`
+
 ### `Kubeinstall::Token`
 
 The Kubeinstall::Token data type.
@@ -1801,5 +2043,5 @@ Alias of `Pattern[/^([0-9]+h)?([0-5]?[0-9]m)?([0-5]?[0-9]s)?$/]`
 
 https://kubernetes.io/docs/setup/release/version-skew-policy/
 
-Alias of `Pattern[/^1\.1[6-9]\.[0-9]+/]`
+Alias of `Variant[Pattern[/^1\.1[6-9]\.[0-9]+/], Pattern[/^1\.2[01]\.[0-9]+/]]`
 

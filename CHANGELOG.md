@@ -41,3 +41,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.0
+
+**Features**
+
+* Added CRI-O runtime installation
+
+**Bugfixes**
+
+**Known Issues**
