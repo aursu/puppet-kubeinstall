@@ -10,12 +10,12 @@
 #   Default bridge network address (conform to daemon.json bip parameter)
 #
 class kubeinstall::runtime::docker (
-  String $dockerd_version    = $kubeinstall::dockerd_version,
-  String $containerd_version = $kubeinstall::containerd_version,
+  String  $dockerd_version    = $kubeinstall::dockerd_version,
+  String  $containerd_version = $kubeinstall::containerd_version,
   Optional[Integer]
-          $mtu               = $kubeinstall::docker_mtu,
+          $mtu                = $kubeinstall::docker_mtu,
   Optional[String]
-          $network_bridge_ip = $kubeinstall::network_bridge_ip,
+          $network_bridge_ip  = $kubeinstall::network_bridge_ip,
 )
 {
   class { 'dockerinstall::profile::install':
