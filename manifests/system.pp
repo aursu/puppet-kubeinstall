@@ -10,6 +10,10 @@ class kubeinstall::system (
   Boolean $disable_selinux  = $kubeinstall::disable_selinux,
 ){
   include kubeinstall::system::bridged_traffic
+  # Following https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+  # recommendations
+  include kubeinstall::system::sysctl::ip_forward
+  include kubeinstall::system::overlay
 
   if $disable_swap {
     include kubeinstall::system::swap
