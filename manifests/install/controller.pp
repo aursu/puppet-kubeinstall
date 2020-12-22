@@ -21,12 +21,19 @@ class kubeinstall::install::controller (
     ensure => present,
   }
 
-  # persistent volumes objects directory
-  file { '/etc/kubernetes/manifests/persistentvolumes':
-    ensure => directory,
-    mode   => '0755',
-    owner  => 'root',
-    group  => 'root',
+  file {
+    default:
+      ensure => directory,
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root',
+    ;
+    # persistent volumes objects directory
+    '/etc/kubernetes/manifests/persistentvolumes': ;
+    # secret objects directory
+    '/etc/kubernetes/manifests/secrets':
+      mode => '0710',
+    ;
   }
 
   Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::calico']
