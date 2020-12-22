@@ -31,8 +31,10 @@ fixtures:
     augeas_core:
       repo: https://github.com/puppetlabs/puppetlabs-augeas_core.git
       puppet_version: ">= 6.0.0"
-    dockerinstall: "https://github.com/aursu/puppet-dockerinstall.git"
-    tlsinfo: "https://github.com/aursu/puppet-tlsinfo.git"
+    dockerinstall:
+      repo: https://github.com/aursu/puppet-dockerinstall.git
+    tlsinfo:
+      repo: https://github.com/aursu/puppet-tlsinfo.git
     yumrepo_core:
       repo: https://github.com/puppetlabs/puppetlabs-yumrepo_core.git
       puppet_version: ">= 6.0.0"
