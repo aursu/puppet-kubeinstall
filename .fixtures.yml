@@ -33,6 +33,7 @@ fixtures:
       puppet_version: ">= 6.0.0"
     dockerinstall:
       repo: https://github.com/aursu/puppet-dockerinstall.git
+      ref: "v0.9.1"
     tlsinfo:
       repo: https://github.com/aursu/puppet-tlsinfo.git
     yumrepo_core:

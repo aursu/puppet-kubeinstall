@@ -6,8 +6,8 @@
 #   include kubeinstall::install::node
 class kubeinstall::install::node {
   include kubeinstall::system
-  include kubeinstall::runtime::docker
   include kubeinstall::service
+  include kubeinstall::runtime
 
   file { '/root/.kube':
     ensure => directory,
@@ -23,6 +23,6 @@ class kubeinstall::install::node {
     group  => 'root',
   }
 
+  Class['kubeinstall::runtime'] -> Class['kubeinstall::service']
   Class['kubeinstall::system'] -> Class['kubeinstall::service']
-  Class['kubeinstall::runtime::docker'] -> Class['kubeinstall::service']
 }
