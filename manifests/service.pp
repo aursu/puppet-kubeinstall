@@ -13,8 +13,8 @@ class kubeinstall::service
   # config file "/var/lib/kubelet/config.yaml", error: open /var/lib/kubelet/config.yaml: no such file or directory
 
   service { 'kubelet':
-    ensure  => running,
-    enable  => true,
-    require => Class['kubeinstall::install'],
+    ensure    => running,
+    enable    => true,
+    subscribe => Class['kubeinstall::install'],
   }
 }
