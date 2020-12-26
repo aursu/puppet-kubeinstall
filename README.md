@@ -48,7 +48,7 @@ Puppetfile setup:
 ```
 mod 'dockerinstall',
   :git => 'https://github.com/aursu/puppet-dockerinstall.git',
-  :tag => 'v0.6.4'
+  :tag => 'v0.9.1'
 ```
 
 ### Beginning with kubeinstall
@@ -92,7 +92,7 @@ in use.
 Also there is a feature of exporting local PersistentVolume resources from worker
 nodes into controller directory `/etc/kubernetes/manifests/persistentvolumes`.
 To activate it is required to setup properly flag `kubeinstall::cluster::cluster_role`
-on both worker and controller hosts and provide all required to export PVs on
+on both worker and controller hosts and provide all requirements to export PVs on
 worker node.
 
 ## Reference
