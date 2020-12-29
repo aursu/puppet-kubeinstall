@@ -5,16 +5,19 @@
 # @example
 #   include kubeinstall::install::helm
 class kubeinstall::install::helm (
-  String  $version           = $kubeinstall::helm_version,
+  String  $version         = $kubeinstall::helm_version,
+  Stdlib::HTTPUrl
+          $archive_baseurl = 'https://get.helm.sh',
   Stdlib::Unixpath
-          $helm_install_path = '/usr/local/bin',
-  Boolean $helm_client_only  = true,
+          $install_path    = '/usr/local/bin',
+  Boolean $client_only     = true,
 )
 {
   # https://forge.puppet.com/modules/puppetlabs/helm
   class { 'helm':
-    version      => $version,
-    install_path => $helm_install_path,
-    client_only  => $helm_client_only,
+    version         => $version,
+    archive_baseurl => $archive_baseurl,
+    install_path    => $install_path,
+    client_only     => $client_only,
   }
 }
