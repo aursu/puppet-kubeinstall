@@ -19,5 +19,6 @@ class kubeinstall::install::helm (
     archive_baseurl => $archive_baseurl,
     install_path    => $install_path,
     client_only     => $client_only,
+    path            => $install_path,
   }
 }
