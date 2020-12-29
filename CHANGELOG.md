@@ -61,3 +61,13 @@ All notable changes to this project will be documented in this file.
 * Switched to Puppet module puppetlabs/helm
 
 **Known Issues**
+
+## Release 0.3.2
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: helm installation  URL
+
+**Known Issues**
