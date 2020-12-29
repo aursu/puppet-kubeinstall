@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'kubeinstall::install::helm' do
+describe 'kubeinstall::install::helm_binary' do
   let(:pre_condition) { 'include kubeinstall' }
 
   on_supported_os.each do |os, os_facts|
@@ -10,10 +10,6 @@ describe 'kubeinstall::install::helm' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
-
-      it {
-        is_expected.to contain_file('/usr/local/bin/helm')
-      }
     end
   end
 end

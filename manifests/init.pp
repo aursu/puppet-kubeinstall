@@ -42,6 +42,8 @@ class kubeinstall (
           $calico_mtu,
   String  $cluster_name,
   Boolean $install_calicoctl,
+  String  $calicoctl_version,
+  String  $helm_version,
   Stdlib::Fqdn
           $node_name                   = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
@@ -60,8 +62,6 @@ class kubeinstall (
     Stdlib::HTTPUrl,
     Stdlib::Unixpath
   ]       $dashboard_configuration     = $kubeinstall::params::dashboard_configuration,
-  String  $calicoctl_version           = $kubeinstall::params::calicoctl_version,
-  String  $helm_version                = $kubeinstall::params::helm_version,
 ) inherits kubeinstall::params
 {
   # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md
