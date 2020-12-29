@@ -16,6 +16,7 @@
 * [`kubeinstall::install::controller`](#kubeinstallinstallcontroller): kubernetes installation on controller node
 * [`kubeinstall::install::dashboard`](#kubeinstallinstalldashboard): Install Kubernetes dashboard
 * [`kubeinstall::install::helm`](#kubeinstallinstallhelm): Helm client installation
+* [`kubeinstall::install::helm_binary`](#kubeinstallinstallhelm_binary): Helm client installation
 * [`kubeinstall::install::node`](#kubeinstallinstallnode): A short summary of the purpose of this class
 * [`kubeinstall::install::worker`](#kubeinstallinstallworker): Kubernetes installation on worker node
 * [`kubeinstall::kubeadm::config`](#kubeinstallkubeadmconfig): A short summary of the purpose of this class
@@ -251,6 +252,18 @@ Data type: `Boolean`
 
 
 
+##### `calicoctl_version`
+
+Data type: `String`
+
+
+
+##### `helm_version`
+
+Data type: `String`
+
+
+
 ##### `node_name`
 
 Data type: `Stdlib::Fqdn`
@@ -317,22 +330,6 @@ Data type: `Variant[
 
 
 Default value: `$kubeinstall::params::dashboard_configuration`
-
-##### `calicoctl_version`
-
-Data type: `String`
-
-
-
-Default value: `$kubeinstall::params::calicoctl_version`
-
-##### `helm_version`
-
-Data type: `String`
-
-
-
-Default value: `$kubeinstall::params::helm_version`
 
 ### `kubeinstall::calico::calicoctl`
 
@@ -615,21 +612,45 @@ Data type: `String`
 
 Default value: `$kubeinstall::helm_version`
 
-##### `archive`
+##### `helm_install_path`
+
+Data type: `Stdlib::Unixpath`
+
+
+
+Default value: `'/usr/local/bin'`
+
+##### `helm_client_only`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+### `kubeinstall::install::helm_binary`
+
+Helm client installation
+
+#### Examples
+
+##### 
+
+```puppet
+include kubeinstall::install::helm_binary
+```
+
+#### Parameters
+
+The following parameters are available in the `kubeinstall::install::helm_binary` class.
+
+##### `version`
 
 Data type: `String`
 
 
 
-Default value: `"helm-${version}-linux-amd64.tar.gz"`
-
-##### `source`
-
-Data type: `Stdlib::HTTPUrl`
-
-
-
-Default value: `"https://get.helm.sh/helm-${version}-linux-amd64.tar.gz"`
+Default value: `$kubeinstall::helm_version`
 
 ### `kubeinstall::install::node`
 

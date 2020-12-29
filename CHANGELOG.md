@@ -51,3 +51,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.3.1
+
+**Features**
+
+**Bugfixes**
+
+* Switched to Puppet module puppetlabs/helm
+
+**Known Issues**
