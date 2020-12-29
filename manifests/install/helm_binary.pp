@@ -8,7 +8,7 @@ class kubeinstall::install::helm_binary (
   String  $version   = $kubeinstall::helm_version,
 ){
   $archive   = "helm-${version}-linux-amd64.tar.gz"
-  $source    = "https://get.helm.sh/helm-${version}-linux-amd64.tar.gz"
+  $source    = "https://get.helm.sh/helm-v${version}-linux-amd64.tar.gz"
 
   archive { $archive:
     path            => "/${archive}",

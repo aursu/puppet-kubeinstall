@@ -18,7 +18,7 @@ kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
 kubeinstall::calico_cni_version: v3.17
 kubeinstall::calicoctl_version: v3.17.1
-kubeinstall::helm_version: v3.4.2
+kubeinstall::helm_version: 3.4.2
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~
