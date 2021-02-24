@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -15,10 +15,6 @@
     {
       "name": "aursu/dockerinstall",
       "version_requirement": ">= 0.9.1 < 1.0.0"
-    },
-    {
-      "name": "puppetlabs/helm",
-      "version_requirement": ">= 3.1.0 < 4.0.0"
     },
     {
       "name": "camptocamp/kmod",

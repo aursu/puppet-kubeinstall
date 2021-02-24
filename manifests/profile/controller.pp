@@ -20,6 +20,6 @@ class kubeinstall::profile::controller (
 
   class { 'kubeinstall::install::controller': }
   if $helm_client {
-    class { 'kubeinstall::install::helm': }
+    class { 'kubeinstall::install::helm_binary': }
   }
 }

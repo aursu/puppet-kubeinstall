@@ -9,9 +9,6 @@ fixtures:
     firewalld:
       repo: "puppet/firewalld"
       ref: "4.3.0"
-    helm:
-      repo: "puppetlabs/helm"
-      ref: "3.1.0"
     kmod:
       repo: "camptocamp/kmod"
       ref: "2.5.0"

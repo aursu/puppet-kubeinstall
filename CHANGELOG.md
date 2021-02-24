@@ -81,3 +81,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: helm installation exec path
 
 **Known Issues**
+
+## Release 0.3.4
+
+**Features**
+
+**Bugfixes**
+
+* Removed Puppet module puppetlabs/helm (no support for Helm 3.0+)
+
+**Known Issues**
