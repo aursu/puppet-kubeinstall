@@ -73,7 +73,7 @@ Puppet::Type.type(:kubeadm_token).provide(:kubeadm) do
     args += moreargs
 
     cmdout = kubeadm_caller(subcommand, *args)
-    return [] if cmdout.nil?
+    return [] unless cmdout
 
     entity_list = cmdout.split('---').map do |e|
       begin
