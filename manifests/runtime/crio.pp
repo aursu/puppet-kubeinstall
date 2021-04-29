@@ -6,8 +6,8 @@
 # @example
 #   include kubeinstall::runtime::crio
 class kubeinstall::runtime::crio {
-  include kubeinstall::runtime::crio::install
-  include kubeinstall::runtime::crio::service
+  contain kubeinstall::runtime::crio::install
+  contain kubeinstall::runtime::crio::service
 
   Class['kubeinstall::runtime::crio::install']
     -> Class['kubeinstall::runtime::crio::service']

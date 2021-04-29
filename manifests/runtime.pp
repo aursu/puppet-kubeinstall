@@ -13,7 +13,6 @@ class kubeinstall::runtime (
 {
   case $container_runtime {
     'cri-o': {
-      include kubeinstall::runtime::crio::install
       include kubeinstall::runtime::crio
 
       if $docker_decomission {
@@ -26,7 +25,7 @@ class kubeinstall::runtime (
         Class['kubeinstall::runtime::crio::install']
           ~> Class['kubeinstall::service::stop']
           -> Class['dockerinstall::profile::decomission']
-          -> Class['kubeinstall::runtime::crio']
+          -> Class['kubeinstall::runtime::crio::service']
       }
     }
     default: {
