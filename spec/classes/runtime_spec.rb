@@ -10,6 +10,16 @@ describe 'kubeinstall::runtime' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+
+      context 'when CRI-O' do
+        let(:params) do
+          {
+            container_runtime: 'cri-o',
+          }
+        end
+
+        it { is_expected.to compile }
+      end
     end
   end
 end
