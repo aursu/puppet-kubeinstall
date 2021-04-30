@@ -12,6 +12,7 @@ class kubeinstall::service::stop {
     command     => 'systemctl stop kubelet.service',
     path        => '/usr/bin:/usr/sbin',
     refreshonly => true,
+    onlyif      => 'systemctl status kubelet.service',
     require     => Class['kubeinstall::install'],
   }
 }
