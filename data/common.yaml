@@ -2,7 +2,7 @@
 kubeinstall::dockerd_version: installed
 kubeinstall::containerd_version: installed
 kubeinstall::crio_version: installed
-kubeinstall::kubernetes_version: 1.19.6
+kubeinstall::kubernetes_version: 1.21.0
 kubeinstall::container_runtime: docker
 kubeinstall::cgroup_driver: cgroupfs
 kubeinstall::manage_kernel_modules: true

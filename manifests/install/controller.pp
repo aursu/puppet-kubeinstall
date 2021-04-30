@@ -13,6 +13,8 @@ class kubeinstall::install::controller (
   include kubeinstall::install::calico
   if $web_ui_dashboard  {
     include kubeinstall::install::dashboard
+
+    Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::dashboard']
   }
   include kubeinstall::cluster
 
@@ -36,7 +38,9 @@ class kubeinstall::install::controller (
     ;
   }
 
-  Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::calico']
+  Class['kubeinstall::install::node']
+    -> Class['kubeinstall::kubeadm::init_command']
+    -> Class['kubeinstall::install::calico']
 
   # TODO: https://kubernetes.io/docs/setup/best-practices/certificates/
   # TODO: https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#options-for-software-load-balancing

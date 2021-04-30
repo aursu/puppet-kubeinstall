@@ -12,6 +12,36 @@ describe 'kubeinstall::install::node' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+
+      it {
+        is_expected.to contain_service('kubelet')
+          .that_requires('Package[docker]')
+      }
+
+      it {
+        is_expected.to contain_service('kubelet')
+          .that_requires('Kmod::Load[br_netfilter]')
+      }
+
+      context 'when runtime is CRI-O' do
+        let(:pre_condition) do
+          <<-PRECOND
+          class { 'kubeinstall':
+            container_runtime => 'cri-o',
+          }
+          PRECOND
+        end
+
+        it {
+          is_expected.to contain_service('kubelet')
+            .that_requires('Package[cri-o]')
+        }
+
+        it {
+          is_expected.to contain_service('kubelet')
+            .that_requires('Service[crio]')
+        }
+      end
     end
   end
 end

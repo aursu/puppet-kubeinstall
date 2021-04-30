@@ -22,6 +22,7 @@ class kubeinstall::runtime::docker (
     dockerd_version    => $dockerd_version,
     containerd_version => $containerd_version,
   }
+  contain dockerinstall::profile::install
 
   class { 'dockerinstall::profile::daemon':
     cgroup_driver     => 'systemd',
@@ -36,4 +37,5 @@ class kubeinstall::runtime::docker (
     mtu               => $mtu,
     network_bridge_ip => $network_bridge_ip,
   }
+  contain dockerinstall::profile::daemon
 }

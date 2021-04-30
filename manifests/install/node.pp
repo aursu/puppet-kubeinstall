@@ -6,8 +6,9 @@
 #   include kubeinstall::install::node
 class kubeinstall::install::node {
   include kubeinstall::system
-  include kubeinstall::service
   include kubeinstall::runtime
+
+  contain kubeinstall::service
 
   file { '/root/.kube':
     ensure => directory,

@@ -91,3 +91,15 @@ All notable changes to this project will be documented in this file.
 * Removed Puppet module puppetlabs/helm (no support for Helm 3.0+)
 
 **Known Issues**
+
+## Release 0.3.5
+
+**Features**
+
+* Default version upgrade
+
+**Bugfixes**
+
+* Added containment for several calsses and resources
+
+**Known Issues**

@@ -20,6 +20,6 @@ class kubeinstall::kubeadm::init_command (
     ],
     unless      => "kubectl get nodes ${node_name}",
     creates     => '/etc/kubernetes/manifests/kube-apiserver.yaml',
-    require     => File['/etc/kubernetes/kubeadm-init.conf'],
+    require     => Class['kubeinstall::kubeadm::config'],
   }
 }

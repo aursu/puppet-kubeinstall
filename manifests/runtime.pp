@@ -13,23 +13,13 @@ class kubeinstall::runtime (
 {
   case $container_runtime {
     'cri-o': {
-      include kubeinstall::runtime::crio
-
-      if $docker_decomission {
-        include kubeinstall::service::stop
-        include dockerinstall::profile::decomission
-
-        # stop kubelet if CRI-O package has been changed (installed/upgraded)
-        # then perform Docker decomission (if required)
-        # then install CRI-O runtime
-        Class['kubeinstall::runtime::crio::install']
-          ~> Class['kubeinstall::service::stop']
-          -> Class['dockerinstall::profile::decomission']
-          -> Class['kubeinstall::runtime::crio::service']
+      class { 'kubeinstall::runtime::crio':
+        docker_decomission => $docker_decomission,
       }
+      contain kubeinstall::runtime::crio
     }
     default: {
-      include kubeinstall::runtime::docker
+      contain kubeinstall::runtime::docker
     }
   }
 }
