@@ -12,16 +12,6 @@ describe 'kubeinstall::runtime::crio' do
       it { is_expected.to compile }
 
       it {
-        is_expected.to contain_package('cri-o')
-          .that_notifies('Exec[kubelet]')
-      }
-
-      it {
-        is_expected.to contain_package('docker')
-          .that_requires('Exec[kubelet]')
-      }
-
-      it {
         is_expected.to contain_service('crio')
           .that_requires('Package[docker]')
       }
