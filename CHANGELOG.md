@@ -103,3 +103,13 @@ All notable changes to this project will be documented in this file.
 * Added containment for several calsses and resources
 
 **Known Issues**
+
+## Release 0.3.6
+
+**Features**
+
+**Bugfixes**
+
+Docker decomission before CRIO setup
+
+**Known Issues**
