@@ -113,3 +113,13 @@ All notable changes to this project will be documented in this file.
 * Docker decomission before CRI-O setup
 
 **Known Issues**
+
+## Release 0.3.7
+
+**Features**
+
+* Added `kubeadm reset` during Docker decomission
+
+**Bugfixes**
+
+**Known Issues**
