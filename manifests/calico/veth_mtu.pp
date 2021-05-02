@@ -11,7 +11,7 @@ class kubeinstall::calico::veth_mtu (
   unless $mtu == $facts['kubectl_calico_veth_mtu'] {
     $veth_mtu = {
       'data' => {
-        'veth_mtu' => $mtu,
+        'veth_mtu' => "${mtu}", # lint:ignore:only_variable_string
       }
     }
     $mtu_patch = to_json($veth_mtu)
