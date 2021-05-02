@@ -15,13 +15,17 @@ class kubeinstall::runtime::crio (
 
   if $docker_decomission {
     include dockerinstall::profile::decomission
+    include kubeinstall::kubeadm::reset_command
 
     # stop kubelet if CRI-O package has been changed (installed/upgraded)
     # then perform Docker decomission (if required)
     # then install CRI-O runtime
     Class['dockerinstall::profile::decomission']
       -> Class['kubeinstall::runtime::crio::install']
-      -> Class['kubeinstall::runtime::crio::service']
+
+    Class['dockerinstall::profile::decomission']
+      ~> Class['kubeinstall::kubeadm::reset_command']
+      -> Class['kubeinstall::runtime::crio::install']
   }
 
   Class['kubeinstall::runtime::crio::install']
