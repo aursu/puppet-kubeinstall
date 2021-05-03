@@ -4,7 +4,11 @@
 #
 # @example
 #   include kubeinstall::install::node
-class kubeinstall::install::node {
+class kubeinstall::install::node (
+  Stdlib::Unixpath
+          $manifests_directory = $kubeinstall::manifests_directory,
+)
+{
   include kubeinstall::system
   include kubeinstall::runtime
 
@@ -17,7 +21,11 @@ class kubeinstall::install::node {
     group  => 'root',
   }
 
-  file { ['/etc/kubernetes', '/etc/kubernetes/manifests']:
+  file { [
+    '/etc/kubernetes',
+    '/etc/kubernetes/manifests',
+    $manifests_directory,
+    "${manifests_directory}/manifests"].unique: # lint:ignore:unquoted_resource_title
     ensure => directory,
     mode   => '0755',
     owner  => 'root',

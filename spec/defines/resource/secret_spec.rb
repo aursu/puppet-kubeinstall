@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 describe 'kubeinstall::resource::secret' do
+  let(:pre_condition) { 'include kubeinstall' }
+
   let(:title) { 'namevar' }
   let(:params) do
     {}
@@ -16,7 +18,7 @@ describe 'kubeinstall::resource::secret' do
 
       it {
         is_expected.to contain_file('namevar')
-          .with_path('/etc/kubernetes/manifests/secrets/namevar.yaml')
+          .with_path('/etc/kubectl/manifests/secrets/namevar.yaml')
           .with_content(%r{^  name: namevar$})
           .with_content(%r{^type: Opaque$})
       }
@@ -39,7 +41,7 @@ describe 'kubeinstall::resource::secret' do
 
         it {
           is_expected.to contain_file('secret-sa-sample')
-            .with_path('/etc/kubernetes/manifests/secrets/secret-sa-sample.yaml')
+            .with_path('/etc/kubectl/manifests/secrets/secret-sa-sample.yaml')
             .with_content(%r{^[ ]{2}name: secret-sa-sample$})
             .with_content(%r{^[ ]{2}annotations:\n[ ]{4}kubernetes.io/service-account.name: sa-name$})
             .with_content(%r{^type: kubernetes.io/service-account-token$})
@@ -59,7 +61,7 @@ describe 'kubeinstall::resource::secret' do
 
         it {
           is_expected.to contain_file('secret-sa-sample')
-            .with_path('/etc/kubernetes/manifests/secrets/secret-sa-sample.yaml')
+            .with_path('/etc/kubectl/manifests/secrets/secret-sa-sample.yaml')
             .with_content(%r{^data:\n[ ]{2}extra: YmFyCg==$})
         }
       end
@@ -78,7 +80,7 @@ describe 'kubeinstall::resource::secret' do
 
         it {
           is_expected.to contain_file('secret-basic-auth')
-            .with_path('/etc/kubernetes/manifests/secrets/secret-basic-auth.yaml')
+            .with_path('/etc/kubectl/manifests/secrets/secret-basic-auth.yaml')
             .with_content(%r{^type: kubernetes.io/basic-auth$})
             .with_content(%r{^stringData:\n[ ]{2}username: admin\n[ ]{2}password: t0p-Secret$})
         }

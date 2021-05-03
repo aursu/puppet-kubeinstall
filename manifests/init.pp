@@ -5,6 +5,9 @@
 # @param web_ui_dashboard
 #   Whether to install Web UI on controller node or not
 #
+# @param manifests_directory
+#   Directory where to store static manifests
+#
 # @example
 #   include kubeinstall
 class kubeinstall (
@@ -62,6 +65,8 @@ class kubeinstall (
     Stdlib::HTTPUrl,
     Stdlib::Unixpath
   ]       $dashboard_configuration     = $kubeinstall::params::dashboard_configuration,
+  Stdlib::Unixpath
+          $manifests_directory         = $kubeinstall::params::manifests_directory,
 ) inherits kubeinstall::params
 {
   # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md

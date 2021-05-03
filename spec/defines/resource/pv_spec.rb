@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 describe 'kubeinstall::resource::pv' do
+  let(:pre_condition) { 'include kubeinstall' }
+
   let(:pv_object_content) do
     <<-YAMLDATA
 ---
@@ -35,7 +37,7 @@ YAMLDATA
 
       it {
         is_expected.to contain_file('kube-01-local-pv')
-          .with_path('/etc/kubernetes/manifests/persistentvolumes/kube-01-local-pv.yaml')
+          .with_path('/etc/kubectl/manifests/persistentvolumes/kube-01-local-pv.yaml')
           .with_content(pv_object_content)
       }
     end

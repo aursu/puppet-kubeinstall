@@ -28,9 +28,9 @@
 #
 define kubeinstall::resource::secret (
   Kubeinstall::DNSName
-          $object_name = $title,
+          $object_name         = $title,
   Kubeinstall::Metadata
-          $metadata    = {},
+          $metadata            = {},
   Enum[
     'Opaque',                              # arbitrary user-defined data
     'kubernetes.io/service-account-token', # service account token
@@ -40,15 +40,17 @@ define kubeinstall::resource::secret (
     'kubernetes.io/ssh-auth',              # credentials for SSH authentication
     'kubernetes.io/tls',                   # data for a TLS client or server
     'bootstrap.kubernetes.io/token'        # bootstrap token data
-  ]       $type        = 'Opaque',
+  ]       $type                = 'Opaque',
   Hash[
     Kubeinstall::Name,
     Stdlib::Base64
-  ]       $data        = {},
+  ]       $data                = {},
   Hash[Kubeinstall::Name, String]
-          $raw_data    = {},
+          $raw_data            = {},
   Hash[Kubeinstall::Name, String]
-          $string_data = {},
+          $string_data         = {},
+  Stdlib::Unixpath
+          $manifests_directory = $kubeinstall::manifests_directory,
 ) {
   unless $object_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a Secret object must be a valid DNS subdomain name.')
@@ -98,7 +100,7 @@ define kubeinstall::resource::secret (
 
   file { $object_name:
     ensure  => file,
-    path    => "/etc/kubernetes/manifests/secrets/${object_name}.yaml",
+    path    => "${manifests_directory}/manifests/secrets/${object_name}.yaml",
     content => $object,
     mode    => '0600',
   }

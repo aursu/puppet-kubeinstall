@@ -5,7 +5,9 @@
 # @example
 #   include kubeinstall::install::controller
 class kubeinstall::install::controller (
-  Boolean $web_ui_dashboard = $kubeinstall::web_ui_dashboard,
+  Boolean $web_ui_dashboard    = $kubeinstall::web_ui_dashboard,
+  Stdlib::Unixpath
+          $manifests_directory = $kubeinstall::manifests_directory,
 ){
   include kubeinstall::install::node
   include kubeinstall::kubeadm::config
@@ -31,9 +33,9 @@ class kubeinstall::install::controller (
       group  => 'root',
     ;
     # persistent volumes objects directory
-    '/etc/kubernetes/manifests/persistentvolumes': ;
+    "${manifests_directory}/manifests/persistentvolumes": ;
     # secret objects directory
-    '/etc/kubernetes/manifests/secrets':
+    "${manifests_directory}/manifests/secrets":
       mode => '0710',
     ;
   }

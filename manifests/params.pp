@@ -12,4 +12,6 @@ class kubeinstall::params {
   $service_cidr            = '10.96.0.0/12'
   $service_node_port_range = '30000-32767'
   $dashboard_configuration = 'https://raw.githubusercontent.com/kubernetes/dashboard/v2.1.0/aio/deploy/recommended.yaml'
+  # directory where to store static manifests under folder 'manifests'
+  $manifests_directory     = '/etc/kubectl'
 }
