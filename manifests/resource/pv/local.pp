@@ -9,10 +9,22 @@ define kubeinstall::resource::pv::local (
   String  $path,
   Stdlib::Fqdn
           $hostname,
+  Kubeinstall::Metadata
+          $metadata           = {},
+  Hash[String, String]
+          $labels             = {},
   Optional[String]
           $storage_class_name = undef,
 ) {
+  if empty($labels) {
+    $metadata_labels = {}
+  }
+  else {
+    $metadata_labels = { 'labels' => $labels }
+  }
+
   kubeinstall::resource::pv { $name:
+    metadata           => $metadata + $metadata_labels,
     volume_storage     => $volume_storage,
     local_path         => $path,
     match_expressions  => [

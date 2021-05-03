@@ -24,6 +24,8 @@ define kubeinstall::resource::pv (
           $volume_storage,
   Kubeinstall::DNSName
           $volume_name         = $title,
+  Kubeinstall::Metadata
+          $metadata            = {},
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#volume-mode
   Enum['Filesystem', 'Block']
           $volume_mode         = 'Filesystem',
@@ -54,10 +56,11 @@ define kubeinstall::resource::pv (
   }
 
   $pv_metadata = {
-    'metadata' => {
-      'name' => $volume_name,
-    }
-  }
+                    'metadata' => {
+                      'name' => $volume_name,
+                    } +
+                    $metadata,
+                  }
 
   $spec_pv = {
     'capacity'    => {
