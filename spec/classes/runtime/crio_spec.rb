@@ -16,15 +16,15 @@ describe 'kubeinstall::runtime::crio' do
           .that_requires('Package[docker]')
       }
 
-      it {
-        is_expected.to contain_package('docker')
-          .that_notifies('Exec[kubeadm-reset]')
-      }
+      # it {
+      #   is_expected.to contain_package('docker')
+      #     .that_notifies('Exec[kubeadm-reset]')
+      # }
 
-      it {
-        is_expected.to contain_package('cri-o')
-          .that_requires('Exec[kubeadm-reset]')
-      }
+      # it {
+      #   is_expected.to contain_package('cri-o')
+      #     .that_requires('Exec[kubeadm-reset]')
+      # }
 
       it {
         is_expected.to contain_service('crio')
