@@ -9,11 +9,11 @@ class kubeinstall::runtime::crio::install (
 )
 {
   include kubeinstall::repos::crio
-  include systemd::systemctl::daemon_reload
+  include kubeinstall::systemctl::daemon_reload
 
   package { 'cri-o':
     ensure  => $crio_version,
-    notify  => Class['systemd::systemctl::daemon_reload'],
+    notify  => Class['kubeinstall::systemctl::daemon_reload'],
     require => Class['kubeinstall::repos::crio'],
   }
 }

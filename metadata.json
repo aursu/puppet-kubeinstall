@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -31,10 +31,6 @@
     {
       "name": "thias/sysctl",
       "version_requirement": ">= 1.0.6 < 2.0.0"
-    },
-    {
-      "name": "camptocamp/systemd",
-      "version_requirement": ">= 2.9.0 < 3.0.0"
     },
     {
       "name": "aursu/tlsinfo",

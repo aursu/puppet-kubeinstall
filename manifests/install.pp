@@ -9,7 +9,7 @@ class kubeinstall::install (
 )
 {
   include kubeinstall::repos
-  include systemd::systemctl::daemon_reload
+  include kubeinstall::systemctl::daemon_reload
 
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl
   package {
@@ -19,7 +19,7 @@ class kubeinstall::install (
     ;
     'kubeadm': ;
     'kubelet':
-      notify => Class['systemd::systemctl::daemon_reload'],
+      notify => Class['kubeinstall::systemctl::daemon_reload'],
     ;
     'kubectl': ;
   }
