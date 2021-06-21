@@ -12,14 +12,14 @@ class kubeinstall::runtime (
 )
 {
   case $container_runtime {
-    'cri-o': {
+    'docker': {
+      contain kubeinstall::runtime::docker
+    }
+    default: {
       class { 'kubeinstall::runtime::crio':
         docker_decomission => $docker_decomission,
       }
       contain kubeinstall::runtime::crio
-    }
-    default: {
-      contain kubeinstall::runtime::docker
     }
   }
 }

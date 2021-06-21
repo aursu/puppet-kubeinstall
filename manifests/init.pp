@@ -53,8 +53,8 @@ class kubeinstall (
   Integer $apiserver_bind_port         = $kubeinstall::params::apiserver_bind_port,
   Stdlib::Unixpath
           $cri_socket                  = $container_runtime ? {
-                                            'cri-o' => $kubeinstall::params::crio_socket,
-                                            default => $kubeinstall::params::docker_socket,
+                                            'docker' => $kubeinstall::params::docker_socket,
+                                            default => $kubeinstall::params::crio_socket,
                                           },
   Stdlib::Fqdn
           $service_dns_domain          = $kubeinstall::params::service_dns_domain,

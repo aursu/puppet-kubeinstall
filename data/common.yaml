@@ -2,8 +2,8 @@
 kubeinstall::dockerd_version: installed
 kubeinstall::containerd_version: installed
 kubeinstall::crio_version: installed
-kubeinstall::kubernetes_version: 1.21.0
-kubeinstall::container_runtime: docker
+kubeinstall::kubernetes_version: 1.21.2
+kubeinstall::container_runtime: cri-o
 kubeinstall::cgroup_driver: cgroupfs
 kubeinstall::manage_kernel_modules: true
 kubeinstall::manage_sysctl_settings: true
@@ -16,9 +16,9 @@ kubeinstall::control_plane_endpoint: ~
 kubeinstall::docker_mtu: ~
 kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
-kubeinstall::calico_cni_version: v3.17
-kubeinstall::calicoctl_version: v3.17.1
-kubeinstall::helm_version: 3.5.2
+kubeinstall::calico_cni_version: v3.19
+kubeinstall::calicoctl_version: v3.19.1
+kubeinstall::helm_version: 3.6.1
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~

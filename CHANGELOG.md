@@ -133,3 +133,13 @@ All notable changes to this project will be documented in this file.
 * Drop camptocamp/systemd dependency
 
 **Known Issues**
+
+## Release 0.4.0
+
+**Features**
+
+* Updated default versions of all components
+
+**Bugfixes**
+
+**Known Issues**
