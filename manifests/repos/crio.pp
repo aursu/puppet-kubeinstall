@@ -7,11 +7,18 @@
 class kubeinstall::repos::crio (
   Kubeinstall::Release
           $kuberel = $kubeinstall::kubernetes_release,
-)
+) inherits kubeinstall::params
 {
   $osname = $facts['os']['name']
   $osmaj  = $facts['os']['release']['major']
-  $os     = "${osname}_${osmaj}"
+  $centos_stream = $kubeinstall::params::centos_stream
+
+  if $centos_stream {
+    $os = "${osname}_${osmaj}_Stream"
+  }
+  else {
+    $os = "${osname}_${osmaj}"
+  }
 
   if $osname == 'CentOS' {
     yumrepo { 'devel_kubic_libcontainers_stable':
