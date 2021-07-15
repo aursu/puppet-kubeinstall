@@ -143,3 +143,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.5.0
+
+**Features**
+
+* Added ability to define StorageClass resource file
+
+**Bugfixes**
+
+**Known Issues**

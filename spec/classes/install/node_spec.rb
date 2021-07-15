@@ -15,31 +15,31 @@ describe 'kubeinstall::install::node' do
 
       it {
         is_expected.to contain_service('kubelet')
-          .that_requires('Package[docker]')
+          .that_requires('Package[cri-o]')
       }
 
       it {
         is_expected.to contain_service('kubelet')
-          .that_requires('Kmod::Load[br_netfilter]')
+          .that_requires('Service[crio]')
       }
 
-      context 'when runtime is CRI-O' do
+      context 'when runtime is Docker' do
         let(:pre_condition) do
           <<-PRECOND
           class { 'kubeinstall':
-            container_runtime => 'cri-o',
+            container_runtime => 'docker',
           }
           PRECOND
         end
 
         it {
           is_expected.to contain_service('kubelet')
-            .that_requires('Package[cri-o]')
+            .that_requires('Package[docker]')
         }
 
         it {
           is_expected.to contain_service('kubelet')
-            .that_requires('Service[crio]')
+            .that_requires('Kmod::Load[br_netfilter]')
         }
       end
     end

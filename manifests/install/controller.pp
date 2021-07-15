@@ -32,6 +32,8 @@ class kubeinstall::install::controller (
       owner  => 'root',
       group  => 'root',
     ;
+    # storage classes objects directory
+    "${manifests_directory}/manifests/storageclasses": ;
     # persistent volumes objects directory
     "${manifests_directory}/manifests/persistentvolumes": ;
     # secret objects directory
