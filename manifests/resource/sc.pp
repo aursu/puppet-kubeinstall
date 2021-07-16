@@ -88,11 +88,11 @@ define kubeinstall::resource::sc (
     default => {},
   }
 
-  if size($parameters) > 0 {
-    $parameters_content = { 'parameters' => $parameters }
+  if empty($parameters) {
+    $parameters_content = {}
   }
   else {
-    $parameters_content = {}
+    $parameters_content = { 'parameters' => $parameters }
   }
 
   $object_content = {

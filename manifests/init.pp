@@ -72,7 +72,7 @@ class kubeinstall (
   # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md
   # https://kubernetes.io/docs/concepts/storage/storage-classes/#openstack-cinder
 
-  $version_data = split($kubernetes_version, '[.]')
+  $version_data  = split($kubernetes_version, '[.]')
   $major_version = $version_data[0]
   $minor_version = $version_data[1]
 
