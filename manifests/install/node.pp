@@ -12,7 +12,9 @@ class kubeinstall::install::node (
   include kubeinstall::system
   include kubeinstall::runtime
 
+  include kubeinstall::install
   contain kubeinstall::service
+  include kubeinstall::kubectl::completion
 
   file { '/root/.kube':
     ensure => directory,
@@ -32,6 +34,8 @@ class kubeinstall::install::node (
     group  => 'root',
   }
 
+
   Class['kubeinstall::runtime'] -> Class['kubeinstall::service']
   Class['kubeinstall::system'] -> Class['kubeinstall::service']
+  Class['kubeinstall::install'] -> Class['kubeinstall::kubectl::completion']
 }
