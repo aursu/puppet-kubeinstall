@@ -176,12 +176,23 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.6.1
+## Release 0.6.2
 
 **Features**
 
 **Bugfixes**
 
 * Added PATH setup to include ~/.krew/bin
+
+**Known Issues**
+
+## Release 0.7.0
+
+**Features**
+
+* Added krew plugiin istallation resource
+* Added kubernetes namespace resource (create)
+
+**Bugfixes**
 
 **Known Issues**
