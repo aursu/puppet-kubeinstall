@@ -34,7 +34,7 @@ class kubeinstall::install::krew (
 
   if $::facts['kernel'] == 'Linux' and $::facts['os']['architecture'] == 'x86_64' {
     exec { '/usr/local/krew/krew-linux_amd64 install krew':
-      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      path        => '/root/.krew/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
         'KUBECONFIG=/etc/kubernetes/admin.conf',
       ],
