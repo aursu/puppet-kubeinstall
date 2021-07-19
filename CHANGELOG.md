@@ -165,3 +165,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.6.1
+
+**Features**
+
+**Bugfixes**
+
+* Added /usr/local/krew directory management
+
+**Known Issues**

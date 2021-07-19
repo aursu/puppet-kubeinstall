@@ -18,6 +18,10 @@ class kubeinstall::install::krew (
   $archive   = 'krew.tar.gz'
   $source    = "https://github.com/kubernetes-sigs/krew/releases/download/v${version}/krew.tar.gz"
 
+  file { '/usr/local/krew':
+    ensure => directory,
+  }
+
   archive { $archive:
     path         => "/tmp/${archive}",
     source       => $source,
@@ -25,6 +29,7 @@ class kubeinstall::install::krew (
     extract_path => '/usr/local/krew',
     cleanup      => true,
     creates      => '/usr/local/krew/krew-linux_amd64',
+    require      => File['/usr/local/krew'],
   }
 
   if $::facts['kernel'] == 'Linux' and $::facts['os']['architecture'] == 'x86_64' {
