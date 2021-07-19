@@ -175,3 +175,13 @@ All notable changes to this project will be documented in this file.
 * Added /usr/local/krew directory management
 
 **Known Issues**
+
+## Release 0.6.1
+
+**Features**
+
+**Bugfixes**
+
+* Added PATH setup to include ~/.krew/bin
+
+**Known Issues**

@@ -42,5 +42,10 @@ class kubeinstall::install::krew (
       unless      => 'kubectl krew version',
       require     => Archive[$archive],
     }
+
+    file { '/etc/profile.d/krew.sh':
+      ensure => file,
+      source => 'puppet:///modules/kubeinstall/krew/profile.d.sh',
+    }
   }
 }
