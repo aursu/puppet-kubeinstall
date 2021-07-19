@@ -8,6 +8,7 @@ class kubeinstall::install::controller (
   Boolean $web_ui_dashboard    = $kubeinstall::web_ui_dashboard,
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $setup_admin_config  = true,
 ){
   include kubeinstall::install::node
   include kubeinstall::kubeadm::config
@@ -18,6 +19,13 @@ class kubeinstall::install::controller (
 
     Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::dashboard']
   }
+
+  if $setup_admin_config {
+    include kubeinstall::kubectl::config
+
+    Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::kubectl::config']
+  }
+
   include kubeinstall::cluster
 
   # create bootstrap token
