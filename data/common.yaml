@@ -16,9 +16,13 @@ kubeinstall::control_plane_endpoint: ~
 kubeinstall::docker_mtu: ~
 kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
+# https://github.com/projectcalico/calico/releases
 kubeinstall::calico_cni_version: v3.19
 kubeinstall::calicoctl_version: v3.19.1
-kubeinstall::helm_version: 3.6.1
+# https://github.com/helm/helm/releases
+kubeinstall::helm_version: 3.6.3
+# https://github.com/kubernetes-sigs/krew/releases
+kubeinstall::krew_version: 0.4.1
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~
