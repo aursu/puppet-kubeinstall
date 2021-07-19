@@ -153,3 +153,15 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.6.0
+
+**Features**
+
+* Added krew installation
+* Added admin config setup
+* Added bash completion
+
+**Bugfixes**
+
+**Known Issues**
