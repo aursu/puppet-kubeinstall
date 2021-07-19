@@ -11,7 +11,7 @@ class kubeinstall::install::helm_binary (
   $source    = "https://get.helm.sh/helm-v${version}-linux-amd64.tar.gz"
 
   archive { $archive:
-    path            => "/${archive}",
+    path            => "/tmp/${archive}",
     source          => $source,
     extract         => true,
     extract_command => 'tar xfz %s --strip-components=1 -C /usr/local/bin/ linux-amd64/helm',
