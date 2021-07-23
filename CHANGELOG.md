@@ -196,3 +196,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.8.0
+
+**Features**
+
+* Added kubectl apply resoure
+
+**Bugfixes**
+
+**Known Issues**

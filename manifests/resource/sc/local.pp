@@ -6,10 +6,12 @@
 #   include kubeinstall::resource::sc::local
 class kubeinstall::resource::sc::local (
   String $class_name = 'local-storage',
+  Boolean $apply     = false,
 )
 {
   kubeinstall::resource::sc { $class_name:
     provisioner        => 'kubernetes.io/no-provisioner',
     volume_bindin_mode => 'WaitForFirstConsumer',
+    apply              => $apply,
   }
 }

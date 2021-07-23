@@ -28,7 +28,8 @@
 #
 define kubeinstall::resource::secret (
   Kubeinstall::DNSName
-          $object_name         = $title,
+          $object_name         = $name,
+  String  $namespace           = 'default',
   Kubeinstall::Metadata
           $metadata            = {},
   Enum[
@@ -51,6 +52,7 @@ define kubeinstall::resource::secret (
           $string_data         = {},
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply               = false,
 ) {
   unless $object_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a Secret object must be a valid DNS subdomain name.')
@@ -83,10 +85,20 @@ define kubeinstall::resource::secret (
     $string_data_content = { 'stringData' => $string_data }
   }
 
+  if $namespace == 'default' {
+    $namespace_metadata = {}
+  }
+  else {
+    $namespace_metadata = {
+      'namespace' => $namespace,
+    }
+  }
+
   $metadata_content = {
                         'metadata' => {
                           'name' => $object_name,
                         } +
+                        $namespace_metadata +
                         $metadata,
                       }
 
@@ -103,5 +115,12 @@ define kubeinstall::resource::secret (
     path    => "${manifests_directory}/manifests/secrets/${object_name}.yaml",
     content => $object,
     mode    => '0600',
+  }
+
+  if $apply {
+    kubeinstall::kubectl::apply { $object_name:
+      kind      => 'Secret',
+      subscribe => File[$object_name],
+    }
   }
 }

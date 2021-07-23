@@ -48,7 +48,7 @@
 define kubeinstall::resource::sc (
   String  $provisioner,
   Kubeinstall::DNSName
-          $object_name            = $title,
+          $object_name            = $name,
   Kubeinstall::Metadata
           $metadata               = {},
   Boolean $allow_volume_expansion = false,
@@ -64,6 +64,7 @@ define kubeinstall::resource::sc (
           $volume_bindin_mode     = 'Immediate',
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply                  = false,
 )
 {
   $object_header  = {
@@ -112,5 +113,12 @@ define kubeinstall::resource::sc (
     path    => "${manifests_directory}/manifests/storageclasses/${object_name}.yaml",
     content => $object,
     mode    => '0600',
+  }
+
+  if $apply {
+    kubeinstall::kubectl::apply { $object_name:
+      kind      => 'StorageClass',
+      subscribe => File[$object_name],
+    }
   }
 }

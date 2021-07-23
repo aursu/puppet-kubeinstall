@@ -18,6 +18,7 @@ define kubeinstall::resource::pv::local (
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming
   Enum['Delete', 'Retain', 'Recycle']
           $reclaim_policy     = 'Delete',
+  Boolean $apply              = false,
 ) {
   if empty($labels) {
     $metadata_labels = {}
@@ -39,5 +40,6 @@ define kubeinstall::resource::pv::local (
     ],
     storage_class_name => $storage_class_name,
     reclaim_policy     => $reclaim_policy,
+    apply              => $apply,
   }
 }

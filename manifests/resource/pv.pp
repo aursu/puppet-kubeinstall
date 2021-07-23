@@ -23,7 +23,7 @@ define kubeinstall::resource::pv (
   Kubeinstall::Quantity
           $volume_storage,
   Kubeinstall::DNSName
-          $volume_name         = $title,
+          $volume_name         = $name,
   Kubeinstall::Metadata
           $metadata            = {},
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#volume-mode
@@ -45,6 +45,7 @@ define kubeinstall::resource::pv (
           $match_fields        = [],
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply               = false,
 ) {
   unless $volume_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a PersistentVolume object must be a valid DNS subdomain name.')
@@ -120,5 +121,12 @@ define kubeinstall::resource::pv (
     path    => "${manifests_directory}/manifests/persistentvolumes/${volume_name}.yaml",
     content => $pv_object,
     mode    => '0600',
+  }
+
+  if $apply {
+    kubeinstall::kubectl::apply { $volume_name:
+      kind      => 'PersistentVolume',
+      subscribe => File[$volume_name],
+    }
   }
 }

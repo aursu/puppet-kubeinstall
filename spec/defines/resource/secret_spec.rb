@@ -85,6 +85,41 @@ describe 'kubeinstall::resource::secret' do
             .with_content(%r{^stringData:\n[ ]{2}username: admin\n[ ]{2}password: t0p-Secret$})
         }
       end
+
+      context 'when raw_data in use' do
+        let(:title) { 'secret-sa-sample' }
+        let(:params) do
+          {
+            namespace: 'sa-sample',
+            raw_data: {
+              extra: "bar\n",
+            },
+          }
+        end
+
+        it {
+          is_expected.to contain_file('secret-sa-sample')
+            .with_path('/etc/kubectl/manifests/secrets/secret-sa-sample.yaml')
+            .with_content(%r{^metadata:\n[ ]{2}name: secret-sa-sample\n[ ]{2}namespace: sa-sample$})
+        }
+
+        it {
+          is_expected.not_to contain_exec('kubectl apply -f /etc/kubectl/manifests/secrets/secret-sa-sample.yaml')
+        }
+
+        context 'when apply is use' do
+          let(:params) do
+            super().merge(
+              apply: true,
+            )
+          end
+
+          it {
+            is_expected.to contain_exec('kubectl apply -f /etc/kubectl/manifests/secrets/secret-sa-sample.yaml')
+              .that_subscribes_to('File[secret-sa-sample]')
+          }
+        end
+      end
     end
   end
 end
