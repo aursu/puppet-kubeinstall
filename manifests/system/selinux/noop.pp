@@ -5,9 +5,7 @@
 # @example
 #   include kubeinstall::system::selinux::noop
 class kubeinstall::system::selinux::noop {
-  if $facts['selinux'] {
     class {'selinux':
       mode => 'permissive',
     }
-  }
 }
