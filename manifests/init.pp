@@ -23,6 +23,7 @@ class kubeinstall (
   Boolean $disable_swap,
   Boolean $disable_firewall,
   Boolean $disable_selinux,
+  Boolean $disable_ipv6,
   String  $calico_cni_version,
   Boolean $join_control_plane,
   Optional[Kubeinstall::Token]

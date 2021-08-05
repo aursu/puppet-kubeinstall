@@ -10,6 +10,7 @@ kubeinstall::manage_sysctl_settings: true
 kubeinstall::disable_swap: true
 kubeinstall::disable_firewall: true
 kubeinstall::disable_selinux: true
+kubeinstall::disable_ipv6: true
 kubeinstall::web_ui_dashboard: true
 kubeinstall::join_control_plane: false
 kubeinstall::control_plane_endpoint: ~

@@ -216,3 +216,15 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.9.1
+
+**Features**
+
+* Added IPv6 enable/disable feature
+
+**Bugfixes**
+
+* Corrected selinux management class
+
+**Known Issues**
