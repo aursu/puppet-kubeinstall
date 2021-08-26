@@ -6,6 +6,7 @@
 #   include kubeinstall::install
 class kubeinstall::install (
   Kubeinstall::Version $kubernetes_version = $kubeinstall::kubernetes_version,
+  Kubeinstall::Version $kubeadm_version    = $kubeinstall::kubeadm_version,
 )
 {
   include kubeinstall::repos
@@ -17,7 +18,9 @@ class kubeinstall::install (
       ensure  => $kubernetes_version,
       require => Class['kubeinstall::repos'],
     ;
-    'kubeadm': ;
+    'kubeadm':
+      ensure  => $kubeadm_version,
+    ;
     'kubelet':
       notify => Class['kubeinstall::systemctl::daemon_reload'],
     ;
