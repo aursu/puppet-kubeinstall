@@ -10,7 +10,7 @@ class kubeinstall::install::node (
 )
 {
   include kubeinstall::system
-  include kubeinstall::runtime
+  contain kubeinstall::runtime
 
   include kubeinstall::install
   contain kubeinstall::service
