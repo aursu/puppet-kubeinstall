@@ -37,5 +37,6 @@ class kubeinstall::install::node (
 
   Class['kubeinstall::runtime'] -> Class['kubeinstall::service']
   Class['kubeinstall::system'] -> Class['kubeinstall::service']
+  File['/root/.kube'] -> Class['kubeinstall::kubectl::completion']
   Class['kubeinstall::install'] -> Class['kubeinstall::kubectl::completion']
 }
