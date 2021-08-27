@@ -23,4 +23,6 @@ class kubeinstall::profile::worker (
   }
 
   class { 'kubeinstall::install::worker': }
+
+  include kubeinstall::install::cleanup
 }
