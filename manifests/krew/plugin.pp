@@ -8,7 +8,7 @@ define kubeinstall::krew::plugin (
   String $plugin = $name,
 )
 {
-  exec { "kubectl krew info ${plugin}":
+  exec { "kubectl krew install ${plugin}":
     path        => '/root/.krew/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
