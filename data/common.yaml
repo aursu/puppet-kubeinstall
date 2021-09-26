@@ -2,7 +2,7 @@
 kubeinstall::dockerd_version: installed
 kubeinstall::containerd_version: installed
 kubeinstall::crio_version: installed
-kubeinstall::kubernetes_version: 1.21.2
+kubeinstall::kubernetes_version: 1.22.2
 kubeinstall::container_runtime: cri-o
 kubeinstall::cgroup_driver: cgroupfs
 kubeinstall::manage_kernel_modules: true
@@ -18,8 +18,8 @@ kubeinstall::docker_mtu: ~
 kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
 # https://github.com/projectcalico/calico/releases
-kubeinstall::calico_cni_version: v3.19
-kubeinstall::calicoctl_version: v3.19.1
+kubeinstall::calico_cni_version: v3.20
+kubeinstall::calicoctl_version: v3.20.1
 # https://github.com/helm/helm/releases
 kubeinstall::helm_version: 3.6.3
 # https://github.com/kubernetes-sigs/krew/releases
