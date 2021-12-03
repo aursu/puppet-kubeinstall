@@ -228,3 +228,14 @@ All notable changes to this project will be documented in this file.
 * Corrected selinux management class
 
 **Known Issues**
+
+## Release 0.9.2
+
+**Features**
+
+* Added selinux modes
+* Updated components
+
+**Bugfixes**
+
+**Known Issues**
