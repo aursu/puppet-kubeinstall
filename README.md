@@ -34,22 +34,14 @@ Also it by default:
 * disable firewalld (see `kubeinstall::system::firewall::noop`),
 * disable selinux (see `kubeinstall::system::selinux::noop`),
 * set kernel settings for iptables (see `kubeinstall::system::sysctl::net_bridge`)
-* install Docker as CRI (see `kubeinstall::runtime::docker`)
+* install CRI-O as CRI (see `kubeinstall::runtime::crio`). Also Docker CRI is available
+  via `kubeinstall::runtime::docker`
 * install Calico as CNI (see `kubeinstall::install::calico`)
 * install Kubernetes Dashboard UI on controller (see `kubeinstall::install::dashboard`)
 
 ### Setup Requirements **OPTIONAL**
 
-It requires non-published on Puppet Forge module `aursu::dockerinstall` which is set
-of different Docker related features
-
-Puppetfile setup:
-
-```
-mod 'dockerinstall',
-  :git => 'https://github.com/aursu/puppet-dockerinstall.git',
-  :tag => 'v0.9.1'
-```
+`CentOS 7` operating system or similar.
 
 ### Beginning with kubeinstall
 
@@ -74,7 +66,7 @@ class profile::kubernetes::worker {
 }
 ```
 
-In order to setup settings it iss possible to use Hiera:
+In order to setup settings it is possible to use Hiera:
 
 ```
 kubeinstall::cluster_name: projectname
@@ -90,7 +82,7 @@ collector (implemnted via custom function `kubeinstall::discovery_hosts`) are
 in use.
 
 Also there is a feature of exporting local PersistentVolume resources from worker
-nodes into controller directory `/etc/kubernetes/manifests/persistentvolumes`.
+nodes into controller directory `/etc/kubectl/manifests/persistentvolumes`.
 To activate it is required to setup properly flag `kubeinstall::cluster::cluster_role`
 on both worker and controller hosts and provide all requirements to export PVs on
 worker node.
