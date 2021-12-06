@@ -8,6 +8,9 @@
 # @param manifests_directory
 #   Directory where to store static manifests
 #
+# @param cri_selinux
+#   Whether to use SELinux in K8S container runtime 
+#
 # @example
 #   include kubeinstall
 class kubeinstall (
