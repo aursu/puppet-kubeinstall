@@ -10,6 +10,11 @@ describe 'kubeinstall::runtime::crio::config' do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
+
+      it {
+        is_expected.to contain_file('/etc/crio/crio.conf')
+          .with_content(%r{^selinux = true})
+      }
     end
   end
 end

@@ -18,6 +18,9 @@ class kubeinstall (
   String  $dockerd_version,
   String  $containerd_version,
   String  $crio_version,
+  String  $crio_config_template,
+  Stdlib::Unixpath
+          $crio_config_path,
   Boolean $manage_kernel_modules,
   Boolean $manage_sysctl_settings,
   Boolean $disable_swap,
@@ -44,6 +47,8 @@ class kubeinstall (
           $network_bridge_ip,
   Optional[Integer]
           $calico_mtu,
+  Optional[Boolean]
+          $cri_selinux,
   String  $cluster_name,
   Boolean $install_calicoctl,
   String  $calicoctl_version,

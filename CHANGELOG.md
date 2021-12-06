@@ -239,3 +239,16 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.10.0
+
+**Features**
+
+* Added CRI-O configuration file management with ability to manage selinux flag  
+* Updated fixtures and metadata
+
+**Bugfixes**
+
+* Bugfix: unit test for updated Docker components
+
+**Known Issues**

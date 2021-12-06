@@ -9,6 +9,9 @@
 # @param network_bridge_ip
 #   Default bridge network address (conform to daemon.json bip parameter)
 #
+# @param selinux
+#   Whether to enable selinux support
+#
 class kubeinstall::runtime::docker (
   String  $dockerd_version    = $kubeinstall::dockerd_version,
   String  $containerd_version = $kubeinstall::containerd_version,
@@ -16,6 +19,8 @@ class kubeinstall::runtime::docker (
           $mtu                = $kubeinstall::docker_mtu,
   Optional[String]
           $network_bridge_ip  = $kubeinstall::network_bridge_ip,
+  Optional[Boolean]
+          $selinux            = $kubeinstall::cri_selinux,
 )
 {
   class { 'dockerinstall::profile::install':
@@ -36,6 +41,7 @@ class kubeinstall::runtime::docker (
     ],
     mtu               => $mtu,
     network_bridge_ip => $network_bridge_ip,
+    selinux           => $selinux,
   }
   contain dockerinstall::profile::daemon
 }

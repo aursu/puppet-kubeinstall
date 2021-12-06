@@ -1,0 +1,45 @@
+<% |
+  Boolean $selinux = true,
+| -%>
+# The CRI-O configuration file specifies all of the available configuration
+# options and command-line flags for the crio(8) OCI Kubernetes Container Runtime
+# daemon, but in a TOML format that can be more easily modified and versioned.
+#
+# Please refer to crio.conf(5) for details of all configuration options.
+
+# CRI-O supports partial configuration reload during runtime, which can be
+# done by sending SIGHUP to the running process. Currently supported options
+# are explicitly mentioned with: 'This option supports live configuration
+# reload'.
+
+# CRI-O reads its storage defaults from the containers-storage.conf(5) file
+# located at /etc/containers/storage.conf. Modify this storage configuration if
+# you want to change the system's defaults. If you want to modify storage just
+# for CRI-O, you can change the storage configuration options here.
+[crio]
+
+# The crio.runtime table contains settings pertaining to the OCI runtime used
+# and options for how to set up and manage the OCI runtime.
+[crio.runtime]
+
+# If true, SELinux will be used for pod separation on the host.
+selinux = <%= "${selinux}" %>
+
+# The crio.network table containers settings pertaining to the management of
+# CNI plugins.
+[crio.network]
+
+# Paths to directories where CNI plugin binaries are located.
+plugin_dirs = [
+	"/opt/cni/bin",
+	"/usr/libexec/cni",
+]
+
+# A necessary configuration for Prometheus based metrics retrieval
+[crio.metrics]
+
+# Globally enable or disable metrics support.
+enable_metrics = true
+
+# The port on which the metrics server will listen.
+metrics_port = 9537
