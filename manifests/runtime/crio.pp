@@ -11,6 +11,7 @@ class kubeinstall::runtime::crio (
 )
 {
   contain kubeinstall::runtime::crio::install
+  contain kubeinstall::runtime::crio::config
   contain kubeinstall::runtime::crio::service
 
   if $docker_decomission {
@@ -22,12 +23,9 @@ class kubeinstall::runtime::crio (
     # then install CRI-O runtime
     Class['dockerinstall::profile::decomission']
       -> Class['kubeinstall::runtime::crio::install']
-
-    # Class['dockerinstall::profile::decomission']
-    #   ~> Class['kubeinstall::kubeadm::reset_command']
-    #   -> Class['kubeinstall::runtime::crio::install']
   }
 
   Class['kubeinstall::runtime::crio::install']
+    -> Class['kubeinstall::runtime::crio::config']
     -> Class['kubeinstall::runtime::crio::service']
 }

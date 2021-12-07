@@ -263,3 +263,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.10.2
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: added class kubeinstall::runtime::crio::config into CRI-O runtime
+  manifest
+
+**Known Issues**
