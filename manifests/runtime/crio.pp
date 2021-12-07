@@ -27,5 +27,5 @@ class kubeinstall::runtime::crio (
 
   Class['kubeinstall::runtime::crio::install']
     -> Class['kubeinstall::runtime::crio::config']
-    -> Class['kubeinstall::runtime::crio::service']
+    ~> Class['kubeinstall::runtime::crio::service']
 }

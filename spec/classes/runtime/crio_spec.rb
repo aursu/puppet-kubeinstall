@@ -28,7 +28,7 @@ describe 'kubeinstall::runtime::crio' do
 
       it {
         is_expected.to contain_service('crio')
-          .that_requires('File[/etc/crio/crio.conf]')
+          .that_subscribes_to('File[/etc/crio/crio.conf]')
       }
     end
   end
