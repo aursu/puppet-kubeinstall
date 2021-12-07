@@ -6,6 +6,7 @@ ipaddress: 172.16.100.49
 ipaddress6: fe80::f816:3eff:fed2:f3db
 is_pe: false
 macaddress: fa:16:3e:d2:f3:db
+fqdn: kubec-01.domain.tld
 networking:
     dhcp: 172.16.100.2
     domain: domain.tld

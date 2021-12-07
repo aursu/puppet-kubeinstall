@@ -18,7 +18,9 @@ class kubeinstall::cluster (
   Optional[Enum['controller', 'worker']]
           $cluster_role             = undef,
   Hash[Kubeinstall::DNSSubdomain, Kubeinstall::LocalPV]
-          $local_persistent_volumes = {}
+          $local_persistent_volumes = {},
+  Hash[String, String]
+          $node_labels              = {},
 ) {
   if $facts['kubeadm_token_list'] and $facts['kubeadm_token_list'][0] {
     $token_data = $facts['kubeadm_token_list'][0]
@@ -69,19 +71,32 @@ class kubeinstall::cluster (
     'controller': {
       # Local persistent volumes collect
       Kubeinstall::Resource::Pv::Local <<| tag == $cluster_name |>>
+      Kubeinstall::Node::Label <<| tag == $cluster_name |>>
     }
     'worker': {
+      $node_name = $facts['fqdn']
+
       # Local persistent volumes export
       $local_persistent_volumes.each |$volume, $volume_settings| {
         # default hostnname is puppet FQDN fact
         $hostname_param = $volume_settings['hostname'] ? {
           String  => {},
-          default => { 'hostname' => $facts['fqdn'] },
+          default => { 'hostname' => $node_name },
         }
 
         @@kubeinstall::resource::pv::local { $volume:
           *   => $volume_settings + $hostname_param,
           tag => $cluster_name,
+        }
+      }
+
+      # Node labels export
+      $node_labels.each |$label_name, $label_value| {
+        @@kubeinstall::node::label { "${node_name}/${label_name}":
+          name      => $label_name,
+          value     => $label_value,
+          node_name => $node_name,
+          tag       => $cluster_name,
         }
       }
     }

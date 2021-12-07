@@ -10,9 +10,14 @@
 #   into Kubernetes cluster. This hash should containn only volumes located on
 #   currennt worker node.
 #
+# @param node_labels
+#   Added ability to setup node labels
+#
 class kubeinstall::profile::worker (
   Hash[String, Hash]
-          $local_persistent_volumes = {}
+          $local_persistent_volumes = {},
+  Hash[String, String]
+          $node_labels              = {},
 )
 {
   include kubeinstall::profile::kubernetes
@@ -20,6 +25,7 @@ class kubeinstall::profile::worker (
   class { 'kubeinstall::cluster':
     cluster_role             => 'worker',
     local_persistent_volumes => $local_persistent_volumes,
+    node_labels              => $node_labels,
   }
 
   class { 'kubeinstall::install::worker': }

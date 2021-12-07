@@ -252,3 +252,14 @@ All notable changes to this project will be documented in this file.
 * Bugfix: unit test for updated Docker components
 
 **Known Issues**
+
+## Release 0.10.1
+
+**Features**
+
+* Added kubeinstall::node::label to setup node labels
+* Added ability to export node labels resources within cluster
+
+**Bugfixes**
+
+**Known Issues**
