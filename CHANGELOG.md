@@ -264,7 +264,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.10.2
+## Release 0.10.3
 
 **Features**
 
