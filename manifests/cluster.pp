@@ -93,7 +93,7 @@ class kubeinstall::cluster (
       # Node labels export
       $node_labels.each |$label_name, $label_value| {
         @@kubeinstall::node::label { "${node_name}/${label_name}":
-          name      => $label_name,
+          key       => $label_name,
           value     => $label_value,
           node_name => $node_name,
           tag       => $cluster_name,
