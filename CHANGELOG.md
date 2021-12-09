@@ -284,3 +284,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.12.0
+
+**Features**
+
+* Added ArgoCD expose service (by default NodePort on port 30200)
+
+**Bugfixes**
+
+**Known Issues**
