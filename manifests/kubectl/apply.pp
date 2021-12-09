@@ -5,7 +5,7 @@
 # @example
 #   kubeinstall::kubectl::apply { 'namevar': }
 define kubeinstall::kubectl::apply (
-  Enum['PersistentVolume', 'StorageClass', 'Secret']
+  Enum['PersistentVolume', 'StorageClass', 'Secret', 'Service']
           $kind,
   String  $resource            = $name,
   String  $namespace           = 'default',
@@ -29,6 +29,7 @@ define kubeinstall::kubectl::apply (
     'PersistentVolume' => 'persistentvolumes',
     'StorageClass'     => 'storageclasses',
     'Secret'           => 'secrets',
+    'Service'          => 'services',
   }
 
   $manifest = "${manifests_directory}/manifests/${subpath}/${resource}.yaml"

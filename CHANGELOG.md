@@ -274,3 +274,13 @@ All notable changes to this project will be documented in this file.
   manifest
 
 **Known Issues**
+
+## Release 0.11.0
+
+**Features**
+
+* Added kubeinstall::resource::svc to manage Service resource
+
+**Bugfixes**
+
+**Known Issues**

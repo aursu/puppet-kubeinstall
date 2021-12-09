@@ -48,6 +48,9 @@ class kubeinstall::install::controller (
     "${manifests_directory}/manifests/secrets":
       mode => '0710',
     ;
+    # services objects directory
+    # https://kubernetes.io/docs/concepts/services-networking/service/
+    "${manifests_directory}/manifests/services": ;
   }
 
   Class['kubeinstall::install::node']
