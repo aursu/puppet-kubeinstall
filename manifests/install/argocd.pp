@@ -33,7 +33,7 @@ class kubeinstall::install::argocd (
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],
-    unless      => "kubectl get -n ${namespace} service/argocd-server",
+    unless      => "kubectl get -n ${namespace} service/argocd-repo-server",
     require     => Kubeinstall::Resource::Ns[$namespace],
   }
 
