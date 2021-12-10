@@ -27,7 +27,7 @@ define kubeinstall::resource::pv (
   Kubeinstall::Metadata
           $metadata            = {},
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#volume-mode
-  Enum['Filesystem', 'Block']
+  Kubeinstall::VolumeMode
           $volume_mode         = 'Filesystem',
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
   Array[Enum['ReadWriteOnce', 'ReadOnlyMany', 'ReadWriteMany']]

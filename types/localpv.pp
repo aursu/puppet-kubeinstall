@@ -4,4 +4,5 @@ type Kubeinstall::LocalPV = Struct[{
   name               => Optional[Kubeinstall::DNSName],
   hostname           => Optional[Stdlib::Fqdn],
   storage_class_name => Optional[String],
+  volume_mode        => Optional[Kubeinstall::VolumeMode],
 }]
