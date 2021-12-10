@@ -294,3 +294,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.12.1
+
+**Features**
+
+* Added volume_mode parameter into local PV
+
+**Bugfixes**
+
+**Known Issues**
