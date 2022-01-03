@@ -5,7 +5,7 @@ kubeinstall::cri_selinux: ~
 kubeinstall::crio_version: installed
 kubeinstall::crio_config_template: kubeinstall/crio.conf.epp
 kubeinstall::crio_config_path: /etc/crio/crio.conf
-kubeinstall::kubernetes_version: 1.22.4
+kubeinstall::kubernetes_version: 1.23.1
 kubeinstall::container_runtime: cri-o
 kubeinstall::cgroup_driver: cgroupfs
 kubeinstall::manage_kernel_modules: true
@@ -22,13 +22,13 @@ kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
 # https://github.com/projectcalico/calico/releases
 kubeinstall::calico_cni_version: v3.21
-kubeinstall::calicoctl_version: v3.21.1
+kubeinstall::calicoctl_version: v3.21.2
 # https://github.com/helm/helm/releases
-kubeinstall::helm_version: 3.7.1
+kubeinstall::helm_version: 3.7.2
 # https://github.com/kubernetes-sigs/krew/releases
 kubeinstall::krew_version: 0.4.2
 # https://github.com/argoproj/argo-cd/releases
-kubeinstall::argocd_version: v2.1.7
+kubeinstall::argocd_version: v2.2.2
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~

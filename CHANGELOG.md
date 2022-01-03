@@ -244,7 +244,7 @@ All notable changes to this project will be documented in this file.
 
 **Features**
 
-* Added CRI-O configuration file management with ability to manage selinux flag  
+* Added CRI-O configuration file management with ability to manage selinux flag
 * Updated fixtures and metadata
 
 **Bugfixes**
@@ -300,6 +300,16 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added volume_mode parameter into local PV
+
+**Bugfixes**
+
+**Known Issues**
+
+## Release 0.13.0
+
+**Features**
+
+* Updated kubernetes and components versions
 
 **Bugfixes**
 

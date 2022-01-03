@@ -1,4 +1,4 @@
 ---
-kubeinstall::dockerd_version: 20.10.11-3.el7
+kubeinstall::dockerd_version: 20.10.12-3.el7
 kubeinstall::containerd_version: 1.4.12-3.1.el7
-kubeinstall::kubernetes_version: 1.22.4-0
+kubeinstall::kubernetes_version: 1.23.1-0
