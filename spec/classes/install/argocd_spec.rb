@@ -46,7 +46,7 @@ YAMLDATA
 
       it {
         is_expected.to contain_exec('argocd-install')
-          .with_command('kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.1.7/manifests/install.yaml')
+          .with_command('kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.2/manifests/install.yaml')
           .with_unless('kubectl get -n argocd service/argocd-repo-server')
           .that_requires('Kubeinstall::Resource::Ns[argocd]')
       }

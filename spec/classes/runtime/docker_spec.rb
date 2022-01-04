@@ -16,7 +16,7 @@ describe 'kubeinstall::runtime::docker' do
         it {
           is_expected.to contain_package('docker')
             .with_name('docker-ce')
-            .with_ensure('20.10.11-3.el7')
+            .with_ensure('20.10.12-3.el7')
         }
 
         it {
