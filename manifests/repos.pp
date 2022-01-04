@@ -16,4 +16,19 @@ class kubeinstall::repos {
       repo_gpgcheck => '1',
     }
   }
+  elsif $facts['os']['name'] == 'Ubuntu' {
+    $dist = $facts['os']['distro']['codename']
+    $release = "kubernetes-${dist}"
+
+    apt::source { 'kubernetes':
+      comment  => 'Kubernetes apt repository',
+      location => 'https://apt.kubernetes.io/',
+      release  => $release,
+      repos    => 'main',
+      key      => {
+        id     => '7F92E05B31093BEF5A3C2D38FEEA9169307EA071',
+        source => 'https://packages.cloud.google.com/apt/doc/apt-key.gpg',
+      }
+    }
+  }
 }

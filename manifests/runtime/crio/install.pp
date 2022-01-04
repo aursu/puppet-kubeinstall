@@ -16,4 +16,11 @@ class kubeinstall::runtime::crio::install (
     notify  => Class['kubeinstall::systemctl::daemon_reload'],
     require => Class['kubeinstall::repos::crio'],
   }
+
+  if $facts['os']['family'] == 'Debian' {
+    package { 'cri-o-runc':
+      ensure => $crio_version,
+      before => Package['cri-o']
+    }
+  }
 }
