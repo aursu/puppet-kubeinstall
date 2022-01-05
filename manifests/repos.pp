@@ -23,7 +23,8 @@ class kubeinstall::repos {
     apt::source { 'kubernetes':
       comment  => 'Kubernetes apt repository',
       location => 'https://apt.kubernetes.io/',
-      release  => $release,
+      # no bionic, no focal and upper
+      release  => 'kubernetes-xenial',
       repos    => 'main',
       key      => {
         id     => '7F92E05B31093BEF5A3C2D38FEEA9169307EA071',
