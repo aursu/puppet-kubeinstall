@@ -355,5 +355,6 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 * Bugfix: K8S installation for Ubuntu when version is not exact
+* Bugfix: Krew installation on Ubuntu
 
 **Known Issues**

@@ -37,7 +37,7 @@ class kubeinstall::install::krew (
     require      => File['/usr/local/krew'],
   }
 
-  if $::facts['kernel'] == 'Linux' and $::facts['os']['architecture'] == 'x86_64' {
+  if $::facts['kernel'] == 'Linux' and $::facts['os']['architecture'] in ['x86_64', 'amd64'] {
     exec { '/usr/local/krew/krew-linux_amd64 install krew':
       path        => '/root/.krew/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
