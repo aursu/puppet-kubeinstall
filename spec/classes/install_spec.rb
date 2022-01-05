@@ -79,22 +79,9 @@ describe 'kubeinstall::install' do
           }
         end
 
+        case os
+        when %r{ubuntu}
         it {
-          is_expected.to contain_package('kubectl')
-            .with_ensure('1.22.4')
-        }
-
-        it {
-          is_expected.to contain_package('kubeadm')
-            .with_ensure('1.23.1')
-        }
-
-        context 'when ubuntu system' do
-          let(:facts) do
-            os_facts.merge(ubuntu_20_04)
-          end
-
-          it {
             is_expected.to contain_package('kubectl')
               .with_ensure('1.22.4*')
           }
@@ -102,6 +89,16 @@ describe 'kubeinstall::install' do
           it {
             is_expected.to contain_package('kubeadm')
               .with_ensure('1.23.1*')
+          }
+        when %r{centos}
+          it {
+            is_expected.to contain_package('kubectl')
+              .with_ensure('1.22.4')
+          }
+
+          it {
+            is_expected.to contain_package('kubeadm')
+              .with_ensure('1.23.1')
           }
         end
       end
