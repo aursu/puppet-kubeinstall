@@ -69,6 +69,15 @@ describe 'kubeinstall::install' do
           is_expected.to contain_package('kubeadm')
             .with_ensure('1.23.1-0')
         }
+      else
+        it {
+          is_expected.to contain_package('kubectl')
+            .with_ensure('1.23.1')
+        }
+        it {
+          is_expected.to contain_package('kubeadm')
+            .with_ensure('1.23.1')
+        }
       end
 
       context 'when exact versions' do
@@ -79,9 +88,11 @@ describe 'kubeinstall::install' do
           }
         end
 
+        it { is_expected.to compile }
+
         case os
         when %r{ubuntu}
-        it {
+          it {
             is_expected.to contain_package('kubectl')
               .with_ensure('1.22.4*')
           }
@@ -90,7 +101,7 @@ describe 'kubeinstall::install' do
             is_expected.to contain_package('kubeadm')
               .with_ensure('1.23.1*')
           }
-        when %r{centos}
+        else
           it {
             is_expected.to contain_package('kubectl')
               .with_ensure('1.22.4')
