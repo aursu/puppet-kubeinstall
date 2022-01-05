@@ -14,14 +14,14 @@ class kubeinstall::install (
 
   # if we do not know exect versions for Ubuntu  OS - use patterns
   if $facts['os']['name'] == 'Ubuntu' and $kubernetes_version =~ /^1\.2[0-9]\.[0-9]+$/ {
-    $kubernetes_version_pattern = "${kubernetes_version}*"
+    $kubernetes_version_pattern = "${kubernetes_version}-00"
   }
   else {
     $kubernetes_version_pattern = $kubernetes_version
   }
 
   if $facts['os']['name'] == 'Ubuntu' and $kubeadm_version =~ /^1\.2[0-9]\.[0-9]+$/ {
-    $kubeadm_version_pattern = "${kubeadm_version}*"
+    $kubeadm_version_pattern = "${kubeadm_version}-00"
   }
   else {
     $kubeadm_version_pattern = $kubeadm_version
