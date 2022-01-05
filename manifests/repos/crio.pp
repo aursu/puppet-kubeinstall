@@ -47,6 +47,7 @@ class kubeinstall::repos::crio (
     apt::source { 'devel:kubic:libcontainers:stable':
       comment  => 'packaged versions of CRI-O',
       location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
+      release  => '', # no release folder
       repos    => '/',
       key      => {
         id     => '2472D6D0D2F66AF87ABA8DA34D64390375060AA4',
@@ -57,6 +58,7 @@ class kubeinstall::repos::crio (
     apt::source { "devel:kubic:libcontainers:stable:cri-o:${kuberel}":
       comment  => "packaged versions of CRI-O for Kubernetes ${kuberel}",
       location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${kuberel}/${os}/",
+      release  => '',
       repos    => '/',
       key      => {
         id     => '2472D6D0D2F66AF87ABA8DA34D64390375060AA4',

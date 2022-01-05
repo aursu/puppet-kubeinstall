@@ -324,3 +324,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.14.1
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: krew installation for versions 0.4.2 and greater
+* Bugfix: Apt repositories fix
+
+**Known Issues**

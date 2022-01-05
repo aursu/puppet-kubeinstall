@@ -15,8 +15,13 @@ class kubeinstall::install::krew (
     include kubeinstall::system::git
   }
 
-  $archive   = 'krew.tar.gz'
-  $source    = "https://github.com/kubernetes-sigs/krew/releases/download/v${version}/krew.tar.gz"
+  if versioncmp($version, '0.4.2') >= 0 {
+    $archive   = 'krew-linux_amd64.tar.gz'
+  }
+  else {
+    $archive   = 'krew.tar.gz'
+  }
+  $source    = "https://github.com/kubernetes-sigs/krew/releases/download/v${version}/${archive}"
 
   file { '/usr/local/krew':
     ensure => directory,

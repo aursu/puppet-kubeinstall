@@ -12,7 +12,7 @@ class kubeinstall::install::node (
   include kubeinstall::system
   contain kubeinstall::runtime
 
-  include kubeinstall::install
+  contain kubeinstall::install
   contain kubeinstall::service
   include kubeinstall::kubectl::completion
 
