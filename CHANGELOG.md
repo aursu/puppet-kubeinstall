@@ -334,5 +334,6 @@ All notable changes to this project will be documented in this file.
 * Bugfix: krew installation for versions 0.4.2 and greater
 * Bugfix: Apt repositories fix for CRI-O
 * Bugfix: Apt repository fix for K8S
+* Bugfix: K8S installation for Ubuntu when version is not exact
 
 **Known Issues**
