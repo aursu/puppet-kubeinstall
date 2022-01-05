@@ -12,14 +12,29 @@ class kubeinstall::install (
   include kubeinstall::repos
   include kubeinstall::systemctl::daemon_reload
 
+  # if we do not know exect versions for Ubuntu  OS - use patterns
+  if $facts['os']['name'] == 'Ubuntu' and $kubernetes_version =~ /^1\.2[0-9]\.[0-9]+$/ {
+    $kubernetes_version_pattern = "${kubernetes_version}*"
+  }
+  else {
+    $kubernetes_version_pattern = $kubernetes_version
+  }
+
+  if $facts['os']['name'] == 'Ubuntu' and $kubeadm_version =~ /^1\.2[0-9]\.[0-9]+$/ {
+    $kubeadm_version_pattern = "${kubeadm_version}*"
+  }
+  else {
+    $kubeadm_version_pattern = $kubeadm_version
+  }
+
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#installing-kubeadm-kubelet-and-kubectl
   package {
     default:
-      ensure  => $kubernetes_version,
+      ensure  => $kubernetes_version_pattern,
       require => Class['kubeinstall::repos'],
     ;
     'kubeadm':
-      ensure  => $kubeadm_version,
+      ensure  => $kubeadm_version_pattern,
     ;
     'kubelet':
       notify => Class['kubeinstall::systemctl::daemon_reload'],
