@@ -1,2 +1,1 @@
----
-kubeinstall::cgroup_driver: systemd
+--- {}

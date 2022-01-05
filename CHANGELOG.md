@@ -337,3 +337,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: K8S installation for Ubuntu when version is not exact
 
 **Known Issues**
+
+## Release 0.15.0
+
+**Features**
+
+* Changed default cgroup driver to systemd
+
+**Bugfixes**
+
+**Known Issues**
