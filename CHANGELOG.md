@@ -379,7 +379,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.16.2
+## Release 0.16.3
 
 **Features**
 
@@ -388,5 +388,6 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 * Bugfix: resolve error uninitialized constant Puppet::Parameter::Boolean
+* Bugfix: task metadata for task kubeinstall::cgroup2
 
 **Known Issues**

@@ -3,7 +3,7 @@
     "parameters": {},
     "implementations": [
       {
-        "name": "hostname_shell.sh",
+        "name": "cgroup2_shell.sh",
         "requirements": ["shell"],
         "input_method": "environment",
         "files": ["facts/tasks/bash.sh"]
