@@ -18,8 +18,7 @@ plan kubeinstall::cgroup2 (
     )
 
     if $reboot {
-      $answered_true = $results.filter |$result| { $result[answer] == true }
-      $reboot_targets = $answered_true.map |$result| { $result.target }
+      $reboot_targets = $results.ok_set.filter_set |$res| { $res['reboot'] == true }.targets
 
       return run_task('reboot', $reboot_targets)
     }

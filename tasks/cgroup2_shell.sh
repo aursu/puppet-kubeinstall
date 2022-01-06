@@ -123,7 +123,7 @@ fi
 info "Enable cgroups version 2 for ${platform}..."
 case $platform in
   "CentOS")
-    info "CentOS platform $major_version! Lets enable cgroups version 2..."
+    info "CentOS $major_version..."
     case $major_version in
       "7")
         # reconfigure grub
@@ -145,7 +145,7 @@ case $platform in
     esac
     ;;
   "Ubuntu")
-    info "Ubuntu platform $platform_version! Lets enable cgroups version 2 for ..."
+    info "Ubuntu $platform_version..."
     case $platform_version in
       "20.04")
         # reconfigure grub
@@ -166,7 +166,10 @@ case $platform in
     ;;
 esac
 
-check_existing $(cat /proc/cmdline) || {
-  info "Reboot required"
-  exit 0
-}
+if check_existing $(cat /proc/cmdline); then
+  echo "{\"reboot\":true,\"source\":\"$(cat /proc/cmdline)\"}"
+else
+  echo "{\"reboot\":false,\"source\":\"$(cat /proc/cmdline)\"}"
+fi
+
+exit 0

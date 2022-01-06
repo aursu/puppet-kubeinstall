@@ -394,3 +394,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: task metadata for task kubeinstall::cgroup2
 
 **Known Issues**
+
+## Release 0.16.6
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: handle reboot flag properly
+
+**Known Issues**
