@@ -406,3 +406,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: handle reboot flag properly
 
 **Known Issues**
+
+## Release 0.16.8
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: repository and package apply sequence
+
+**Known Issues**

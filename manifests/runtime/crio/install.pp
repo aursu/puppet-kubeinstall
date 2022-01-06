@@ -22,5 +22,8 @@ class kubeinstall::runtime::crio::install (
       ensure => $crio_version,
       before => Package['cri-o']
     }
+
+    # try to fix repository update scheduled after package installation
+    Class['apt::update'] -> Package['cri-o-runc']
   }
 }
