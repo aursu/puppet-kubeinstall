@@ -44,6 +44,19 @@ setup_default_grub() {
   echo "GRUB_CMDLINE_LINUX=\"$GRUB_CMDLINE_LINUX_NEW\"" >> /etc/default/grub
 }
 
+kernel_release=$(uname -r)
+kernel_version=${kernel_release%%-*}
+kernel_maj=${kernel_version%%.*}
+_kernel_min=${kernel_version#*.}
+kernel_min=${_kernel_min%%.*}
+
+if [ $kernel_maj -eq 4 -a $kernel_min -ge 5 ] || [ $kernel_maj -ge 5 ]; then
+  :
+else
+  echo "Kernel ${kernel_release} does not support cgroups version 2"
+  exit 1
+fi
+
 # Retrieve Platform and Platform Version
 # Utilize facts implementation when available
 if [ -f "$PT__installdir/facts/tasks/bash.sh" ]; then
