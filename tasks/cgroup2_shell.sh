@@ -168,9 +168,9 @@ case $platform in
 esac
 
 if check_existing $(cat /proc/cmdline); then
-  echo "{\"platform\":\"$platform\",\"platform_version\":\"$platform_version\",\"reboot\":false,\"source\":\"$(cat /proc/cmdline)\",\"grub_updated\":$grub_updated,\"message\":\"$message\"}"
+  echo "{\"platform\":\"$platform\",\"platform_version\":\"$platform_version\",\"reboot\":false,\"parameters\":\"$(cat /proc/cmdline)\",\"grub_updated\":$grub_updated,\"message\":\"$message\"}"
 else
-  echo "{\"platform\":\"$platform\",\"platform_version\":\"$platform_version\",\"reboot\":true,\"source\":\"$(cat /proc/cmdline)\",\"grub_updated\":$grub_updated,\"message\":\"$message\"}"
+  echo "{\"platform\":\"$platform\",\"platform_version\":\"$platform_version\",\"reboot\":true,\"parameters\":\"$(cat /proc/cmdline)\",\"grub_updated\":$grub_updated,\"message\":\"$message\"}"
 fi
 
 exit 0
