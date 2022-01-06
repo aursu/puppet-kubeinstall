@@ -2,58 +2,84 @@
 
 # Error if non-root
 if [ $(id -u) -ne 0 ]; then
-  echo "puppet::cgroup2 task must be run as root"
+  echo "kubeinstall::cgroup2 task must be run as root"
   exit 1
 fi
 
-log () {
+function now {
+    date +'%H:%M:%S %z'
+}
+
+function log {
   echo "$(now) ${1}"
 }
 
-info () {
+function info {
   log "INFO: ${1}"
 }
 
-critical () {
-    log "CRIT: ${1}"
+function critical {
+  log "CRIT: ${1}"
 }
 
-setup_default_grub() {
+# bash 4.3+: usage: sort_array_43 arr_name
+function sort_array_43 {
+  local -n sorted=$1
+
+  IFS=$'\n'; sorted=($(sort <<< "${sorted[*]}")); unset IFS
+}
+
+# bash 4.2-: usage: arr_name=($(sort_array_42 ${arr_name[@]}))
+function sort_array_42 {
+  local unsorted=( "$@" )
+
+  IFS=$'\n'; sort <<< "${unsorted[*]}"; unset IFS
+}
+
+function setup_default_grub {
+  local existing=()
+  local GRUB_CMDLINE_LINUX_NEW="systemd.unified_cgroup_hierarchy=1 cgroup_enable=memory swapaccount=1"
+
+  [ -f /etc/default/grub ] || {
+    info "Grub2 configuration file /etc/default/grub not found"
+    return 1
+  }
+
   . /etc/default/grub
 
-  GRUB_CMDLINE_LINUX_NEW=
   for parameter in $GRUB_CMDLINE_LINUX; do
-    case "${parameter%%=*}" in
-    "systemd.unified_cgroup_hierarchy")
-      GRUB_CMDLINE_LINUX_NEW="$GRUB_CMDLINE_LINUX_NEW systemd.unified_cgroup_hierarchy=1"
-      ;;
-    "cgroup_enable")
-      GRUB_CMDLINE_LINUX_NEW="$GRUB_CMDLINE_LINUX_NEW cgroup_enable=memory"
-      ;;
-    "swapaccount")
-      GRUB_CMDLINE_LINUX_NEW="$GRUB_CMDLINE_LINUX_NEW swapaccount=1"
-      ;;
-    *)
-      GRUB_CMDLINE_LINUX_NEW="$GRUB_CMDLINE_LINUX_NEW $parameter"
-      ;;
-    esac
+    if echo $parameter | grep -q "\(systemd.unified_cgroup_hierarchy\|cgroup_enable\|swapaccount\)="; then
+      existing+=($parameter)
+      continue
+    fi
+    GRUB_CMDLINE_LINUX_NEW="$GRUB_CMDLINE_LINUX_NEW $parameter"
   done
 
+  # sort array of existing options and check it with desired state
+  existing=($(sort_array_42 ${existing[@]}))
+  if [ "${existing[*]}" == "cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=1" ]; then
+    info "All required kernel parameters already set in $GRUB_CMDLINE_LINUX"
+    return 1
+  fi
+
   # replace GRUB_CMDLINE_LINUX in /etc/default/grub
+  info "Set kernel parameters to $GRUB_CMDLINE_LINUX_NEW"
   sed -i '/^GRUB_CMDLINE_LINUX=/d' /etc/default/grub
   echo "GRUB_CMDLINE_LINUX=\"$GRUB_CMDLINE_LINUX_NEW\"" >> /etc/default/grub
+
+  return 0
 }
 
 kernel_release=$(uname -r)
 kernel_version=${kernel_release%%-*}
 kernel_maj=${kernel_version%%.*}
-_kernel_min=${kernel_version#*.}
-kernel_min=${_kernel_min%%.*}
+_kernel_min_patch=${kernel_version#*.}
+kernel_min=${_kernel_min_patch%%.*}
 
 if [ $kernel_maj -eq 4 -a $kernel_min -ge 5 ] || [ $kernel_maj -ge 5 ]; then
   :
 else
-  echo "Kernel ${kernel_release} does not support cgroups version 2"
+  critical "Kernel ${kernel_release} does not support cgroups version 2"
   exit 1
 fi
 
@@ -65,7 +91,7 @@ if [ -f "$PT__installdir/facts/tasks/bash.sh" ]; then
   platform_version=$(bash $PT__installdir/facts/tasks/bash.sh "release")
   major_version=$(echo $platform_version | cut -d. -f1)
 else
-  echo "This module depends on the puppetlabs-facts module"
+  critical "This module depends on the puppetlabs-facts module"
   exit 1
 fi
 
@@ -80,19 +106,20 @@ case $platform in
     info "CentOS platform! Lets enable cgroups version 2..."
     case $major_version in
       "7")
-        setup_default_grub
-
         # reconfigure grub
-        if [ -e /usr/sbin/grub2-mkconfig ]; then
-          if [ -f /boot/grub2/grub.cfg ]; then
-            /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
-          elif [ -f /boot/efi/EFI/redhat/grub.cfg ]; then
-            /usr/sbin/grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+        setup_default_grub && {
+          info "Update grub configuration"
+          if [ -e /usr/sbin/grub2-mkconfig ]; then
+            if [ -f /boot/grub2/grub.cfg ]; then
+              /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
+            elif [ -f /boot/efi/EFI/redhat/grub.cfg ]; then
+              /usr/sbin/grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+            fi
           fi
-        fi
+        }
         ;;
       *)
-        critical "Sorry CentOS $major_version is not supported yet!"
+        critical "CentOS $major_version is not supported yet!"
         exit 1
         ;;
     esac
@@ -101,19 +128,20 @@ case $platform in
     info "Ubuntu platform! Lets enable cgroups version 2..."
     case $platform_version in
       "20.04")
-        setup_default_grub
-
         # reconfigure grub
-        /usr/sbin/update-grub
+        setup_default_grub && {
+          info "Update grub configuration"
+          /usr/sbin/update-grub
+        }
         ;;
       *)
-        critical "Sorry Ubuntu $platform_version is not supported yet!"
+        critical "Ubuntu $platform_version is not supported yet!"
         exit 1
         ;;
     esac
     ;;
   *)
-    critical "Sorry $platform is not supported yet!"
+    critical "$platform is not supported yet!"
     exit 1
     ;;
 esac

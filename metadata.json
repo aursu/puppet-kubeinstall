@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.16.3",
+  "version": "0.16.4",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",

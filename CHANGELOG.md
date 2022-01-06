@@ -379,11 +379,12 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.16.3
+## Release 0.16.4
 
 **Features**
 
 * Added kernel check into kubeinstall::cgroup2
+* Added existing kernel parametrs check into kubeinstall::cgroup2
 
 **Bugfixes**
 
