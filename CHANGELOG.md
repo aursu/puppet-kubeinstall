@@ -358,3 +358,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: Krew installation on Ubuntu
 
 **Known Issues**
+
+## Release 0.16.0
+
+**Features**
+
+* Added ability to activate Cgroup v2
+
+**Bugfixes**
+
+**Known Issues**

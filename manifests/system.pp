@@ -14,6 +14,7 @@ class kubeinstall::system (
   # recommendations
   contain kubeinstall::system::sysctl::ip_forward
   contain kubeinstall::system::overlay
+  contain kubeinstall::system::kernel::cgroup2
 
   if $disable_swap {
     contain kubeinstall::system::swap
