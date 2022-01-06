@@ -378,3 +378,15 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.16.2
+
+**Features**
+
+* Added kernel check into kubeinstall::cgroup2
+
+**Bugfixes**
+
+* Bugfix: resolve error uninitialized constant Puppet::Parameter::Boolean
+
+**Known Issues**
