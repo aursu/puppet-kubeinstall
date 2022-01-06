@@ -36,8 +36,26 @@ function sort_array_42 {
   IFS=$'\n'; sort <<< "${unsorted[*]}"; unset IFS
 }
 
-function setup_default_grub {
+function check_existing {
+  local cmdline="$1"
   local existing=()
+
+  for parameter in $cmdline; do
+    if echo $parameter | grep -q "\(systemd.unified_cgroup_hierarchy\|cgroup_enable\|swapaccount\)="; then
+      existing+=($parameter)
+    fi
+  done
+
+  # sort array of existing options and check it with desired state
+  existing=($(sort_array_42 ${existing[@]}))
+  if [ "${existing[*]}" = "cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=1" ]; then
+    return 0
+  fi
+
+  return 1
+}
+
+function setup_default_grub {
   local GRUB_CMDLINE_LINUX_NEW="systemd.unified_cgroup_hierarchy=1 cgroup_enable=memory swapaccount=1"
 
   [ -f /etc/default/grub ] || {
@@ -47,20 +65,17 @@ function setup_default_grub {
 
   . /etc/default/grub
 
+  check_existing $GRUB_CMDLINE_LINUX && {
+    info "All required kernel parameters already set in $GRUB_CMDLINE_LINUX"
+    return 1
+  }
+
   for parameter in $GRUB_CMDLINE_LINUX; do
     if echo $parameter | grep -q "\(systemd.unified_cgroup_hierarchy\|cgroup_enable\|swapaccount\)="; then
-      existing+=($parameter)
       continue
     fi
     GRUB_CMDLINE_LINUX_NEW="$GRUB_CMDLINE_LINUX_NEW $parameter"
   done
-
-  # sort array of existing options and check it with desired state
-  existing=($(sort_array_42 ${existing[@]}))
-  if [ "${existing[*]}" == "cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=1" ]; then
-    info "All required kernel parameters already set in $GRUB_CMDLINE_LINUX"
-    return 1
-  fi
 
   # replace GRUB_CMDLINE_LINUX in /etc/default/grub
   info "Set kernel parameters to $GRUB_CMDLINE_LINUX_NEW"
@@ -103,7 +118,7 @@ fi
 info "Enable cgroups version 2 for ${platform}..."
 case $platform in
   "CentOS")
-    info "CentOS platform! Lets enable cgroups version 2..."
+    info "CentOS platform $major_version! Lets enable cgroups version 2..."
     case $major_version in
       "7")
         # reconfigure grub
@@ -125,7 +140,7 @@ case $platform in
     esac
     ;;
   "Ubuntu")
-    info "Ubuntu platform! Lets enable cgroups version 2..."
+    info "Ubuntu platform $platform_version! Lets enable cgroups version 2 for ..."
     case $platform_version in
       "20.04")
         # reconfigure grub
@@ -145,3 +160,8 @@ case $platform in
     exit 1
     ;;
 esac
+
+check_existing $(cat /proc/cmdline) || {
+  info "Reboot required"
+  exit 0
+}
