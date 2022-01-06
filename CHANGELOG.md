@@ -395,9 +395,11 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.16.6
+## Release 0.16.7
 
 **Features**
+
+* Setup task output as JSON
 
 **Bugfixes**
 

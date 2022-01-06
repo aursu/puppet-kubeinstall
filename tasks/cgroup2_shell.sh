@@ -84,6 +84,7 @@ function setup_default_grub {
 
   # replace GRUB_CMDLINE_LINUX in /etc/default/grub
   info "Set kernel parameters to $GRUB_CMDLINE_LINUX_NEW"
+
   sed -i '/^GRUB_CMDLINE_LINUX=/d' /etc/default/grub
   echo "GRUB_CMDLINE_LINUX=\"$GRUB_CMDLINE_LINUX_NEW\"" >> /etc/default/grub
 
@@ -120,19 +121,20 @@ if test "x$platform" = "x"; then
   exit 1
 fi
 
-info "Enable cgroups version 2 for ${platform}..."
+message=
+grub_updated="null"
 case $platform in
   "CentOS")
-    info "CentOS $major_version..."
     case $major_version in
       "7")
         # reconfigure grub
-        setup_default_grub && {
-          info "Update grub configuration"
+        message=$(setup_default_grub) && {
           if [ -e /usr/sbin/grub2-mkconfig ]; then
             if [ -f /boot/grub2/grub.cfg ]; then
+              grub_updated="true"
               /usr/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg
             elif [ -f /boot/efi/EFI/redhat/grub.cfg ]; then
+              grub_updated="true"
               /usr/sbin/grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
             fi
           fi
@@ -145,12 +147,11 @@ case $platform in
     esac
     ;;
   "Ubuntu")
-    info "Ubuntu $platform_version..."
     case $platform_version in
       "20.04")
         # reconfigure grub
-        setup_default_grub && {
-          info "Update grub configuration"
+        message=$(setup_default_grub) && {
+          grub_updated="true"
           /usr/sbin/update-grub
         }
         ;;
@@ -167,9 +168,9 @@ case $platform in
 esac
 
 if check_existing $(cat /proc/cmdline); then
-  echo "{\"reboot\":true,\"source\":\"$(cat /proc/cmdline)\"}"
+  echo "{\"platform\":\"$platform\",\"platform_version\":\"$platform_version\",\"reboot\":true,\"source\":\"$(cat /proc/cmdline)\",\"grub_updated\":$grub_updated,\"message\":\"$message\"}"
 else
-  echo "{\"reboot\":false,\"source\":\"$(cat /proc/cmdline)\"}"
+  echo "{\"platform\":\"$platform\",\"platform_version\":\"$platform_version\",\"reboot\":false,\"source\":\"$(cat /proc/cmdline)\",\"grub_updated\":$grub_updated,\"message\":\"$message\"}"
 fi
 
 exit 0
