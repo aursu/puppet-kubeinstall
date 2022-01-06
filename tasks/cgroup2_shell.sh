@@ -7,7 +7,7 @@ if [ $(id -u) -ne 0 ]; then
 fi
 
 function now {
-    date +'%H:%M:%S %z'
+  date +'%H:%M:%S %z'
 }
 
 function log {
@@ -36,18 +36,23 @@ function sort_array_42 {
   IFS=$'\n'; sort <<< "${unsorted[*]}"; unset IFS
 }
 
+# input is array of kernel parameters either from /etc/default/grub
+# or from /proc/cmdline
+# return 0 if parameters for cgroup v2 already set
+# otherwise - returns 1
 function check_existing {
-  local cmdline="$1"
+  local cmdline=( "$@" )
+
   local existing=()
 
-  for parameter in $cmdline; do
+  for parameter in "${cmdline[@]}"; do
     if echo $parameter | grep -q "\(systemd.unified_cgroup_hierarchy\|cgroup_enable\|swapaccount\)="; then
       existing+=($parameter)
     fi
   done
 
   # sort array of existing options and check it with desired state
-  existing=($(sort_array_42 ${existing[@]}))
+  existing=($(sort_array_42 "${existing[@]}"))
   if [ "${existing[*]}" = "cgroup_enable=memory swapaccount=1 systemd.unified_cgroup_hierarchy=1" ]; then
     return 0
   fi
