@@ -1,3 +1,5 @@
+require 'puppet/parameter/boolean'
+
 # https://kubernetes.io/docs/reference/access-authn-authz/bootstrap-tokens/
 Puppet::Type.newtype(:kubeadm_token) do
   @doc = 'Bootstrap tokens are a simple bearer token that is meant to be used when creating new clusters or joining new nodes to an existing cluster'
