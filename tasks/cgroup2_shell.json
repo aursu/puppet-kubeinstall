@@ -1,0 +1,7 @@
+{
+    "name": "Cgroup v2 Linux",
+    "description": "Set kernel parameters to enable cgroup2 on linux targets",
+    "private": true,
+    "parameters": {},
+    "files": ["facts/tasks/bash.sh"]
+}

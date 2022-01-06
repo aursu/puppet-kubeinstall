@@ -368,3 +368,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.16.1
+
+**Features**
+
+* Added task and plan kubeinstall::cgroup2
+
+**Bugfixes**
+
+**Known Issues**

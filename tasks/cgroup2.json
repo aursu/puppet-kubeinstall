@@ -1,0 +1,12 @@
+{
+    "description": "Set kernel parameters to enable cgroup2",
+    "parameters": {},
+    "implementations": [
+      {
+        "name": "hostname_shell.sh",
+        "requirements": ["shell"],
+        "input_method": "environment",
+        "files": ["facts/tasks/bash.sh"]
+      }
+    ]
+  }
