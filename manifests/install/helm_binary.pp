@@ -26,4 +26,8 @@ class kubeinstall::install::helm_binary (
     mode    => '0755',
     require => Archive[$archive],
   }
+
+  file { '/root/.config/helm':
+    ensure => directory,
+  }
 }
