@@ -416,3 +416,14 @@ All notable changes to this project will be documented in this file.
 * Bugfix: repository and package apply sequence
 
 **Known Issues**
+
+## Release 0.17.0
+
+**Features**
+
+* Added basic Helm repo and chart management
+* Added Helm completion for bash
+
+**Bugfixes**
+
+**Known Issues**
