@@ -427,3 +427,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.17.1
+
+**Features**
+
+* Updated default versions of components
+
+**Bugfixes**
+
+**Known Issues**

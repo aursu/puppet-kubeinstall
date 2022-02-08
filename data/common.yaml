@@ -5,7 +5,7 @@ kubeinstall::cri_selinux: ~
 kubeinstall::crio_version: installed
 kubeinstall::crio_config_template: kubeinstall/crio.conf.epp
 kubeinstall::crio_config_path: /etc/crio/crio.conf
-kubeinstall::kubernetes_version: 1.23.1
+kubeinstall::kubernetes_version: 1.23.3
 kubeinstall::container_runtime: cri-o
 # https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver
 # Note: In v1.22, if the user is not setting the cgroupDriver field under
@@ -24,14 +24,14 @@ kubeinstall::docker_mtu: ~
 kubeinstall::network_bridge_ip: ~
 kubeinstall::install_calicoctl: true
 # https://github.com/projectcalico/calico/releases
-kubeinstall::calico_cni_version: v3.21
-kubeinstall::calicoctl_version: v3.21.2
+kubeinstall::calico_cni_version: v3.22
+kubeinstall::calicoctl_version: v3.22.0
 # https://github.com/helm/helm/releases
-kubeinstall::helm_version: 3.7.2
+kubeinstall::helm_version: 3.8.0
 # https://github.com/kubernetes-sigs/krew/releases
-kubeinstall::krew_version: 0.4.2
+kubeinstall::krew_version: 0.4.3
 # https://github.com/argoproj/argo-cd/releases
-kubeinstall::argocd_version: v2.2.2
+kubeinstall::argocd_version: v2.2.5
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~
