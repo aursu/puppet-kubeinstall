@@ -15,7 +15,7 @@ class kubeinstall::install::calico (
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
   exec { 'calico-install':
-    command     => "kubectl apply -f https://docs.projectcalico.org/${version}/manifests/calico.yaml",
+    command     => "kubectl apply -f https://projectcalico.docs.tigera.io/${version}/manifests/calico.yaml",
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',

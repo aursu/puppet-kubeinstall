@@ -447,3 +447,24 @@ All notable changes to this project will be documented in this file.
 * Added /root/.config directory setup
 
 **Known Issues**
+
+## Release 0.17.3
+
+**Features**
+
+* Updated default versions of components
+
+**Bugfixes**
+
+**Known Issues**
+
+## Release 0.17.4
+
+**Features**
+
+**Bugfixes**
+
+* Corrected URL to Calico installation manifest
+* Corrected Yum repo for CentOS 7
+
+**Known Issues**

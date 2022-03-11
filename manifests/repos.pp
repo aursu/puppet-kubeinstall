@@ -13,7 +13,7 @@ class kubeinstall::repos {
       enabled       => '1',
       gpgcheck      => '1',
       gpgkey        => 'https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg',
-      repo_gpgcheck => '1',
+      repo_gpgcheck => '0',
     }
   }
   elsif $facts['os']['name'] == 'Ubuntu' {
