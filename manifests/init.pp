@@ -80,6 +80,8 @@ class kubeinstall (
           $manifests_directory         = $kubeinstall::params::manifests_directory,
   Kubeinstall::Version
           $kubeadm_version             = $kubernetes_version,
+  Boolean $manage_git                  = true,
+  Boolean $manage_grubby               = true,
 ) inherits kubeinstall::params
 {
   # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md

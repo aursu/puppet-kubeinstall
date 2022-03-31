@@ -34,13 +34,37 @@ class kubeinstall::system::kernel::cgroup2 {
         refreshonly => true,
       }
     }
+
+    # CHAPTER 5. CONFIGURING KERNEL COMMAND-LINE PARAMETERS
+    # https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/configuring-kernel-command-line-parameters_managing-monitoring-and-updating-the-kernel
+    if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] in ['7', '8', '9'] {
+      include kubeinstall::system::grubby
+
+      $kernrel = $facts['kernelrelease']
+
+      if $facts['kernelentries'] {
+        $facts['kernelentries'].each |$entry| {
+          $kernpath = $entry['kernel']
+          # current kernel should  have
+          if $kernrel in $kernpath {
+            unless 'systemd.unified_cgroup_hierarchy=1' in $entry['args']
+            and 'cgroup_enable=memory' in $entry['args']
+            and 'swapaccount=1' in $entry['args'] {
+              exec { 'kubeinstall-update-grub':
+                command => "grubby --update-kernel=${kernpath} --args=\"systemd.unified_cgroup_hierarchy=1 cgroup_enable=memory swapaccount=1\"",
+                onlyif  => "test -f ${kernpath}",
+                path    => '/usr/sbin:/usr/bin:/sbin:/bin',
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   # TODO/TOREAD:
   # CHAPTER 26. WORKING WITH GRUB 2
   # https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/system_administrators_guide/ch-working_with_the_grub_2_boot_loader
-  # CHAPTER 5. CONFIGURING KERNEL COMMAND-LINE PARAMETERS
-  # https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/configuring-kernel-command-line-parameters_managing-monitoring-and-updating-the-kernel
   # CHAPTER 19. USING CGROUPS-V2 TO CONTROL DISTRIBUTION OF CPU TIME FOR APPLICATIONS
   # https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/using-cgroups-v2-to-control-distribution-of-cpu-time-for-applications_managing-monitoring-and-updating-the-kernel
   # Your kernel does not support cgroup swap limit capabilities

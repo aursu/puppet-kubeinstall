@@ -5,15 +5,10 @@
 # @example
 #   include kubeinstall::install::krew
 class kubeinstall::install::krew (
-  String  $version    = $kubeinstall::krew_version,
-  Boolean $manage_git = true,
+  String  $version = $kubeinstall::krew_version,
 )
 {
-  # git package could be controlled in different place of role/profile
-  # therefore make it possible to disable it here
-  if $manage_git {
-    include kubeinstall::system::git
-  }
+  include kubeinstall::system::git
 
   if versioncmp($version, '0.4.2') >= 0 {
     $archive   = 'krew-linux_amd64.tar.gz'

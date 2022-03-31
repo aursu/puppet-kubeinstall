@@ -468,3 +468,17 @@ All notable changes to this project will be documented in this file.
 * Corrected Yum repo for CentOS 7
 
 **Known Issues**
+
+## Release 0.18.0
+
+**Features**
+
+* Added ability to manage grubby
+* Added cgroup2 support for CentOS
+* Added fact `kernelentries`
+
+**Bugfixes**
+
+* Made Git optional
+
+**Known Issues**
