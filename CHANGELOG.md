@@ -482,3 +482,13 @@ All notable changes to this project will be documented in this file.
 * Made Git optional
 
 **Known Issues**
+
+## Release 0.18.1
+
+**Features**
+
+* Set net.core.somaxconn to default value 4096
+
+**Bugfixes**
+
+**Known Issues**
