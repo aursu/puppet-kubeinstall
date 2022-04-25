@@ -12,7 +12,7 @@ define kubeinstall::node::label (
           $node_name = $kubeinstall::node_name,
 ) {
   # kubectl label node kube-04.crylan.com env=test
-  exec { "kubectl label node ${node_name} ${key}=${value}":
+  exec { "kubectl label node ${node_name} ${key}=${value} --overwrite":
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',

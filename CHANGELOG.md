@@ -492,3 +492,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.18.2
+
+**Features**
+
+**Bugfixes**
+
+* Exclude package kubernetes-cni from update
+* Added --overwrite flag into label node command
+
+**Known Issues**

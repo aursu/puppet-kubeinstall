@@ -19,7 +19,7 @@ describe 'kubeinstall::node::label' do
       it { is_expected.to compile }
 
       it {
-        is_expected.to contain_exec('kubectl label node kubec-01.domain.tld env=prod')
+        is_expected.to contain_exec('kubectl label node kubec-01.domain.tld env=prod --overwrite')
           .with_unless('kubectl get nodes --selector=env=prod,kubernetes.io/hostname=kubec-01.domain.tld | grep -w kubec-01.domain.tld')
       }
     end
