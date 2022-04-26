@@ -14,8 +14,6 @@ class kubeinstall::repos {
       gpgcheck      => '1',
       gpgkey        => 'https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg',
       repo_gpgcheck => '0',
-      # it produce some strange conflict
-      exclude       => 'kubernetes-cni',
     }
   }
   elsif $facts['os']['name'] == 'Ubuntu' {

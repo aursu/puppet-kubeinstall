@@ -503,3 +503,14 @@ All notable changes to this project will be documented in this file.
 * Added --overwrite flag into label node command
 
 **Known Issues**
+
+## Release 0.18.3
+
+**Features**
+
+**Bugfixes**
+
+* Exclude package kubernetes-cni from update
+* Updated fixtures and dependencies
+
+**Known Issues**

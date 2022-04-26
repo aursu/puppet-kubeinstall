@@ -14,13 +14,13 @@ fixtures:
       puppet_version: ">= 6.0.0"
     dockerinstall:
       repo: "aursu/dockerinstall"
-      ref: "0.11.0"
+      ref: "0.13.1"
     firewalld:
       repo: "puppet/firewalld"
       ref: "4.3.0"
     kmod:
-      repo: "camptocamp/kmod"
-      ref: "2.5.0"
+      repo: "puppet/kmod"
+      ref: "3.1.1"
     puppet_agent:
       repo: "puppetlabs/puppet_agent"
       ref: "4.0.0"
@@ -29,13 +29,16 @@ fixtures:
       ref: "3.2.0"
     stdlib:
       repo: "puppetlabs/stdlib"
-      ref: "6.3.0"
+      ref: "8.1.0"
     sysctl:
       repo: "thias/sysctl"
-      ref: "1.0.6"
+      ref: "1.0.7"
     systemd:
-      repo: "camptocamp/systemd"
-      ref: "2.9.0"
+      repo: "puppet/systemd"
+      ref: "3.8.0"
+    yum:
+      repo: "puppet/yum"
+      ref: "5.4.0"
     yumrepo_core:
       repo: "puppetlabs/yumrepo_core"
       puppet_version: ">= 6.0.0"
