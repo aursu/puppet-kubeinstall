@@ -520,6 +520,7 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added folder /root/.config/helm/charts for Helm charts configurations
+* Versions  upgrade
 
 **Bugfixes**
 
