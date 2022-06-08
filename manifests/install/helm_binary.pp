@@ -27,7 +27,7 @@ class kubeinstall::install::helm_binary (
     require => Archive[$archive],
   }
 
-  file { ['/root/.config', '/root/.config/helm']:
+  file { ['/root/.config', '/root/.config/helm', '/root/.config/helm/charts']:
     ensure => directory,
   }
 }

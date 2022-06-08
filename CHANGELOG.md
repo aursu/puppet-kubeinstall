@@ -514,3 +514,13 @@ All notable changes to this project will be documented in this file.
 * Updated fixtures and dependencies
 
 **Known Issues**
+
+## Release 0.18.4
+
+**Features**
+
+* Added folder /root/.config/helm/charts for Helm charts configurations
+
+**Bugfixes**
+
+**Known Issues**
