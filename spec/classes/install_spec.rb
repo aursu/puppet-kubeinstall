@@ -15,29 +15,29 @@ describe 'kubeinstall::install' do
       when %r{ubuntu}
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.23.1-00')
+            .with_ensure('1.24.1-00')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.23.1-00')
+            .with_ensure('1.24.1-00')
         }
       when %r{centos-7}
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.23.1-0')
+            .with_ensure('1.24.1-0')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.23.1-0')
+            .with_ensure('1.24.1-0')
         }
       else
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.23.1')
+            .with_ensure('1.24.1')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.23.1')
+            .with_ensure('1.24.1')
         }
       end
 
@@ -45,7 +45,7 @@ describe 'kubeinstall::install' do
         let(:params) do
           {
             kubernetes_version: '1.22.4',
-            kubeadm_version: '1.23.1',
+            kubeadm_version: '1.24.1',
           }
         end
 
@@ -60,7 +60,7 @@ describe 'kubeinstall::install' do
 
           it {
             is_expected.to contain_package('kubeadm')
-              .with_ensure('1.23.1-00')
+              .with_ensure('1.24.1-00')
           }
         else
           it {
@@ -70,7 +70,7 @@ describe 'kubeinstall::install' do
 
           it {
             is_expected.to contain_package('kubeadm')
-              .with_ensure('1.23.1')
+              .with_ensure('1.24.1')
           }
         end
       end
