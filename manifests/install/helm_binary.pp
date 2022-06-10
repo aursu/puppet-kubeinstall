@@ -7,8 +7,13 @@
 class kubeinstall::install::helm_binary (
   String  $version   = $kubeinstall::helm_version,
 ){
-  $archive   = "helm-${version}-linux-amd64.tar.gz"
-  $source    = "https://get.helm.sh/helm-v${version}-linux-amd64.tar.gz"
+  include kubeinstall::params
+
+  $configs_path = $kubeinstall::params::helm_configs_path
+  $charts_path  = $kubeinstall::params::helm_charts_path
+
+  $archive      = "helm-${version}-linux-amd64.tar.gz"
+  $source       = "https://get.helm.sh/helm-v${version}-linux-amd64.tar.gz"
 
   archive { $archive:
     path            => "/tmp/${archive}",
@@ -27,7 +32,7 @@ class kubeinstall::install::helm_binary (
     require => Archive[$archive],
   }
 
-  file { ['/root/.config', '/root/.config/helm', '/root/.config/helm/charts']:
+  file { ['/root/.config', $configs_path, $charts_path]:
     ensure => directory,
   }
 }

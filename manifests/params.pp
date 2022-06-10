@@ -34,4 +34,7 @@ class kubeinstall::params {
       default => false,
     }
   }
+
+  $helm_configs_path = '/root/.config/helm'
+  $helm_charts_path  = "${helm_configs_path}/charts"
 }

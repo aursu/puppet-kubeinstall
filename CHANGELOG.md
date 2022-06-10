@@ -525,3 +525,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.18.5
+
+**Features**
+
+* Defined configuration paths variables into parameters
+
+**Bugfixes**
+
+**Known Issues**
