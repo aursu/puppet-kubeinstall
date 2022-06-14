@@ -124,9 +124,12 @@ define kubeinstall::helm::chart (
   }
 
   exec { $exec_command:
-    path   => '/usr/local/bin:/usr/bin:/bin',
-    cwd    => $cwd,
-    unless => $unless_command,
+    path        => '/usr/local/bin:/usr/bin:/bin',
+    cwd         => $cwd,
+    environment => [
+      'KUBECONFIG=/etc/kubernetes/admin.conf',
+    ],
+    unless      => $unless_command,
   }
 
   if $repo {
