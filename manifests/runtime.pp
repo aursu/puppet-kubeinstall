@@ -9,8 +9,7 @@ class kubeinstall::runtime (
           $container_runtime  = $kubeinstall::container_runtime,
   # While using CRI-O - decomission Docker
   Boolean $docker_decomission = true,
-)
-{
+) {
   case $container_runtime {
     'docker': {
       contain kubeinstall::runtime::docker

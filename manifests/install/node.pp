@@ -7,8 +7,7 @@
 class kubeinstall::install::node (
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
-)
-{
+) {
   include kubeinstall::system
   contain kubeinstall::runtime
 
@@ -33,7 +32,6 @@ class kubeinstall::install::node (
     owner  => 'root',
     group  => 'root',
   }
-
 
   Class['kubeinstall::runtime'] -> Class['kubeinstall::service']
   Class['kubeinstall::system'] -> Class['kubeinstall::service']

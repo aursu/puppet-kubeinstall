@@ -7,8 +7,7 @@
 class kubeinstall::install (
   Kubeinstall::Version $kubernetes_version = $kubeinstall::kubernetes_version,
   Kubeinstall::Version $kubeadm_version    = $kubeinstall::kubeadm_version,
-)
-{
+) {
   include kubeinstall::repos
   include kubeinstall::systemctl::daemon_reload
 

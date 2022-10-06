@@ -21,8 +21,7 @@ class kubeinstall::runtime::docker (
           $network_bridge_ip  = $kubeinstall::network_bridge_ip,
   Optional[Boolean]
           $selinux            = $kubeinstall::cri_selinux,
-)
-{
+) {
   class { 'dockerinstall::profile::install':
     dockerd_version    => $dockerd_version,
     containerd_version => $containerd_version,

@@ -8,8 +8,7 @@
 class kubeinstall::runtime::crio (
   # While using CRI-O - decomission Docker
   Boolean $docker_decomission = true,
-)
-{
+) {
   contain kubeinstall::runtime::crio::install
   contain kubeinstall::runtime::crio::config
   contain kubeinstall::runtime::crio::service
@@ -20,11 +19,9 @@ class kubeinstall::runtime::crio (
     # stop kubelet if CRI-O package has been changed (installed/upgraded)
     # then perform Docker decomission (if required)
     # then install CRI-O runtime
-    Class['dockerinstall::profile::decomission']
-      -> Class['kubeinstall::runtime::crio::install']
+    Class['dockerinstall::profile::decomission'] -> Class['kubeinstall::runtime::crio::install']
   }
 
-  Class['kubeinstall::runtime::crio::install']
-    -> Class['kubeinstall::runtime::crio::config']
-    ~> Class['kubeinstall::runtime::crio::service']
+  Class['kubeinstall::runtime::crio::install'] -> Class['kubeinstall::runtime::crio::config']
+  Class['kubeinstall::runtime::crio::config'] ~> Class['kubeinstall::runtime::crio::service']
 }

@@ -83,8 +83,7 @@ class kubeinstall (
   Boolean $manage_git                  = true,
   Boolean $manage_grubby               = true,
   Boolean $manage_yum_excludes         = true,
-) inherits kubeinstall::params
-{
+) inherits kubeinstall::params {
   # https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-octavia-ingress-controller.md
   # https://kubernetes.io/docs/concepts/storage/storage-classes/#openstack-cinder
 

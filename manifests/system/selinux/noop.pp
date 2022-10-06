@@ -5,13 +5,12 @@
 # @example
 #   include kubeinstall::system::selinux::noop
 class kubeinstall::system::selinux::noop (
-  Enum['permissive', 'disabled']
+  Enum['enforcing', 'permissive', 'disabled']
             $mode = 'permissive',
-)
-{
+) {
   # puppet-selinux does not support Ubuntu
   unless $facts['os']['name'] == 'Ubuntu' {
-    class {'selinux':
+    class { 'selinux':
       mode => $mode,
     }
   }
