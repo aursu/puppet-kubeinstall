@@ -545,3 +545,13 @@ All notable changes to this project will be documented in this file.
 * Added KUBECONFIG variable into `exec` resource for `helm`
 
 **Known Issues**
+
+## Release 0.18.7
+
+**Features**
+
+**Bugfixes**
+
+* Updated fixtures
+
+**Known Issues**
