@@ -94,7 +94,7 @@ define kubeinstall::helm::chart (
   }
 
   if $values =~ String {
-    $values_array = [ $values ]
+    $values_array = [$values]
   }
   else {
     $values_array = $values

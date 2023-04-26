@@ -20,7 +20,7 @@ class kubeinstall::runtime::crio::install (
   if $facts['os']['family'] == 'Debian' {
     package { 'cri-o-runc':
       ensure => $crio_version,
-      before => Package['cri-o']
+      before => Package['cri-o'],
     }
 
     # fix sequence of repository update and package installation

@@ -555,3 +555,13 @@ All notable changes to this project will be documented in this file.
 * Updated fixtures
 
 **Known Issues**
+
+## Release 0.18.8
+
+**Features**
+
+* Added kubernetes versions 1.25-1.27
+
+**Bugfixes**
+
+**Known Issues**
