@@ -565,3 +565,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.0
+
+**Features**
+
+* Helm 3.11.3, Calico v3.25.1, ArgoCD 2.6.7
+
+**Bugfixes**
+
+**Known Issues**
