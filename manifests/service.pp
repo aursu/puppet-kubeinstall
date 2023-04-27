@@ -4,8 +4,7 @@
 #
 # @example
 #   include kubeinstall::service
-class kubeinstall::service
-{
+class kubeinstall::service {
   include kubeinstall::install
 
   # kubelet[26217]: F0722 16:24:01.751284   26217 server.go:199] failed to load

@@ -575,3 +575,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.19.1
+
+**Features**
+
+**Bugfixes**
+
+* Exclude package kubernetes-cni from update only for Kubernetes < 1.25.0
+
+**Known Issues**
