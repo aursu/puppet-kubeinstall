@@ -9,12 +9,12 @@ class kubeinstall::install::controller (
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
   Boolean $setup_admin_config  = true,
-){
+) {
   include kubeinstall::install::node
   include kubeinstall::kubeadm::config
   include kubeinstall::kubeadm::init_command
   include kubeinstall::install::calico
-  if $web_ui_dashboard  {
+  if $web_ui_dashboard {
     include kubeinstall::install::dashboard
 
     Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::install::dashboard']
@@ -39,7 +39,7 @@ class kubeinstall::install::controller (
       mode   => '0755',
       owner  => 'root',
       group  => 'root',
-    ;
+      ;
     # storage classes objects directory
     "${manifests_directory}/manifests/storageclasses": ;
     # persistent volumes objects directory
@@ -47,15 +47,15 @@ class kubeinstall::install::controller (
     # secret objects directory
     "${manifests_directory}/manifests/secrets":
       mode => '0710',
-    ;
+      ;
     # services objects directory
     # https://kubernetes.io/docs/concepts/services-networking/service/
     "${manifests_directory}/manifests/services": ;
   }
 
   Class['kubeinstall::install::node']
-    -> Class['kubeinstall::kubeadm::init_command']
-    -> Class['kubeinstall::install::calico']
+  -> Class['kubeinstall::kubeadm::init_command']
+  -> Class['kubeinstall::install::calico']
 
   # TODO: https://kubernetes.io/docs/setup/best-practices/certificates/
   # TODO: https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#options-for-software-load-balancing

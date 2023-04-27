@@ -576,12 +576,13 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.19.1
+## Release 0.19.2
 
 **Features**
 
 **Bugfixes**
 
 * Exclude package kubernetes-cni from update only for Kubernetes < 1.25.0
+* ArgoCD service for NodePort renamed to argocd-server-static
 
 **Known Issues**

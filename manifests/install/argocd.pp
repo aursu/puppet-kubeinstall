@@ -11,11 +11,10 @@ class kubeinstall::install::argocd (
   Boolean $ha           = false,
   Boolean $expose       = false,
   Kubeinstall::DNSName
-          $service_name = 'argocd-server',
+          $service_name = 'argocd-server-static',
   Kubeinstall::Port
           $service_port = 30200,
-)
-{
+) {
   # ArgoCD namespace
   kubeinstall::resource::ns { $namespace: }
 
@@ -45,7 +44,7 @@ class kubeinstall::install::argocd (
           'app.kubernetes.io/component' => 'server',
           'app.kubernetes.io/name'      => $service_name,
           'app.kubernetes.io/part-of'   => 'argocd',
-        }
+        },
       },
       type      => 'NodePort',
       ports     => [
