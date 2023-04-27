@@ -576,9 +576,11 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.19.2
+## Release 0.19.3
 
 **Features**
+
+* Added ArgoCD CLI installatio into /usr/local/bin/argocd
 
 **Bugfixes**
 
