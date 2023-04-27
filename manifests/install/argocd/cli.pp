@@ -18,20 +18,20 @@ class kubeinstall::install::argocd::cli (
 
   if $facts['kernel'] == 'Linux' and $facts['os']['architecture'] in ['x86_64', 'amd64'] {
     exec { 'argocd-cli-install':
-      command  => "curl -sSL ${source} -o argocd-${version}",
-      path     => '/usr/bin:/bin:/usr/sbin:/sbin',
-      cwd      => '/var/lib/argocd',
-      creates  => "/var/lib/argocd/argocd-${version}",
-      requires => File['/var/lib/argocd'],
+      command => "curl -sSL ${source} -o argocd-${version}",
+      path    => '/usr/bin:/bin:/usr/sbin:/sbin',
+      cwd     => '/var/lib/argocd',
+      creates => "/var/lib/argocd/argocd-${version}",
+      require => File['/var/lib/argocd'],
     }
 
     file { '/usr/local/bin/argocd':
-      ensure   => file,
-      owner    => 'root',
-      group    => 'root',
-      mode     => '0750',
-      source   => "file:///var/lib/argocd/argocd-${version}",
-      requires => Exec['argocd-cli-install'],
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0750',
+      source  => "file:///var/lib/argocd/argocd-${version}",
+      require => Exec['argocd-cli-install'],
     }
   }
 }
