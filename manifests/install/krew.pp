@@ -5,9 +5,8 @@
 # @example
 #   include kubeinstall::install::krew
 class kubeinstall::install::krew (
-  String  $version = $kubeinstall::krew_version,
-)
-{
+  String $version = $kubeinstall::krew_version,
+) {
   include kubeinstall::system::git
 
   if versioncmp($version, '0.4.2') >= 0 {

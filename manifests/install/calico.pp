@@ -11,7 +11,7 @@ class kubeinstall::install::calico (
   Optional[Integer]
           $mtu       = $kubeinstall::calico_mtu,
   Boolean $calicoctl = $kubeinstall::install_calicoctl,
-){
+) {
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
   exec { 'calico-install':

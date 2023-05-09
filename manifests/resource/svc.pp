@@ -91,8 +91,7 @@ define kubeinstall::resource::svc (
   $object_spec = {
     'spec' => { 'type' => $type } +
               $spec_selector +
-              $spec_cluster_ip +
-              { 'ports' => kubeinstall::service_ports($ports, { 'type' => $type, 'cluster_ip' => $cluster_ip }) }
+              $spec_cluster_ip + { 'ports' => kubeinstall::service_ports($ports, { 'type' => $type, 'cluster_ip' => $cluster_ip }) }
   }
 
   $object = to_yaml($object_header + $metadata_content + $object_spec)

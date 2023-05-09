@@ -5,8 +5,8 @@
 # @example
 #   include kubeinstall::install::helm_binary
 class kubeinstall::install::helm_binary (
-  String  $version   = $kubeinstall::helm_version,
-){
+  String $version = $kubeinstall::helm_version,
+) {
   include kubeinstall::params
 
   $configs_path = $kubeinstall::params::helm_configs_path
