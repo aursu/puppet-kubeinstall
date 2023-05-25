@@ -598,3 +598,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.20.0
+
+**Features**
+
+* Added TopoLVM lvmd binary installation
+
+**Bugfixes**
+
+**Known Issues**
