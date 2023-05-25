@@ -1,9 +1,0 @@
-ARG os=8.7.20230215
-FROM aursu/rockylinux:${os}-scm
-
-RUN microdnf -y install \
-		tar \
-	&& microdnf clean all && rm -rf /var/cache/dnf /var/lib/rpm/__db*
-
-USER root
-WORKDIR /
