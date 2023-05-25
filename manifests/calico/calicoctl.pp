@@ -7,8 +7,7 @@
 #   include kubeinstall::calico::calicoctl
 class kubeinstall::calico::calicoctl (
   String $version = $kubeinstall::calicoctl_version,
-)
-{
+) {
   $download_url = "https://github.com/projectcalico/calicoctl/releases/download/${version}/calicoctl-linux-amd64"
 
   exec { 'install-calicoctl':
