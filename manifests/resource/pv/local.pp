@@ -37,7 +37,7 @@ define kubeinstall::resource::pv::local (
       {
         key      => 'kubernetes.io/hostname',
         operator => 'In',
-        values   => [ $hostname ],
+        values   => [$hostname],
       }
     ],
     storage_class_name => $storage_class_name,

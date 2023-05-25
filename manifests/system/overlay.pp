@@ -6,8 +6,7 @@
 #   include kubeinstall::system::overlay
 class kubeinstall::system::overlay (
   Boolean $manage_kernel_modules = $kubeinstall::manage_kernel_modules,
-)
-{
+) {
   if $manage_kernel_modules {
     kmod::load { 'overlay': }
   }

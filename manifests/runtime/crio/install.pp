@@ -6,8 +6,7 @@
 #   include kubeinstall::runtime::crio::install
 class kubeinstall::runtime::crio::install (
   String  $crio_version = $kubeinstall::crio_version,
-)
-{
+) {
   include kubeinstall::repos::crio
   include kubeinstall::systemctl::daemon_reload
 

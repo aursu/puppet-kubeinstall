@@ -8,8 +8,7 @@ class kubeinstall::kubeadm::reset_command (
   Integer $verbosity_level = 4,
   Optional[Stdlib::Unixpath]
           $cri_socket      = $kubeinstall::cri_socket,
-)
-{
+) {
   # /var/run/crio/crio.sock
   if $cri_socket {
     $cri_socket_flag = " --cri-socket=${cri_socket}"

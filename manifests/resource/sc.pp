@@ -65,8 +65,7 @@ define kubeinstall::resource::sc (
   Stdlib::Unixpath
           $manifests_directory = $kubeinstall::manifests_directory,
   Boolean $apply                  = false,
-)
-{
+) {
   $object_header  = {
                       'apiVersion' => 'storage.k8s.io/v1',
                       'kind'       => 'StorageClass',

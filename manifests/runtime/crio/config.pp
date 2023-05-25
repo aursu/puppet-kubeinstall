@@ -13,8 +13,7 @@ class kubeinstall::runtime::crio::config (
   Stdlib::Unixpath
           $path            = $kubeinstall::crio_config_path,
   String  $config_template = $kubeinstall::crio_config_template,
-)
-{
+) {
   if $selinux =~ Boolean {
     $config_selinux = { 'selinux' => $selinux }
   }
@@ -27,7 +26,7 @@ class kubeinstall::runtime::crio::config (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    content =>  epp($config_template,
+    content => epp($config_template,
                     $config_selinux
                 ),
   }

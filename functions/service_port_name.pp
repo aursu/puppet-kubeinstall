@@ -5,7 +5,6 @@
 function kubeinstall::service_port_name(
   Array[Kubeinstall::ServicePort] $ports,
   Kubeinstall::ServicePort $port) >> Hash {
-
   $port_name         = $port['name']
   $ports_names       = $ports.filter |$p| { $p['name'] }
   $port_name_overall = $ports_names.filter |$n| { $n['name'] == $port_name }

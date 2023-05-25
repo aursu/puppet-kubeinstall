@@ -7,8 +7,7 @@
 class kubeinstall::kubectl::config (
   Stdlib::Unixpath
           $kubeconfig = '/etc/kubernetes/admin.conf',
-)
-{
+) {
   file { '/root/.kube/config':
     mode   => '0600',
     source => "file://${kubeconfig}",

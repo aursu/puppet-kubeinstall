@@ -10,8 +10,7 @@
 #
 class kubeinstall::profile::controller (
   Boolean $helm_client = true,
-)
-{
+) {
   include kubeinstall::profile::kubernetes
 
   class { 'kubeinstall::cluster':

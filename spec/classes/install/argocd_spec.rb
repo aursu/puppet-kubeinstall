@@ -11,11 +11,11 @@ describe 'kubeinstall::install::argocd' do
 apiVersion: v1
 kind: Service
 metadata:
-  name: argocd-server
+  name: argocd-server-static
   namespace: argocd
   labels:
     app.kubernetes.io/component: server
-    app.kubernetes.io/name: argocd-server
+    app.kubernetes.io/name: argocd-server-static
     app.kubernetes.io/part-of: argocd
 spec:
   type: NodePort
@@ -59,15 +59,15 @@ YAMLDATA
         end
 
         it {
-          is_expected.to contain_file('argocd-server')
-            .with_path('/etc/kubectl/manifests/services/argocd-server.yaml')
+          is_expected.to contain_file('argocd-server-static')
+            .with_path('/etc/kubectl/manifests/services/argocd-server-static.yaml')
             .with_content(service_content)
             .that_requires('Exec[argocd-install]')
         }
 
         it {
-          is_expected.to contain_exec('kubectl apply -f /etc/kubectl/manifests/services/argocd-server.yaml')
-            .that_subscribes_to('File[argocd-server]')
+          is_expected.to contain_exec('kubectl apply -f /etc/kubectl/manifests/services/argocd-server-static.yaml')
+            .that_subscribes_to('File[argocd-server-static]')
         }
       end
     end

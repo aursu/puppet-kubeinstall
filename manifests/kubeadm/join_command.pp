@@ -25,8 +25,7 @@ class kubeinstall::kubeadm::join_command (
           $join_apiserver_address     = $kubeinstall::join_apiserver_address,
   Integer $join_apiserver_port        = $kubeinstall::join_apiserver_port,
   Boolean $control_plane              = $kubeinstall::join_control_plane,
-)
-{
+) {
   include kubeinstall::cluster
 
   # set Join credentials to those provided via parameters (by cluster administrator via parameters)
@@ -36,7 +35,7 @@ class kubeinstall::kubeadm::join_command (
     $apiserver_address   = $join_apiserver_address
     $apiserver_port      = $join_apiserver_port
   }
-  else  {
+  else {
     $token             = $kubeinstall::cluster::join_token
     $ca_cert_hash      = $kubeinstall::cluster::join_ca_cert_hash
     $apiserver_address = $kubeinstall::cluster::join_apiserver_address

@@ -7,8 +7,7 @@
 class kubeinstall::repos::crio (
   Kubeinstall::Release
           $kuberel = $kubeinstall::kubernetes_release,
-) inherits kubeinstall::params
-{
+) inherits kubeinstall::params {
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
   $osname = $facts['os']['name']
   $osmaj  = $facts['os']['release']['major']

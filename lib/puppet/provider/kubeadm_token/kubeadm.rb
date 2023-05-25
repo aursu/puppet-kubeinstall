@@ -76,11 +76,9 @@ Puppet::Type.type(:kubeadm_token).provide(:kubeadm) do
     return [] unless cmdout
 
     entity_list = cmdout.split('---').map do |e|
-      begin
-        YAML.safe_load(e)
-      rescue Psych::SyntaxError
-        false
-      end
+      YAML.safe_load(e)
+    rescue Psych::SyntaxError
+      false
     end
 
     entity_list.select { |e| e.is_a?(Hash) && e.any? }

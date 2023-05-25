@@ -7,8 +7,7 @@
 class kubeinstall::system::sysctl::ipv6 (
   Boolean $manage_sysctl_settings = $kubeinstall::manage_sysctl_settings,
   Boolean $disable                = $kubeinstall::disable_ipv6,
-)
-{
+) {
   if $disable {
     $disable_value = '1'
   }
@@ -21,7 +20,7 @@ class kubeinstall::system::sysctl::ipv6 (
       default:
         ensure => present,
         value  => $disable_value,
-      ;
+        ;
       'net.ipv6.conf.all.disable_ipv6': ;
       'net.ipv6.conf.default.disable_ipv6': ;
     }

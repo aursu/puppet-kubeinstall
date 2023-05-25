@@ -18,8 +18,7 @@ class kubeinstall::profile::worker (
           $local_persistent_volumes = {},
   Hash[String, String]
           $node_labels              = {},
-)
-{
+) {
   include kubeinstall::profile::kubernetes
 
   class { 'kubeinstall::cluster':

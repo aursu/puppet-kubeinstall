@@ -6,7 +6,7 @@
 #   include kubeinstall::system::bridged_traffic
 class kubeinstall::system::bridged_traffic (
   Boolean $manage_kernel_modules = $kubeinstall::manage_kernel_modules,
-){
+) {
   include kubeinstall::system::sysctl::net_bridge
 
   if $manage_kernel_modules {

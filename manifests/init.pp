@@ -55,6 +55,7 @@ class kubeinstall (
   String  $cluster_name,
   Boolean $install_calicoctl,
   String  $calicoctl_version,
+  String  $lvmd_version,
   String  $helm_version,
   String  $krew_version,
   String  $argocd_version,

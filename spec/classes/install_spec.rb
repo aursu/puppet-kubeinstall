@@ -15,11 +15,11 @@ describe 'kubeinstall::install' do
       when %r{ubuntu}
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.24.1-00')
+            .with_ensure('1.27.0-00')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.24.1-00')
+            .with_ensure('1.27.0-00')
         }
       when %r{centos-7}
         it {
