@@ -608,3 +608,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.20.1
+
+**Features**
+
+**Bugfixes**
+
+* Fixed puppet lint and rubocop errors
+
+**Known Issues**
