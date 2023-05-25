@@ -37,7 +37,6 @@ define kubeinstall::helm::chart (
   Hash[String, String]
           $set_values       = {},
 ) {
-
   # There are five different ways you can express the chart you want to install:
   # 1. By chart reference: helm install mymaria example/mariadb
   # 2. By path to a packaged chart: helm install mynginx ./nginx-1.2.3.tgz
