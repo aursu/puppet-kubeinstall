@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.19.3",
+  "version": "0.19.4",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -61,7 +61,7 @@
       "version_requirement": ">= 5.5.0 < 8.0.0"
     }
   ],
-  "pdk-version": "2.3.0",
-  "template-url": "pdk-default#2.3.0",
-  "template-ref": "tags/2.3.0-0-g8aaceff"
+  "pdk-version": "2.6.1",
+  "template-url": "pdk-default#2.7.1",
+  "template-ref": "tags/2.7.1-0-g9a16c87"
 }

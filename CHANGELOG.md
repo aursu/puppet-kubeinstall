@@ -588,3 +588,13 @@ All notable changes to this project will be documented in this file.
 * ArgoCD service for NodePort renamed to argocd-server-static
 
 **Known Issues**
+
+## Release 0.19.4
+
+**Features**
+
+* PDK Upgrade to 2.7.1
+
+**Bugfixes**
+
+**Known Issues**
