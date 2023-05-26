@@ -33,11 +33,11 @@ describe 'kubeinstall::install' do
       else
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.24.1')
+            .with_ensure('1.27.0')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.24.1')
+            .with_ensure('1.27.0')
         }
       end
 
