@@ -34,8 +34,8 @@ describe 'kubeinstall::topolvm::lvmd' do
                 'thinPool'    => {
                   'name' => 'thinpool',
                   'overprovisionRatio' => 10.0,
-                }
-              }
+                },
+              },
             ]
           }
         end

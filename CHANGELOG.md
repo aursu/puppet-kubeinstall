@@ -618,3 +618,13 @@ All notable changes to this project will be documented in this file.
 * Fixed puppet lint and rubocop errors
 
 **Known Issues**
+
+## Release 0.20.2
+
+**Features**
+
+* Added TopoLVM lvmd config and service
+
+**Bugfixes**
+
+**Known Issues**

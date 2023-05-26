@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -17,8 +17,8 @@
       "version_requirement": ">= 0.13.0 < 1.0.0"
     },
     {
-      "name": "camptocamp/kmod",
-      "version_requirement": ">= 2.4.0 < 3.0.0"
+      "name": "puppet/kmod",
+      "version_requirement": ">= 3.0.0 < 4.0.0"
     },
     {
       "name": "puppet/selinux",
@@ -39,6 +39,10 @@
     {
       "name": "aursu/tlsinfo",
       "version_requirement": ">= 0.3.1 < 1.0.0"
+    },
+    {
+      "name": "puppet/systemd",
+      "version_requirement": ">= 4.2.0 < 5.0.0"
     }
   ],
   "operatingsystem_support": [

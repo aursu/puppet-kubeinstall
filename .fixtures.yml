@@ -35,7 +35,7 @@ fixtures:
       ref: "1.0.7"
     systemd:
       repo: "puppet/systemd"
-      ref: "3.10.0"
+      ref: "4.2.0"
     yum:
       repo: "puppet/yum"
       ref: "6.0.0"

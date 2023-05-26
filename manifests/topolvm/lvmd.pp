@@ -18,7 +18,7 @@ class kubeinstall::topolvm::lvmd (
   $archive      = "lvmd-${version}.tar.gz"
   $source       = "https://github.com/topolvm/topolvm/releases/download/v${version}/lvmd-${version}.tar.gz"
 
-  file { ['/opt/sbin', '/etc/topolvm']:
+  file { ['/opt/sbin', '/etc/topolvm', '/run/topolvm']:
     ensure => directory,
     owner  => 'root',
     group  => 'root',
@@ -84,5 +84,12 @@ class kubeinstall::topolvm::lvmd (
     ensure  => file,
     content => to_yaml($config),
     mode    => '0644',
+  }
+
+  systemd::unit_file { 'lvmd.service':
+    content => file("${module_name}/topolvm/systemd/lvmd.service"),
+    enable  => true,
+    active  => true,
+    require => File['/etc/topolvm/lvmd.yaml'],
   }
 }
