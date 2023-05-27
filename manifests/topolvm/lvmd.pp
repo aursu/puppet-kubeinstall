@@ -55,12 +55,20 @@ class kubeinstall::topolvm::lvmd (
         Boolean => { 'default' => $dev_class['isDefault'] },
         default => {},
     }) +
+    ($dev_class['stripe'] ? {
+        Integer => { 'stripe' => $dev_class['stripe'] },
+        default => {},
+    }) +
     ($dev_class['stripeSize'] ? {
         String => { 'stripe-size' => $dev_class['stripeSize'] },
         default => {},
     }) +
     ($dev_class['lvCreateOptions'] ? {
         Array[String, 1] => { 'lvcreate-options' => $dev_class['lvCreateOptions'] },
+        default => {},
+    }) +
+    ($dev_class['type'] ? {
+        String => { 'type' => $dev_class['type'] },
         default => {},
     }) +
     ($dev_class['type'] ? {
@@ -71,8 +79,7 @@ class kubeinstall::topolvm::lvmd (
           },
         },
         default => {},
-    }) +
-    ($dev_class - ['thinPool', 'lvCreateOptions', 'stripeSize', 'isDefault', 'spareGB', 'volumeGroup'])
+    })
   }
 
   $config = {

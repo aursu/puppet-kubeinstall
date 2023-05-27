@@ -628,3 +628,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.20.3
+
+**Features**
+
+* Adjusted lvmd config manifest
+
+**Bugfixes**
+
+**Known Issues**
