@@ -650,3 +650,13 @@ All notable changes to this project will be documented in this file.
 * CRIO: separate version flag for cri-o-runc package
 
 **Known Issues**
+
+## Release 0.20.5
+
+**Features**
+
+* CRIO: added support for Ubuntu Apt versions
+
+**Bugfixes**
+
+**Known Issues**
