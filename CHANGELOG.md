@@ -660,3 +660,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.20.6
+
+**Features**
+
+* K8S: refreshed ensure flag for APT keys
+
+**Bugfixes**
+
+**Known Issues**
