@@ -638,3 +638,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.20.4
+
+**Features**
+
+* Added refreshed ensure flag for APT keys
+
+**Bugfixes**
+
+**Known Issues**
