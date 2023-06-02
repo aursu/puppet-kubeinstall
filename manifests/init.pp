@@ -21,6 +21,7 @@ class kubeinstall (
   String  $dockerd_version,
   String  $containerd_version,
   String  $crio_version,
+  String  $crio_runc_version,
   String  $crio_config_template,
   Stdlib::Unixpath
           $crio_config_path,

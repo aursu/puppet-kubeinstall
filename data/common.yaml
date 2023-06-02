@@ -3,6 +3,7 @@ kubeinstall::dockerd_version: installed
 kubeinstall::containerd_version: installed
 kubeinstall::cri_selinux: ~
 kubeinstall::crio_version: installed
+kubeinstall::crio_runc_version: installed
 kubeinstall::crio_config_template: kubeinstall/crio.conf.epp
 kubeinstall::crio_config_path: /etc/crio/crio.conf
 # https://kubernetes.io/releases/

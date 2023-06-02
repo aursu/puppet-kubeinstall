@@ -647,4 +647,6 @@ All notable changes to this project will be documented in this file.
 
 **Bugfixes**
 
+* CRIO: separate version flag for cri-o-runc package
+
 **Known Issues**
