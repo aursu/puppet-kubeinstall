@@ -31,13 +31,13 @@ class kubeinstall::install (
     default:
       ensure  => $kubernetes_version_pattern,
       require => Class['kubeinstall::repos'],
-    ;
+      ;
     'kubeadm':
       ensure  => $kubeadm_version_pattern,
-    ;
+      ;
     'kubelet':
       notify => Class['kubeinstall::systemctl::daemon_reload'],
-    ;
+      ;
     'kubectl': ;
   }
 }
