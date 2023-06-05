@@ -670,3 +670,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.21.0
+
+**Features**
+
+**Bugfixes**
+
+* Added fix for removed container-runtime kubelet option
+* Updated kubeadm init and join configuration
+
+**Known Issues**
