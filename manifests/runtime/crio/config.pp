@@ -8,11 +8,9 @@
 # @example
 #   include kubeinstall::runtime::crio::config
 class kubeinstall::runtime::crio::config (
-  Optional[Boolean]
-          $selinux         = $kubeinstall::cri_selinux,
-  Stdlib::Unixpath
-          $path            = $kubeinstall::crio_config_path,
-  String  $config_template = $kubeinstall::crio_config_template,
+  Optional[Boolean] $selinux = $kubeinstall::cri_selinux,
+  Stdlib::Unixpath $path = $kubeinstall::crio_config_path,
+  String $config_template = $kubeinstall::crio_config_template,
 ) {
   if $selinux =~ Boolean {
     $config_selinux = { 'selinux' => $selinux }
@@ -22,12 +20,12 @@ class kubeinstall::runtime::crio::config (
   }
   # https://github.com/cri-o/cri-o/blob/master/docs/crio.conf.5.md
   file { $path:
-    ensure  => present,
+    ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
     content => epp($config_template,
-                    $config_selinux
-                ),
+      $config_selinux
+    ),
   }
 }
