@@ -59,8 +59,8 @@ class kubeinstall::kubeadm::config (
 
   # https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2
   $init_header  = {
-    'apiVersion' => 'kubeadm.k8s.io/v1beta2',
-    'kind' => 'InitConfiguration'
+    'apiVersion' => 'kubeadm.k8s.io/v1beta3',
+    'kind' => 'InitConfiguration',
   }
 
   if $bootstrap_token {
@@ -80,7 +80,8 @@ class kubeinstall::kubeadm::config (
   }
 
   $kubelet_extra_args = {
-    'cgroup-driver' => $cgroup_driver,
+    # Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag
+    # 'cgroup-driver' => $cgroup_driver,
   }
 
   $init_base = {
@@ -95,15 +96,15 @@ class kubeinstall::kubeadm::config (
         {
           'effect' => 'NoSchedule',
           'key'    => 'node-role.kubernetes.io/master',
-        }
+        },
       ],
       'kubeletExtraArgs' => $kubelet_extra_args,
-    }
+    },
   }
 
   $cluster_header = {
-    'apiVersion' => 'kubeadm.k8s.io/v1beta2',
-    'kind'       => 'ClusterConfiguration'
+    'apiVersion' => 'kubeadm.k8s.io/v1beta3',
+    'kind'       => 'ClusterConfiguration',
   }
 
   $cluster_base = {
@@ -116,15 +117,18 @@ class kubeinstall::kubeadm::config (
     'certificatesDir'   => '/etc/kubernetes/pki',
     'clusterName'       => $cluster_name,
     'controllerManager' => {},
+    # See https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/
+    # The "ClusterConfiguration.DNS.Type" field has been removed since CoreDNS is the only supported DNS server type by kubeadm
     'dns'               => {
-      'type' => 'CoreDNS',
+      # 'type' => 'CoreDNS',
     },
     'etcd'              => {
       'local' => {
         'dataDir' => '/var/lib/etcd',
       },
     },
-    'imageRepository'   => 'k8s.gcr.io',
+    # See https://kubernetes.io/blog/2023/03/10/image-registry-redirect/
+    'imageRepository'   => 'registry.k8s.io',
     'kubernetesVersion' => "v${version}",
     'networking'        => {
       'dnsDomain' => $service_dns_domain,

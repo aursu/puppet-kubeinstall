@@ -26,13 +26,10 @@ describe 'kubeinstall::kubeadm::config' do
           .with_content(%r{name: kubec-01.domain.tld})
       }
 
-      case os
-      when %r{centos}
-        it {
-          is_expected.to contain_file('/etc/kubernetes/kubeadm-init.conf')
-            .with_content(%r{cgroup-driver: systemd$})
-        }
-      end
+      it {
+        is_expected.to contain_file('/etc/kubernetes/kubeadm-init.conf')
+          .with_content(%r{kubeletExtraArgs: \{\}$})
+      }
 
       context 'check Service NodePort range validity' do
         let(:params) do

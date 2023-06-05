@@ -17,14 +17,11 @@
 #   API server andpoint address
 #
 class kubeinstall::kubeadm::join_command (
-  Optional[Kubeinstall::Token]
-          $join_token                 = $kubeinstall::join_token,
-  Optional[Kubeinstall::CACertHash]
-          $join_ca_cert_hash          = $kubeinstall::join_ca_cert_hash,
-  Optional[Kubeinstall::Address]
-          $join_apiserver_address     = $kubeinstall::join_apiserver_address,
-  Integer $join_apiserver_port        = $kubeinstall::join_apiserver_port,
-  Boolean $control_plane              = $kubeinstall::join_control_plane,
+  Optional[Kubeinstall::Token] $join_token = $kubeinstall::join_token,
+  Optional[Kubeinstall::CACertHash] $join_ca_cert_hash = $kubeinstall::join_ca_cert_hash,
+  Optional[Kubeinstall::Address] $join_apiserver_address = $kubeinstall::join_apiserver_address,
+  Integer $join_apiserver_port = $kubeinstall::join_apiserver_port,
+  Boolean $control_plane = $kubeinstall::join_control_plane,
 ) {
   include kubeinstall::cluster
 

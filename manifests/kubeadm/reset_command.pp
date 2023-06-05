@@ -6,8 +6,7 @@
 #   include kubeinstall::kubeadm::reset_command
 class kubeinstall::kubeadm::reset_command (
   Integer $verbosity_level = 4,
-  Optional[Stdlib::Unixpath]
-          $cri_socket      = $kubeinstall::cri_socket,
+  Optional[Stdlib::Unixpath] $cri_socket = $kubeinstall::cri_socket,
 ) {
   # /var/run/crio/crio.sock
   if $cri_socket {

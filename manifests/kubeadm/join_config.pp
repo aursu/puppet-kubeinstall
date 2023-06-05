@@ -17,34 +17,28 @@
 #   Whether to create a new control plane instance on this node
 #
 class kubeinstall::kubeadm::join_config (
-  Kubeinstall::Token
-          $token,
-  Kubeinstall::CACertHash
-          $ca_cert_hash,
-  Kubeinstall::Address
-          $apiserver_address,
-  Integer $apiserver_port              = $kubeinstall::join_apiserver_port,
-  Kubeinstall::Address
-          $apiserver_advertise_address = $kubeinstall::apiserver_advertise_address,
-  Integer $apiserver_bind_port         = $kubeinstall::apiserver_bind_port,
-  Stdlib::Unixpath
-          $cri_socket                  = $kubeinstall::cri_socket,
-  Stdlib::Fqdn
-          $node_name                   = $kubeinstall::node_name,
-  Boolean $control_plane               = $kubeinstall::join_control_plane,
-  Kubeinstall::CgroupDriver
-          $cgroup_driver               = $kubeinstall::cgroup_driver,
+  Kubeinstall::Token $token,
+  Kubeinstall::CACertHash $ca_cert_hash,
+  Kubeinstall::Address $apiserver_address,
+  Integer $apiserver_port = $kubeinstall::join_apiserver_port,
+  Kubeinstall::Address $apiserver_advertise_address = $kubeinstall::apiserver_advertise_address,
+  Integer $apiserver_bind_port = $kubeinstall::apiserver_bind_port,
+  Stdlib::Unixpath $cri_socket = $kubeinstall::cri_socket,
+  Stdlib::Fqdn $node_name = $kubeinstall::node_name,
+  Boolean $control_plane = $kubeinstall::join_control_plane,
+  Kubeinstall::CgroupDriver $cgroup_driver = $kubeinstall::cgroup_driver,
 ) {
   # https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#JoinConfiguration
   # kubeadm config print join-defaults
   $join_header  = {
-    'apiVersion' => 'kubeadm.k8s.io/v1beta2',
-    'kind' => 'JoinConfiguration'
+    'apiVersion' => 'kubeadm.k8s.io/v1beta3',
+    'kind' => 'JoinConfiguration',
   }
 
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#configure-cgroup-driver-used-by-kubelet-on-control-plane-node
   $kubelet_extra_args = {
-    'cgroup-driver' => $cgroup_driver,
+    # Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag
+    # 'cgroup-driver' => $cgroup_driver,
   }
 
   $join_base = {
@@ -54,7 +48,7 @@ class kubeinstall::kubeadm::join_config (
       'name'             => $node_name,
       'taints'           => [],
       'kubeletExtraArgs' => $kubelet_extra_args,
-    }
+    },
   }
 
   if $control_plane {
@@ -63,8 +57,8 @@ class kubeinstall::kubeadm::join_config (
         'localAPIEndpoint' => {
           'advertiseAddress' => $apiserver_advertise_address,
           'bindPort'         => $apiserver_bind_port,
-        }
-      }
+        },
+      },
     }
   }
   else {
@@ -81,7 +75,7 @@ class kubeinstall::kubeadm::join_config (
       },
       'timeout'           => '5m0s',
       'tlsBootstrapToken' => $token,
-    }
+    },
   }
 
   $join_configuration = to_yaml($join_header + $join_base + $join_discovery + $join_control_plane)

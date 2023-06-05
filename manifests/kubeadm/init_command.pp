@@ -6,8 +6,7 @@
 # @example
 #   include kubeinstall::kubeadm::init_command
 class kubeinstall::kubeadm::init_command (
-  Stdlib::Fqdn
-          $node_name = $kubeinstall::node_name,
+  Stdlib::Fqdn $node_name = $kubeinstall::node_name,
 ) {
   include kubeinstall::kubeadm::config
 
