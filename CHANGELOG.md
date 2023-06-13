@@ -681,3 +681,13 @@ All notable changes to this project will be documented in this file.
 * Updated kubeadm init and join configuration
 
 **Known Issues**
+
+## Release 0.22.0
+
+**Features**
+
+* Added TopoLVM scheduler configuration setup
+
+**Bugfixes**
+
+**Known Issues**
