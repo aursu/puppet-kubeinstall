@@ -38,6 +38,7 @@ class kubeinstall::kubeadm::config (
           $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
   Kubeinstall::CgroupDriver
           $cgroup_driver               = $kubeinstall::cgroup_driver,
+  Boolean $topolvm_scheduler           = $kubeinstall::topolvm_scheduler,
 ) {
   unless $token_ttl =~ Kubeinstall::TokenTTL {
     fail("parameter 'token_ttl' expects a match for Pattern[/^([0-9]+h)?([0-5]?[0-9]m)?([0-5]?[0-9]s)?$/], got '${token_ttl}'")
@@ -107,6 +108,29 @@ class kubeinstall::kubeadm::config (
     'kind'       => 'ClusterConfiguration',
   }
 
+  if $topolvm_scheduler {
+    include kubeinstall::topolvm::scheduler
+
+    # Configure kube-scheduler for new clusters
+    # https://github.com/topolvm/topolvm/tree/main/deploy#for-new-clusters
+    $cluster_scheduler = {
+      'extraVolumes' => [
+        {
+          'name'      => 'config',
+          'hostPath'  => "${kubeinstall::topolvm::scheduler::path}/scheduler-config.yaml",
+          'mountPath' => '/var/lib/scheduler',
+          'readOnly'  => true,
+        },
+      ],
+      'extraArgs'    => {
+        'config' => '/var/lib/scheduler/scheduler-config.yaml',
+      },
+    }
+  }
+  else {
+    $cluster_scheduler = {}
+  }
+
   $cluster_base = {
     'apiServer'         => {
       'timeoutForControlPlane' => '4m0s',
@@ -134,7 +158,7 @@ class kubeinstall::kubeadm::config (
       'dnsDomain' => $service_dns_domain,
       'serviceSubnet' => $service_cidr,
     },
-    'scheduler'         => {},
+    'scheduler'         => $cluster_scheduler,
   }
 
   if $control_plane_endpoint {

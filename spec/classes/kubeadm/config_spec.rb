@@ -31,6 +31,29 @@ describe 'kubeinstall::kubeadm::config' do
           .with_content(%r{kubeletExtraArgs: \{\}$})
       }
 
+      it {
+        is_expected.to contain_file('/etc/kubernetes/kubeadm-init.conf')
+          .with_content(%r{scheduler: \{\}$})
+      }
+
+      context 'when TopoLVM scheduler' do
+        let(:params) do
+          {
+            topolvm_scheduler: true,
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/kubernetes/kubeadm-init.conf')
+            .with_content(%r{hostPath: "/var/lib/kubelet/plugins/topolvm.io/scheduler/scheduler-config.yaml"$})
+        }
+
+        it {
+          is_expected.to contain_file('/etc/kubernetes/kubeadm-init.conf')
+            .with_content(%r{extraArgs:\n\s*config: "/var/lib/scheduler/scheduler-config.yaml"$})
+        }
+      end
+
       context 'check Service NodePort range validity' do
         let(:params) do
           {
