@@ -703,12 +703,13 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.22.3
+## Release 0.22.4
 
 **Features**
 
 **Bugfixes**
 
 * Remooved ConfigMap as kube-scheduler volume
+* Added command to create TopoLVM scheduler diectory recursively
 
 **Known Issues**

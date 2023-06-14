@@ -28,6 +28,12 @@ class kubeinstall::topolvm::scheduler (
   Optional[String] $config_content = undef,
 ) {
   if $manage_path {
+    exec { "mkdir -p ${path}":
+      path    => '/usr/bin:/bin',
+      creates => $path,
+      before  => File[$path],
+    }
+
     file { $path:
       ensure  => directory,
       purge   => false,
