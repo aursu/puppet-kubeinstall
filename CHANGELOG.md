@@ -687,6 +687,7 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added TopoLVM scheduler configuration setup
+* Added kube-scheduler configuration management
 
 **Bugfixes**
 
