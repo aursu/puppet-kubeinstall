@@ -30,7 +30,7 @@ class kubeinstall::install::kube_scheduler (
         {
           'hostPath' => {
             'path' => $kubeinstall::topolvm::scheduler::path,
-            'type' => 'FileOrCreate',
+            'type' => 'Directory',
           },
           'name' => 'topolvm-config',
         },
