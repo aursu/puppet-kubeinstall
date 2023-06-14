@@ -23,7 +23,7 @@
 class kubeinstall::topolvm::scheduler (
   Boolean $manage_path   = true,
   Stdlib::Unixpath $path = $kubeinstall::params::topolvm_scheduler_path,
-  Boolean $manage_config = false,
+  Boolean $manage_config = true,
   String  $config_file   = 'kubeinstall/topolvm/scheduler-config.yaml',
   Optional[String] $config_content = undef,
 ) {
