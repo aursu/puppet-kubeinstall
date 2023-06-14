@@ -36,6 +36,8 @@ class kubeinstall::install::kube_scheduler (
     else {
       include kubeinstall::topolvm::scheduler
 
+      # Configure kube-scheduler for existing clusters
+      # https://github.com/topolvm/topolvm/tree/main/deploy#for-existing-clusters
       $topolvm_volumes = [
         {
           'hostPath' => {
