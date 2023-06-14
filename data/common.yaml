@@ -37,7 +37,6 @@ kubeinstall::argocd_version: v2.6.8
 # https://github.com/topolvm/topolvm/releases
 kubeinstall::lvmd_version: 0.19.0
 kubeinstall::topolvm_scheduler: false
-kubeinstall::topolvm_config_map: ~ 
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~

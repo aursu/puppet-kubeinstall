@@ -13,40 +13,26 @@
 #   include kubeinstall::install::kube_scheduler
 class kubeinstall::install::kube_scheduler (
   Boolean $topolvm_scheduler = $kubeinstall::topolvm_scheduler,
-  Optional[String] $topolvm_config_map = $kubeinstall::topolvm_config_map,
 ) {
+  $topolvm_arg = '--config=/var/lib/scheduler/scheduler-config.yaml'
+
   if $facts['kube_scheduler'] and $facts['kube_scheduler']['kind'] == 'Pod' {
     $_config = $facts['kube_scheduler']
     $_spec = $_config['spec']
     $_container = $_spec['containers'][0]
     $_command = $_container['command']
 
-    $topolvm_arg = '--config=/var/lib/scheduler/scheduler-config.yaml'
-    $filter_topolvm_command = $_command.filter |$arg| { $arg == $topolvm_arg }
+    if $topolvm_scheduler {
+      include kubeinstall::topolvm::scheduler
 
-    if $topolvm_scheduler and ! $filter_topolvm_command[0] {
-      $topolvm_command = [$topolvm_arg]
+      $filter_topolvm_command = $_command.filter |$arg| { $arg == $topolvm_arg }
 
-      if $topolvm_config_map {
-        $topolvm_volumes = [
-          {
-            'configMap' => {
-              'name' => $topolvm_config_map,
-            },
-            'name' => 'topolvm-config',
-          },
-        ]
-        $topolvm_mounts = [
-          {
-            'mountPath' => '/var/lib/scheduler/scheduler-config.yaml',
-            'subPath' => 'scheduler-config.yaml',
-            'name' => 'topolvm-config',
-          },
-        ]
+      if $filter_topolvm_command[0] {
+        $topolvm_volumes = []
+        $topolvm_mounts = []
+        $topolvm_command = []
       }
       else {
-        include kubeinstall::topolvm::scheduler
-
         # Configure kube-scheduler for existing clusters
         # https://github.com/topolvm/topolvm/tree/main/deploy#for-existing-clusters
         $topolvm_volumes = [
@@ -65,6 +51,7 @@ class kubeinstall::install::kube_scheduler (
             'readOnly' => true,
           },
         ]
+        $topolvm_command = [$topolvm_arg]
       }
     }
     else {

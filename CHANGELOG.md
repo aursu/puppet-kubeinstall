@@ -702,3 +702,13 @@ All notable changes to this project will be documented in this file.
 * No duplicate entries for TopoLVM inside kube-scheduler config
 
 **Known Issues**
+
+## Release 0.22.3
+
+**Features**
+
+**Bugfixes**
+
+* Remooved ConfigMap as kube-scheduler volume
+
+**Known Issues**

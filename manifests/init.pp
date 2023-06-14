@@ -49,7 +49,6 @@ class kubeinstall (
   String $krew_version,
   String $argocd_version,
   Boolean $topolvm_scheduler,
-  Optional[String] $topolvm_config_map,
   Stdlib::Fqdn $node_name              = $facts['networking']['fqdn'],
   String  $apiserver_advertise_address = $facts['networking']['ip'],
   Integer $apiserver_bind_port         = $kubeinstall::params::apiserver_bind_port,
