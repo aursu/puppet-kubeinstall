@@ -21,18 +21,13 @@ class kubeinstall::install::kube_scheduler (
     $_container = $_spec['containers'][0]
     $_command = $_container['command']
 
-    if $topolvm_scheduler {
-      $topolvm_command = ['--config=/var/lib/scheduler/scheduler-config.yaml']
+    $topolvm_arg = '--config=/var/lib/scheduler/scheduler-config.yaml'
+    $filter_topolvm_command = $_command.filter |$arg| { $arg == $topolvm_arg }
 
-      # if command has been already set - no futher actions required
-      $filter_topolvm_command = $_command.filter |$arg| { $arg == $topolvm_command[0] }
+    if $topolvm_scheduler and ! $filter_topolvm_command[0] {
+      $topolvm_command = [$topolvm_arg]
 
-      if $filter_topolvm_command[0] {
-        $topolvm_volumes = []
-        $topolvm_mounts = []
-        $topolvm_command = []
-      }
-      elsif $topolvm_config_map {
+      if $topolvm_config_map {
         $topolvm_volumes = [
           {
             'configMap' => {
