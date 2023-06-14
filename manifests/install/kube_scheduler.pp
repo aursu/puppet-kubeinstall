@@ -21,6 +21,9 @@ class kubeinstall::install::kube_scheduler (
     $_spec = $_config['spec']
     $_container = $_spec['containers'][0]
 
+    # creationTimestamp has value null, which Puppet converts to "", which in turn causes error in Kubernetes
+    $meta =  $_config['metadata'] - ['creationTimestamp']
+
     if $topolvm_scheduler {
       include kubeinstall::topolvm::scheduler
 
@@ -44,16 +47,17 @@ class kubeinstall::install::kube_scheduler (
       ]
       $topolvm_command = [$topolvm_arg]
 
+      # remove existing to add defined here
       $_command = $_container['command'].filter |$arg| { $arg != $topolvm_arg }
       $_volumes = $_spec['volumes'].filter |$vol| { $vol['name'] != 'topolvm-config' }
       $_mounts = $_container['volumeMounts'].filter |$mnt| { $mnt['name'] != 'topolvm-config' }
-
     }
     else {
       $topolvm_volumes = []
       $topolvm_mounts = []
       $topolvm_command = []
 
+      # keep as is
       $_command = $_container['command']
       $_volumes = $_spec['volumes']
       $_mounts = $_container['volumeMounts']
@@ -70,7 +74,8 @@ class kubeinstall::install::kube_scheduler (
         'volumes'    => $_volumes + $topolvm_volumes,
       }
       $config = $_config + {
-        'spec' => $spec,
+        'metadata' => $meta,
+        'spec'     => $spec,
       }
 
       file { '/etc/kubernetes/manifests/kube-scheduler.yaml':

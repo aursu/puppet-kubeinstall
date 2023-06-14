@@ -703,7 +703,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.22.6
+## Release 0.22.7
 
 **Features**
 
@@ -712,5 +712,6 @@ All notable changes to this project will be documented in this file.
 * Removed ConfigMap as kube-scheduler volume
 * Added command to create TopoLVM scheduler diectory recursively
 * Replace existing volumes with defined in Puppet
+* BugFix: incorrect creationTimestamp type
 
 **Known Issues**
