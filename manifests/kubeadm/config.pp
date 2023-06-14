@@ -17,31 +17,20 @@
 #   Whether to manage TopoLVM scheduler setup
 #
 class kubeinstall::kubeadm::config (
-  Optional[Kubeinstall::Token]
-          $bootstrap_token             = undef,
-  String[2]
-          $token_ttl                   = '24h0m0s',
-  Kubeinstall::Address
-          $apiserver_advertise_address = $kubeinstall::apiserver_advertise_address,
-  Integer $apiserver_bind_port         = $kubeinstall::apiserver_bind_port,
-  Stdlib::Fqdn
-          $node_name                   = $kubeinstall::node_name,
-  Stdlib::Unixpath
-          $cri_socket                  = $kubeinstall::cri_socket,
-  String  $cluster_name                = $kubeinstall::cluster_name,
-  Kubeinstall::Version
-          $kubernetes_version          = $kubeinstall::kubernetes_version,
-  Stdlib::Fqdn
-          $service_dns_domain          = $kubeinstall::service_dns_domain,
-  Stdlib::IP::Address
-          $service_cidr                = $kubeinstall::service_cidr,
-  Kubeinstall::Range5X
-          $service_node_port_range     = $kubeinstall::service_node_port_range,
-  Optional[Kubeinstall::Address]
-          $control_plane_endpoint      = $kubeinstall::control_plane_endpoint,
-  Kubeinstall::CgroupDriver
-          $cgroup_driver               = $kubeinstall::cgroup_driver,
-  Boolean $topolvm_scheduler           = $kubeinstall::topolvm_scheduler,
+  Optional[Kubeinstall::Token] $bootstrap_token = undef,
+  String[2] $token_ttl = '24h0m0s',
+  Kubeinstall::Address $apiserver_advertise_address = $kubeinstall::apiserver_advertise_address,
+  Integer $apiserver_bind_port = $kubeinstall::apiserver_bind_port,
+  Stdlib::Fqdn $node_name = $kubeinstall::node_name,
+  Stdlib::Unixpath $cri_socket = $kubeinstall::cri_socket,
+  String $cluster_name = $kubeinstall::cluster_name,
+  Kubeinstall::Version $kubernetes_version = $kubeinstall::kubernetes_version,
+  Stdlib::Fqdn $service_dns_domain = $kubeinstall::service_dns_domain,
+  Stdlib::IP::Address $service_cidr = $kubeinstall::service_cidr,
+  Kubeinstall::Range5X $service_node_port_range = $kubeinstall::service_node_port_range,
+  Optional[Kubeinstall::Address] $control_plane_endpoint = $kubeinstall::control_plane_endpoint,
+  Kubeinstall::CgroupDriver $cgroup_driver = $kubeinstall::cgroup_driver,
+  Boolean $topolvm_scheduler = $kubeinstall::topolvm_scheduler,
 ) {
   unless $token_ttl =~ Kubeinstall::TokenTTL {
     fail("parameter 'token_ttl' expects a match for Pattern[/^([0-9]+h)?([0-5]?[0-9]m)?([0-5]?[0-9]s)?$/], got '${token_ttl}'")
