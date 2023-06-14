@@ -13,6 +13,9 @@
 #   A port range to reserve for services with NodePort visibility.
 #   Example: '30000-32767'. Inclusive at both ends of the range.
 #
+# @param topolvm_scheduler
+#   Whether to manage TopoLVM scheduler setup
+#
 class kubeinstall::kubeadm::config (
   Optional[Kubeinstall::Token]
           $bootstrap_token             = undef,
@@ -117,7 +120,7 @@ class kubeinstall::kubeadm::config (
       'extraVolumes' => [
         {
           'name'      => 'config',
-          'hostPath'  => "${kubeinstall::topolvm::scheduler::path}/scheduler-config.yaml",
+          'hostPath'  => $kubeinstall::topolvm::scheduler::path,
           'mountPath' => '/var/lib/scheduler',
           'readOnly'  => true,
         },

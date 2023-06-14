@@ -40,18 +40,10 @@ YAMLDATA
           )
       }
 
-      context 'when manage scheduler config' do
-        let(:params) do
-          {
-            manage_config: true,
-          }
-        end
-
-        it {
-          is_expected.to contain_file('/var/lib/kubelet/plugins/topolvm.io/scheduler/scheduler-config.yaml')
-            .with_content(config_content)
-        }
-      end
+      it {
+        is_expected.to contain_file('/var/lib/kubelet/plugins/topolvm.io/scheduler/scheduler-config.yaml')
+          .with_content(config_content)
+      }
     end
   end
 end

@@ -5,15 +5,16 @@
 # @example
 #   include kubeinstall::install::controller
 class kubeinstall::install::controller (
-  Boolean $web_ui_dashboard    = $kubeinstall::web_ui_dashboard,
-  Stdlib::Unixpath
-          $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $web_ui_dashboard = $kubeinstall::web_ui_dashboard,
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
   Boolean $setup_admin_config  = true,
 ) {
   include kubeinstall::install::node
   include kubeinstall::kubeadm::config
   include kubeinstall::kubeadm::init_command
   include kubeinstall::install::calico
+  include kubeinstall::install::kube_scheduler
+
   if $web_ui_dashboard {
     include kubeinstall::install::dashboard
 

@@ -9,18 +9,13 @@
 #   Role inside cluster - either 'worker' or 'controller'
 #
 class kubeinstall::cluster (
-  Kubeinstall::Address
-          $apiserver_address        = $kubeinstall::apiserver_advertise_address,
-  Integer $apiserver_port           = $kubeinstall::apiserver_bind_port,
-  String  $cluster_name             = $kubeinstall::cluster_name,
-  Optional[Kubeinstall::CACertHash]
-          $ca_cert_hash             = $facts['kubeadm_discovery_token_ca_cert_hash'],
-  Optional[Enum['controller', 'worker']]
-          $cluster_role             = undef,
-  Hash[Kubeinstall::DNSSubdomain, Kubeinstall::LocalPV]
-          $local_persistent_volumes = {},
-  Hash[String, String]
-          $node_labels              = {},
+  Kubeinstall::Address $apiserver_address = $kubeinstall::apiserver_advertise_address,
+  Integer $apiserver_port = $kubeinstall::apiserver_bind_port,
+  String  $cluster_name = $kubeinstall::cluster_name,
+  Optional[Kubeinstall::CACertHash] $ca_cert_hash = $facts['kubeadm_discovery_token_ca_cert_hash'],
+  Optional[Enum['controller', 'worker']] $cluster_role = undef,
+  Hash[Kubeinstall::DNSSubdomain, Kubeinstall::LocalPV] $local_persistent_volumes = {},
+  Hash[String, String] $node_labels = {},
 ) {
   if $facts['kubeadm_token_list'] and $facts['kubeadm_token_list'][0] {
     $token_data = $facts['kubeadm_token_list'][0]
