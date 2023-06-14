@@ -20,55 +20,54 @@ class kubeinstall::install::kube_scheduler (
     $_config = $facts['kube_scheduler']
     $_spec = $_config['spec']
     $_container = $_spec['containers'][0]
-    $_command = $_container['command']
 
     if $topolvm_scheduler {
       include kubeinstall::topolvm::scheduler
 
-      $filter_topolvm_command = $_command.filter |$arg| { $arg == $topolvm_arg }
+      # Configure kube-scheduler for existing clusters
+      # https://github.com/topolvm/topolvm/tree/main/deploy#for-existing-clusters
+      $topolvm_volumes = [
+        {
+          'hostPath' => {
+            'path' => $kubeinstall::topolvm::scheduler::path,
+            'type' => 'FileOrCreate',
+          },
+          'name' => 'topolvm-config',
+        },
+      ]
+      $topolvm_mounts = [
+        {
+          'mountPath' => '/var/lib/scheduler',
+          'name' => 'topolvm-config',
+          'readOnly' => true,
+        },
+      ]
+      $topolvm_command = [$topolvm_arg]
 
-      if $filter_topolvm_command[0] {
-        $topolvm_volumes = []
-        $topolvm_mounts = []
-        $topolvm_command = []
-      }
-      else {
-        # Configure kube-scheduler for existing clusters
-        # https://github.com/topolvm/topolvm/tree/main/deploy#for-existing-clusters
-        $topolvm_volumes = [
-          {
-            'hostPath' => {
-              'path' => $kubeinstall::topolvm::scheduler::path,
-              'type' => 'FileOrCreate',
-            },
-            'name' => 'topolvm-config',
-          },
-        ]
-        $topolvm_mounts = [
-          {
-            'mountPath' => '/var/lib/scheduler',
-            'name' => 'topolvm-config',
-            'readOnly' => true,
-          },
-        ]
-        $topolvm_command = [$topolvm_arg]
-      }
+      $_command = $_container['command'].filter |$arg| { $arg != $topolvm_arg }
+      $_volumes = $_spec['volumes'].filter |$vol| { $vol['name'] != 'topolvm-config' }
+      $_mounts = $_container['volumeMounts'].filter |$mnt| { $mnt['name'] != 'topolvm-config' }
+
     }
     else {
       $topolvm_volumes = []
       $topolvm_mounts = []
       $topolvm_command = []
+
+      $_command = $_container['command']
+      $_volumes = $_spec['volumes']
+      $_mounts = $_container['volumeMounts']
     }
 
     # only if TopoLVM scheduler is managed by Puppet
     if $topolvm_scheduler {
       $container = $_container + {
         'command'      => $_command + $topolvm_command,
-        'volumeMounts' => $_container['volumeMounts'] + $topolvm_mounts,
+        'volumeMounts' => $_mounts + $topolvm_mounts,
       }
       $spec = $_spec + {
         'containers' => [$container],
-        'volumes'    => $_spec['volumes'] + $topolvm_volumes,
+        'volumes'    => $_volumes + $topolvm_volumes,
       }
       $config = $_config + {
         'spec' => $spec,
