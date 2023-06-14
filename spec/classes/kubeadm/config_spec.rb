@@ -45,7 +45,7 @@ describe 'kubeinstall::kubeadm::config' do
 
         it {
           is_expected.to contain_file('/etc/kubernetes/kubeadm-init.conf')
-            .with_content(%r{hostPath: "/var/lib/kubelet/plugins/topolvm.io/scheduler/scheduler-config.yaml"$})
+            .with_content(%r{hostPath: "/var/lib/kubelet/plugins/topolvm.io/scheduler"$})
         }
 
         it {
