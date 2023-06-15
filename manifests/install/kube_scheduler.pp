@@ -5,10 +5,6 @@
 # @param topolvm_scheduler
 #   Whether to manage TopoLVM scheduler setup
 #
-# @param topolvm_config_map
-#   Name of the ConfigMap object inside `kube-system` namespace where
-#   sub-path `scheduler-config.yaml` contains TopoLVM scheduler config
-#
 # @example
 #   include kubeinstall::install::kube_scheduler
 class kubeinstall::install::kube_scheduler (
