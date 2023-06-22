@@ -27,6 +27,7 @@ class kubeinstall::kubeadm::config (
   Kubeinstall::Version $kubernetes_version = $kubeinstall::kubernetes_version,
   Stdlib::Fqdn $service_dns_domain = $kubeinstall::service_dns_domain,
   Stdlib::IP::Address $service_cidr = $kubeinstall::service_cidr,
+  Stdlib::IP::Address $pod_network_cidr = $kubeinstall::pod_network_cidr,
   Kubeinstall::Range5X $service_node_port_range = $kubeinstall::service_node_port_range,
   Optional[Kubeinstall::Address] $control_plane_endpoint = $kubeinstall::control_plane_endpoint,
   Kubeinstall::CgroupDriver $cgroup_driver = $kubeinstall::cgroup_driver,
@@ -147,8 +148,9 @@ class kubeinstall::kubeadm::config (
     'imageRepository'   => 'registry.k8s.io',
     'kubernetesVersion' => "v${version}",
     'networking'        => {
-      'dnsDomain' => $service_dns_domain,
+      'dnsDomain'     => $service_dns_domain,
       'serviceSubnet' => $service_cidr,
+      'podSubnet'     => $pod_network_cidr,
     },
     'scheduler'         => $cluster_scheduler,
   }

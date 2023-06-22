@@ -715,3 +715,13 @@ All notable changes to this project will be documented in this file.
 * BugFix: incorrect creationTimestamp type
 
 **Known Issues**
+
+## Release 0.23.0
+
+**Features**
+
+* Added Calico operator and custom resources
+
+**Bugfixes**
+
+**Known Issues**

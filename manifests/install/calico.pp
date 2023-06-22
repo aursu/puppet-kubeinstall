@@ -2,26 +2,135 @@
 #
 # Install Project Calico CNI service
 #
+# @param operator
+#   Whether to install Tigera Calico operator
+#
+# @param api_server_name
+#   Calico API server APIServer resource name
+#   See https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.APIServer
+#
+# @param installation_name
+#   Calico installation configuration Installation resource name
+#   See https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.Installation
+#
+# @param installation_registry
+#   Registry is the default Docker registry used for component Docker images.
+#
+# @param block_size
+#   BlockSize specifies the CIDR prefex length to use when allocating per-node
+#   IP blocks from the main IP pool CIDR.
+#   See: https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.IPPool
+#
+# @param cidr
+#   CIDR contains the address range for the IP Pool in classless inter-domain routing format.
+#
+# @param encapsulation
+#   Encapsulation specifies the encapsulation type that will be used with the IP Pool
+#
+# @param nat_outgoing
+#   NATOutgoing specifies if NAT will be enabled or disabled for outgoing traffic. 
+#
 # @example
 #   include kubeinstall::install::calico
 class kubeinstall::install::calico (
-  String  $version   = $kubeinstall::calico_cni_version,
+  String  $version   = $kubeinstall::calico_version,
   Stdlib::Fqdn
           $node_name = $kubeinstall::node_name,
   Optional[Integer]
           $mtu       = $kubeinstall::calico_mtu,
   Boolean $calicoctl = $kubeinstall::install_calicoctl,
+  Boolean $operator  = $kubeinstall::install_calico_operator,
+  String $api_server_name = 'default',
+  String $installation_name = 'default',
+  Pattern[/\/$/] $installation_registry = 'quay.io/',
+  Integer $block_size = 26,
+  Stdlib::IP::Address $cidr = $kubeinstall::pod_network_cidr,
+  Kubeinstall::Calico::EncapsulationType $encapsulation = 'VXLANCrossSubnet',
+  Enum['Enabled', 'Disabled'] $nat_outgoing = 'Enabled',
+
 ) {
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
-  exec { 'calico-install':
-    command     => "kubectl apply -f https://projectcalico.docs.tigera.io/${version}/manifests/calico.yaml",
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
-    environment => [
-      'KUBECONFIG=/etc/kubernetes/admin.conf',
-    ],
-    onlyif      => "kubectl get nodes ${node_name}",
-    unless      => 'kubectl -n kube-system get daemonset calico-node',
+  if $operator {
+    exec { 'calico-operator-install':
+      command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/${version}/manifests/tigera-operator.yaml",
+      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      environment => [
+        'KUBECONFIG=/etc/kubernetes/admin.conf',
+      ],
+      onlyif      => "kubectl get nodes ${node_name}",
+      unless      => 'kubectl -n tigera-operator get deployment tigera-operator',
+    }
+
+    $apiserver_header = {
+      'apiVersion' => 'operator.tigera.io/v1',
+      'kind'       => 'APIServer',
+      'metadata'   => {
+        'name' => $api_server_name,
+      },
+    }
+
+    $apiserver_base = {
+      'spec' => {},
+    }
+
+    $installation_header = {
+      'apiVersion' => 'operator.tigera.io/v1',
+      'kind'       => 'Installation',
+      'metadata'   => {
+        'name' => $installation_name,
+      },
+    }
+
+    $installation_base = {
+      'spec' => {
+        'registry' => $installation_registry,
+        'calicoNetwork' => {
+          'ipPools' => [
+            {
+              'blockSize'     => $block_size,
+              'cidr'          => $cidr,
+              'encapsulation' => $encapsulation,
+              'natOutgoing'   => $nat_outgoing,
+              'nodeSelector'  => 'all()',
+            },
+          ],
+        },
+      },
+    }
+
+    $apiserver_configuration = to_yaml($apiserver_header + $apiserver_base)
+    $installation_configuration = to_yaml($installation_header + $installation_base)
+    $manifest = '/etc/kubernetes/calico-custom-resources.yaml'
+
+    file { $manifest:
+      ensure  => file,
+      content => join([$installation_configuration, $apiserver_configuration], ''),
+      mode    => '0600',
+    }
+
+    exec { 'calico-install':
+      command     => "kubectl create -f ${manifest}",
+      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      environment => [
+        'KUBECONFIG=/etc/kubernetes/admin.conf',
+      ],
+      onlyif      => "test -f ${manifest}",
+      unless      => "kubectl get -n calico-system installations.operator.tigera.io/${installation_name}",
+      subscribe   => File[$manifest],
+      require     => Exec['calico-operator-install'],
+    }
+  }
+  else {
+    exec { 'calico-install':
+      command     => "kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/${version}/manifests/calico.yaml",
+      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      environment => [
+        'KUBECONFIG=/etc/kubernetes/admin.conf',
+      ],
+      onlyif      => "kubectl get nodes ${node_name}",
+      unless      => 'kubectl -n kube-system get daemonset calico-node',
+    }
   }
 
   # MTU

@@ -11,6 +11,7 @@ class kubeinstall::params {
   $crio_socket             = '/var/run/crio/crio.sock'
   $service_dns_domain      = 'cluster.local'
   $service_cidr            = '10.96.0.0/12'
+  $pod_network_cidr        = '172.16.0.0/16'
   $service_node_port_range = '30000-32767'
   $dashboard_configuration = 'https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml'
   # directory where to store static manifests under folder 'manifests'
