@@ -8,12 +8,20 @@
 # @param socket_name
 #   Unix domain socket endpoint of gRPC
 #
+# @param install_xfs
+#   Whether to install xfsprogs or not (to manage XFS file system)
+#
+# @param install_extfs
+#   Whether to install e2fsprogs or not (to manage ext4 file system)
+#
 # @example
 #   include kubeinstall::topolvm::lvmd
 class kubeinstall::topolvm::lvmd (
   String $version = $kubeinstall::lvmd_version,
   Array[Kubeinstall::TopoLVMDeviceClass] $device_classes = [],
   Stdlib::Unixpath $socket_name = '/run/topolvm/lvmd.sock',
+  Boolean $install_xfs = true,
+  Boolean $install_extfs = true,
 ) {
   $archive      = "lvmd-${version}.tar.gz"
   $source       = "https://github.com/topolvm/topolvm/releases/download/v${version}/lvmd-${version}.tar.gz"
@@ -91,6 +99,20 @@ class kubeinstall::topolvm::lvmd (
     ensure  => file,
     content => to_yaml($config),
     mode    => '0644',
+  }
+
+  if $install_xfs {
+    package { 'xfsprogs':
+      ensure => installed,
+      before => Systemd::Unit_file['lvmd.service'],
+    }
+  }
+
+  if $install_extfs {
+    package { 'e2fsprogs':
+      ensure => installed,
+      before => Systemd::Unit_file['lvmd.service'],
+    }
   }
 
   systemd::unit_file { 'lvmd.service':

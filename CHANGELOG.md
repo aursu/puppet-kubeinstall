@@ -725,3 +725,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.23.1
+
+**Features**
+
+* Added xfs/ext4 utilities for nodes with lvmd daemon
+
+**Bugfixes**
+
+**Known Issues**
