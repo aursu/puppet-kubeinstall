@@ -742,6 +742,8 @@ All notable changes to this project will be documented in this file.
 
 * PDK upgrade to 3.0.0
 * Added separate class for directory structure setup
+* Added systemd daemon reload from bsys module
+* Increased default Kubernetes version to 1.28.2
 
 **Bugfixes**
 

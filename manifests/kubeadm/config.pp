@@ -24,7 +24,7 @@ class kubeinstall::kubeadm::config (
   Stdlib::Fqdn $node_name = $kubeinstall::node_name,
   Stdlib::Unixpath $cri_socket = $kubeinstall::cri_socket,
   String $cluster_name = $kubeinstall::cluster_name,
-  Kubeinstall::Version $kubernetes_version = $kubeinstall::kubernetes_version,
+  Kubeinstall::VersionPrefix $kubernetes_version = $kubeinstall::kubernetes_version,
   Stdlib::Fqdn $service_dns_domain = $kubeinstall::service_dns_domain,
   Stdlib::IP::Address $service_cidr = $kubeinstall::service_cidr,
   Stdlib::IP::Address $pod_network_cidr = $kubeinstall::pod_network_cidr,

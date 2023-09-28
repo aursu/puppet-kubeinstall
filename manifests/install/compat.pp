@@ -8,7 +8,7 @@
 # @example
 #   include kubeinstall::install::compat
 class kubeinstall::install::compat (
-  Kubeinstall::Version $kubernetes_version = $kubeinstall::kubernetes_version,
+  Kubeinstall::VersionPrefix $kubernetes_version = $kubeinstall::kubernetes_version,
 ) {
   # kubelet drop-in file for systemd 1.27 fix
   # See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/kubelet-integration/#the-kubelet-drop-in-file-for-systemd

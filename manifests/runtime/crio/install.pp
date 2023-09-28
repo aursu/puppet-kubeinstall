@@ -18,7 +18,7 @@ class kubeinstall::runtime::crio::install (
   String $crio_runc_version = $kubeinstall::crio_runc_version,
 ) {
   include kubeinstall::repos::crio
-  include kubeinstall::systemctl::daemon_reload
+  include bsys::systemctl::daemon_reload
 
   $osname = $facts['os']['name']
   $version_data  = split($crio_version, '[~]')
@@ -37,7 +37,7 @@ class kubeinstall::runtime::crio::install (
 
   package { 'cri-o':
     ensure  => $os_crio_version,
-    notify  => Class['kubeinstall::systemctl::daemon_reload'],
+    notify  => Class['bsys::systemctl::daemon_reload'],
     require => Class['kubeinstall::repos::crio'],
   }
 

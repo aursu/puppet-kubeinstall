@@ -14,7 +14,7 @@
 # @example
 #   include kubeinstall
 class kubeinstall (
-  Kubeinstall::Version $kubernetes_version,
+  Kubeinstall::VersionPrefix $kubernetes_version,
   Kubeinstall::Runtime $container_runtime,
   String $dockerd_version,
   String $containerd_version,
@@ -65,7 +65,7 @@ class kubeinstall (
     Stdlib::Unixpath
   ] $dashboard_configuration               = $kubeinstall::params::dashboard_configuration,
   Stdlib::Unixpath $manifests_directory    = $kubeinstall::params::manifests_directory,
-  Kubeinstall::Version $kubeadm_version    = $kubernetes_version,
+  Kubeinstall::VersionPrefix $kubeadm_version    = $kubernetes_version,
   Boolean $manage_git                      = true,
   Boolean $manage_grubby                   = true,
   Boolean $manage_yum_excludes             = true,
