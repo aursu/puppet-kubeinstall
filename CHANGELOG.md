@@ -748,3 +748,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.25.0
+
+**Features**
+
+* Added Bolt plan `kubeinstall::setup`
+
+**Bugfixes**
+
+**Known Issues**
