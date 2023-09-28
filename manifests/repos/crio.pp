@@ -7,13 +7,14 @@
 class kubeinstall::repos::crio (
   Kubeinstall::Release $kuberel = $kubeinstall::kubernetes_release,
 ) inherits kubeinstall::params {
+  include bsys::params
+
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
   $osname = $facts['os']['name']
   $osmaj  = $facts['os']['release']['major']
-  $centos_stream = $kubeinstall::params::centos_stream
 
   if $osname == 'CentOS' {
-    if $centos_stream {
+    if $bsys::params::centos_stream {
       $os = "${osname}_${osmaj}_Stream"
     }
     else {
