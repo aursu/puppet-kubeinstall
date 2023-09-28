@@ -15,7 +15,7 @@ Facter.add(:kubeadm_token_list) do
         false
       end
       token_list.select { |t| t.is_a?(Hash) && t.any? }
-                .sort_by { |e| (e['expires']) ? DateTime.parse(e['expires']) : DateTime.new(0) }
+                .sort_by { |e| e['expires'] ? DateTime.parse(e['expires']) : DateTime.new(0) }
                 .reverse
     else
       []

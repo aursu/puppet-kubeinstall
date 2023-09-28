@@ -86,7 +86,7 @@ Puppet::Type.type(:kubeadm_token).provide(:kubeadm) do
 
   def self.provider_list
     get_list_array(provider_subcommand)
-      .sort_by { |e| (e['expires']) ? DateTime.parse(e['expires']) : DateTime.new(0) }
+      .sort_by { |e| e['expires'] ? DateTime.parse(e['expires']) : DateTime.new(0) }
       .reverse
   end
 

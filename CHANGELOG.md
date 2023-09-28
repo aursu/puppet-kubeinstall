@@ -735,3 +735,14 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.24.0
+
+**Features**
+
+* PDK upgrade to 3.0.0
+* Added separate class for directory structure setup
+
+**Bugfixes**
+
+**Known Issues**

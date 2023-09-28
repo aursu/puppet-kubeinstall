@@ -5,40 +5,40 @@ fixtures:
   forge_modules:
     archive:
       repo: "puppet/archive"
-      ref: "6.0.2"
+      ref: "7.0.0"
     apt:
       repo: "puppetlabs/apt"
-      ref: "9.0.0"
+      ref: "9.1.0"
     augeas_core:
       repo: "puppetlabs/augeas_core"
       puppet_version: ">= 6.0.0"
     dockerinstall:
       repo: "aursu/dockerinstall"
-      ref: "0.13.1"
+      ref: "0.16.1"
     firewalld:
       repo: "puppet/firewalld"
       ref: "4.5.1"
     kmod:
       repo: "puppet/kmod"
-      ref: "3.2.0"
+      ref: "4.0.0"
     puppet_agent:
       repo: "puppetlabs/puppet_agent"
-      ref: "4.12.1"
+      ref: "4.15.0"
     selinux:
       repo: "puppet/selinux"
-      ref: "3.4.1"
+      ref: "4.0.0"
     stdlib:
       repo: "puppetlabs/stdlib"
-      ref: "8.4.0"
+      ref: "9.3.0"
     sysctl:
       repo: "thias/sysctl"
       ref: "1.0.7"
     systemd:
       repo: "puppet/systemd"
-      ref: "4.2.0"
+      ref: "6.0.0"
     yum:
       repo: "puppet/yum"
-      ref: "6.0.0"
+      ref: "7.1.0"
     yumrepo_core:
       repo: "puppetlabs/yumrepo_core"
       puppet_version: ">= 6.0.0"
