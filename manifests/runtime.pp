@@ -5,8 +5,7 @@
 # @example
 #   include kubeinstall::runtime
 class kubeinstall::runtime (
-  Kubeinstall::Runtime
-          $container_runtime  = $kubeinstall::container_runtime,
+  Kubeinstall::Runtime $container_runtime  = $kubeinstall::container_runtime,
   # While using CRI-O - decomission Docker
   Boolean $docker_decomission = true,
 ) {

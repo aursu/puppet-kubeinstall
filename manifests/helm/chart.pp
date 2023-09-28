@@ -18,24 +18,16 @@
 # @example
 #   kubeinstall::helm::chart { 'namevar': }
 define kubeinstall::helm::chart (
-  String  $chart_name       = $name,
-  Optional[String[1]]
-          $repo_name        = undef,
-  Optional[String]
-          $release_name     = undef,
-  String[1]
-          $namespace        = 'default',
+  String $chart_name  = $name,
+  Optional[String[1]] $repo_name = undef,
+  Optional[String] $release_name = undef,
+  String[1] $namespace = 'default',
   Boolean $create_namespace = false,
-  Optional[Stdlib::HTTPUrl]
-          $repo_url         = undef,
-  Stdlib::Unixpath
-          $cwd              = '/root',
-  Optional[String]
-          $chart_version    = undef,
-  Variant[Kubeinstall::Path, Array[Kubeinstall::Path]]
-          $values           = [],
-  Hash[String, String]
-          $set_values       = {},
+  Optional[Stdlib::HTTPUrl] $repo_url = undef,
+  Stdlib::Unixpath $cwd = '/root',
+  Optional[String] $chart_version = undef,
+  Variant[Kubeinstall::Path, Array[Kubeinstall::Path]] $values = [],
+  Hash[String, String] $set_values = {},
 ) {
   # There are five different ways you can express the chart you want to install:
   # 1. By chart reference: helm install mymaria example/mariadb
@@ -113,12 +105,12 @@ define kubeinstall::helm::chart (
 
   if $release_name {
     $unless_command = [
-      "helm list -o json${namespace_param} | grep '\"chart\":\"${chart}' | grep '\"name\":\"${release_name}\"'"
+      "helm list -o json${namespace_param} | grep '\"chart\":\"${chart}' | grep '\"name\":\"${release_name}\"'",
     ]
   }
   else {
     $unless_command = [
-      "helm list -o json${namespace_param} | grep '\"chart\":\"${chart}' | grep '\"name\":\"${chart}-'"
+      "helm list -o json${namespace_param} | grep '\"chart\":\"${chart}' | grep '\"name\":\"${chart}-'",
     ]
   }
 

@@ -20,32 +20,22 @@
 #   correspond to nodeAffinity.required.nodeSelectorTerms.matchFields
 #
 define kubeinstall::resource::pv (
-  Kubeinstall::Quantity
-          $volume_storage,
-  Kubeinstall::DNSName
-          $volume_name         = $name,
-  Kubeinstall::Metadata
-          $metadata            = {},
+  Kubeinstall::Quantity $volume_storage,
+  Kubeinstall::DNSName $volume_name = $name,
+  Kubeinstall::Metadata $metadata = {},
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#volume-mode
-  Kubeinstall::VolumeMode
-          $volume_mode         = 'Filesystem',
+  Kubeinstall::VolumeMode $volume_mode = 'Filesystem',
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
   Array[Enum['ReadWriteOnce', 'ReadOnlyMany', 'ReadWriteMany']]
-          $access_modes        = ['ReadWriteOnce'],
+  $access_modes = ['ReadWriteOnce'],
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming
-  Enum['Delete', 'Retain', 'Recycle']
-          $reclaim_policy      = 'Delete',
-  Optional[String]
-          $storage_class_name  = undef,
-  Optional[Stdlib::Unixpath]
-          $local_path          = undef,
-  Kubeinstall::NodeSelectorTerms
-          $match_expressions   = [],
-  Kubeinstall::NodeSelectorTerms
-          $match_fields        = [],
-  Stdlib::Unixpath
-          $manifests_directory = $kubeinstall::manifests_directory,
-  Boolean $apply               = false,
+  Enum['Delete', 'Retain', 'Recycle'] $reclaim_policy = 'Delete',
+  Optional[String] $storage_class_name = undef,
+  Optional[Stdlib::Unixpath] $local_path = undef,
+  Kubeinstall::NodeSelectorTerms $match_expressions = [],
+  Kubeinstall::NodeSelectorTerms $match_fields = [],
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply = false,
 ) {
   unless $volume_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a PersistentVolume object must be a valid DNS subdomain name.')
@@ -53,15 +43,15 @@ define kubeinstall::resource::pv (
 
   $pv_header  = {
     'apiVersion' => 'v1',
-    'kind' => 'PersistentVolume'
+    'kind' => 'PersistentVolume',
   }
 
   $pv_metadata = {
-                    'metadata' => {
-                      'name' => $volume_name,
-                    } +
-                    $metadata,
-                  }
+    'metadata' => {
+      'name' => $volume_name,
+    } +
+    $metadata,
+  }
 
   $spec_pv = {
     'capacity'    => {
@@ -99,8 +89,8 @@ define kubeinstall::resource::pv (
       'nodeAffinity' => {
         'required' => {
           'nodeSelectorTerms' => $node_selector_match_expressions + $node_selector_match_fields,
-        }
-      }
+        },
+      },
     }
   }
   else {
@@ -109,9 +99,9 @@ define kubeinstall::resource::pv (
 
   $pv_spec = {
     'spec' => $spec_pv +
-              $spec_storage_class +
-              $spec_local +
-              $spec_affinity
+    $spec_storage_class +
+    $spec_local +
+    $spec_affinity,
   }
 
   $pv_object = to_yaml($pv_header + $pv_metadata + $pv_spec)

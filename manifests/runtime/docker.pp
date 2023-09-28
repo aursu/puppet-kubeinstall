@@ -13,14 +13,11 @@
 #   Whether to enable selinux support
 #
 class kubeinstall::runtime::docker (
-  String  $dockerd_version    = $kubeinstall::dockerd_version,
-  String  $containerd_version = $kubeinstall::containerd_version,
-  Optional[Integer]
-          $mtu                = $kubeinstall::docker_mtu,
-  Optional[String]
-          $network_bridge_ip  = $kubeinstall::network_bridge_ip,
-  Optional[Boolean]
-          $selinux            = $kubeinstall::cri_selinux,
+  String $dockerd_version = $kubeinstall::dockerd_version,
+  String $containerd_version = $kubeinstall::containerd_version,
+  Optional[Integer] $mtu = $kubeinstall::docker_mtu,
+  Optional[String] $network_bridge_ip = $kubeinstall::network_bridge_ip,
+  Optional[Boolean] $selinux = $kubeinstall::cri_selinux,
 ) {
   class { 'dockerinstall::profile::install':
     dockerd_version    => $dockerd_version,

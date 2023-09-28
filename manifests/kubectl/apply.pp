@@ -5,18 +5,16 @@
 # @example
 #   kubeinstall::kubectl::apply { 'namevar': }
 define kubeinstall::kubectl::apply (
-  Enum['PersistentVolume', 'StorageClass', 'Secret', 'Service']
-          $kind,
-  String  $resource            = $name,
-  String  $namespace           = 'default',
-  Stdlib::Unixpath
-          $manifests_directory = $kubeinstall::manifests_directory,
+  Enum['PersistentVolume', 'StorageClass', 'Secret', 'Service'] $kind,
+  String $resource = $name,
+  String $namespace = 'default',
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
   Optional[
     Variant[
       String,
       Array[String]
     ]
-  ]       $unless              = undef,
+  ] $unless = undef,
 ) {
   if $namespace == 'default' {
     $apply_command = 'kubectl apply'

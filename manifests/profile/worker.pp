@@ -14,10 +14,8 @@
 #   Added ability to setup node labels
 #
 class kubeinstall::profile::worker (
-  Hash[String, Hash]
-          $local_persistent_volumes = {},
-  Hash[String, String]
-          $node_labels              = {},
+  Hash[String, Hash] $local_persistent_volumes = {},
+  Hash[String, String] $node_labels = {},
 ) {
   include kubeinstall::profile::kubernetes
 

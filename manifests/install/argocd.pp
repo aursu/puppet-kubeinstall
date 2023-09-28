@@ -6,14 +6,12 @@
 # @example
 #   include kubeinstall::install::argocd
 class kubeinstall::install::argocd (
-  String  $version      = $kubeinstall::argocd_version,
-  String  $namespace    = 'argocd',
-  Boolean $ha           = false,
-  Boolean $expose       = false,
-  Kubeinstall::DNSName
-          $service_name = 'argocd-server-static',
-  Kubeinstall::Port
-          $service_port = 30200,
+  String $version = $kubeinstall::argocd_version,
+  String $namespace = 'argocd',
+  Boolean $ha = false,
+  Boolean $expose = false,
+  Kubeinstall::DNSName $service_name = 'argocd-server-static',
+  Kubeinstall::Port $service_port = 30200,
 ) {
   # ArgoCD namespace
   kubeinstall::resource::ns { $namespace: }

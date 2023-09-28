@@ -27,11 +27,9 @@
 #   output when reading from the API.
 #
 define kubeinstall::resource::secret (
-  Kubeinstall::DNSName
-          $object_name         = $name,
-  String  $namespace           = 'default',
-  Kubeinstall::Metadata
-          $metadata            = {},
+  Kubeinstall::DNSName $object_name = $name,
+  String $namespace  = 'default',
+  Kubeinstall::Metadata $metadata = {},
   Enum[
     'Opaque',                              # arbitrary user-defined data
     'kubernetes.io/service-account-token', # service account token
@@ -45,14 +43,11 @@ define kubeinstall::resource::secret (
   Hash[
     Kubeinstall::Name,
     Stdlib::Base64
-  ]       $data                = {},
-  Hash[Kubeinstall::Name, String]
-          $raw_data            = {},
-  Hash[Kubeinstall::Name, String]
-          $string_data         = {},
-  Stdlib::Unixpath
-          $manifests_directory = $kubeinstall::manifests_directory,
-  Boolean $apply               = false,
+  ] $data = {},
+  Hash[Kubeinstall::Name, String] $raw_data = {},
+  Hash[Kubeinstall::Name, String] $string_data = {},
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply = false,
 ) {
   unless $object_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a Secret object must be a valid DNS subdomain name.')
@@ -95,18 +90,18 @@ define kubeinstall::resource::secret (
   }
 
   $metadata_content = {
-                        'metadata' => {
-                          'name' => $object_name,
-                        } +
-                        $namespace_metadata +
-                        $metadata,
-                      }
+    'metadata' => {
+      'name' => $object_name,
+    } +
+    $namespace_metadata +
+    $metadata,
+  }
 
   $object_content = {
-                      'type' => $type,
-                    } +
-                    $data_content +
-                    $string_data_content
+    'type' => $type,
+  } +
+  $data_content +
+  $string_data_content
 
   $object = to_yaml($object_header + $metadata_content + $object_content)
 

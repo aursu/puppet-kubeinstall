@@ -34,7 +34,7 @@ class kubeinstall::calico::calicoctl (
     'spec' => {
       'datastoreType' => 'kubernetes',
       'kubeconfig'    => '/etc/kubernetes/admin.conf',
-    }
+    },
   }
 
   file { '/etc/calico/calicoctl.cfg':

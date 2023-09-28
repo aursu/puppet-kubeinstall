@@ -33,29 +33,23 @@
 # @example
 #   kubeinstall::resource::svc { 'namevar': }
 define kubeinstall::resource::svc (
-  Array[Kubeinstall::ServicePort, 1]
-          $ports,
-  Kubeinstall::DNSName
-          $object_name         = $name,
-  String  $namespace           = 'default',
-  Kubeinstall::Metadata
-          $metadata            = {},
-  Kubeinstall::ServiceType
-          $type                = 'ClusterIP',
+  Array[Kubeinstall::ServicePort, 1] $ports,
+  Kubeinstall::DNSName $object_name = $name,
+  String $namespace = 'default',
+  Kubeinstall::Metadata $metadata = {},
+  Kubeinstall::ServiceType $type = 'ClusterIP',
   Hash[
     Kubeinstall::Label,
     Variant[Enum[''], Kubeinstall::DNSLabel]
-  ]       $selector            = {},
-  Stdlib::Unixpath
-          $manifests_directory = $kubeinstall::manifests_directory,
-  Boolean $apply               = false,
-  Optional[Kubeinstall::ClusterIP]
-          $cluster_ip          = undef,
+  ] $selector = {},
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply = false,
+  Optional[Kubeinstall::ClusterIP] $cluster_ip = undef,
 ) {
   $object_header  = {
-                      'apiVersion' => 'v1',
-                      'kind'       => 'Service',
-                    }
+    'apiVersion' => 'v1',
+    'kind'       => 'Service',
+  }
 
   if $namespace == 'default' {
     $namespace_metadata = {}
@@ -67,12 +61,12 @@ define kubeinstall::resource::svc (
   }
 
   $metadata_content = {
-                        'metadata' => {
-                          'name' => $object_name,
-                        } +
-                        $namespace_metadata +
-                        $metadata,
-                      }
+    'metadata' => {
+      'name' => $object_name,
+    } +
+    $namespace_metadata +
+    $metadata,
+  }
 
   if empty($selector) or $type == 'ExternalName' {
     $spec_selector = {}
@@ -90,8 +84,8 @@ define kubeinstall::resource::svc (
 
   $object_spec = {
     'spec' => { 'type' => $type } +
-              $spec_selector +
-              $spec_cluster_ip + { 'ports' => kubeinstall::service_ports($ports, { 'type' => $type, 'cluster_ip' => $cluster_ip }) }
+    $spec_selector +
+    $spec_cluster_ip + { 'ports' => kubeinstall::service_ports($ports, { 'type' => $type, 'cluster_ip' => $cluster_ip }) },
   }
 
   $object = to_yaml($object_header + $metadata_content + $object_spec)

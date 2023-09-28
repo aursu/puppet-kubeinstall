@@ -33,11 +33,9 @@
 # @example
 #   include kubeinstall::install::calico
 class kubeinstall::install::calico (
-  String  $version   = $kubeinstall::calico_version,
-  Stdlib::Fqdn
-          $node_name = $kubeinstall::node_name,
-  Optional[Integer]
-          $mtu       = $kubeinstall::calico_mtu,
+  String $version = $kubeinstall::calico_version,
+  Stdlib::Fqdn $node_name = $kubeinstall::node_name,
+  Optional[Integer] $mtu = $kubeinstall::calico_mtu,
   Boolean $calicoctl = $kubeinstall::install_calicoctl,
   Boolean $operator  = $kubeinstall::install_calico_operator,
   String $api_server_name = 'default',
@@ -47,7 +45,6 @@ class kubeinstall::install::calico (
   Stdlib::IP::Address $cidr = $kubeinstall::pod_network_cidr,
   Kubeinstall::Calico::EncapsulationType $encapsulation = 'VXLANCrossSubnet',
   Enum['Enabled', 'Disabled'] $nat_outgoing = 'Enabled',
-
 ) {
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network

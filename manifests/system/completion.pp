@@ -6,6 +6,6 @@
 #   include kubeinstall::system::completion
 class kubeinstall::system::completion {
   package { 'bash-completion':
-    ensure => 'present'
+    ensure => 'present',
   }
 }

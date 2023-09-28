@@ -1,8 +1,8 @@
 function kubeinstall::service_ports(
   Array[Kubeinstall::ServicePort] $ports,
   Struct[{
-    type       => Kubeinstall::ServiceType,
-    cluster_ip => Optional[Kubeinstall::ClusterIP],
+      type       => Kubeinstall::ServiceType,
+      cluster_ip => Optional[Kubeinstall::ClusterIP],
   }] $options
 ) >> Array {
   $ports.map |$port| {

@@ -17,6 +17,6 @@ define kubeinstall::resource::ns (
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],
-    unless      => "kubectl get namespace ${namespace_name}"
+    unless      => "kubectl get namespace ${namespace_name}",
   }
 }

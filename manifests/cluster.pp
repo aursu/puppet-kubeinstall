@@ -69,7 +69,7 @@ class kubeinstall::cluster (
       Kubeinstall::Node::Label <<| tag == $cluster_name |>>
     }
     'worker': {
-      $node_name = $facts['fqdn']
+      $node_name = $facts['networking']['fqdn']
 
       # Local persistent volumes export
       $local_persistent_volumes.each |$volume, $volume_settings| {

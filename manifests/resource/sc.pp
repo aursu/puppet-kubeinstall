@@ -47,36 +47,28 @@
 #
 define kubeinstall::resource::sc (
   String  $provisioner,
-  Kubeinstall::DNSName
-          $object_name            = $name,
-  Kubeinstall::Metadata
-          $metadata               = {},
+  Kubeinstall::DNSName $object_name = $name,
+  Kubeinstall::Metadata $metadata = {},
   Boolean $allow_volume_expansion = false,
-  Array[Kubeinstall::TopologySelectorTerm]
-          $allowed_topologies     = [],
-  Array[String]
-          $mount_options          = [],
-  Hash[String, String]
-          $parameters             = {},
-  Enum['Delete', 'Retain']
-          $reclaim_policy         = 'Delete',
-  Enum['WaitForFirstConsumer', 'Immediate']
-          $volume_bindin_mode     = 'Immediate',
-  Stdlib::Unixpath
-          $manifests_directory = $kubeinstall::manifests_directory,
-  Boolean $apply                  = false,
+  Array[Kubeinstall::TopologySelectorTerm] $allowed_topologies = [],
+  Array[String] $mount_options = [],
+  Hash[String, String] $parameters = {},
+  Enum['Delete', 'Retain'] $reclaim_policy = 'Delete',
+  Enum['WaitForFirstConsumer', 'Immediate'] $volume_bindin_mode = 'Immediate',
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
+  Boolean $apply = false,
 ) {
   $object_header  = {
-                      'apiVersion' => 'storage.k8s.io/v1',
-                      'kind'       => 'StorageClass',
-                    }
+    'apiVersion' => 'storage.k8s.io/v1',
+    'kind'       => 'StorageClass',
+  }
 
   $metadata_content = {
-                        'metadata' => {
-                          'name' => $object_name,
-                        } +
-                        $metadata,
-                      }
+    'metadata' => {
+      'name' => $object_name,
+    } +
+    $metadata,
+  }
 
   $allowed_topologies_content = $allowed_topologies[0] ? {
     Kubeinstall::TopologySelectorTerm => { 'allowedTopologies' => $allowed_topologies },
@@ -96,14 +88,14 @@ define kubeinstall::resource::sc (
   }
 
   $object_content = {
-                      'allowVolumeExpansion' => $allow_volume_expansion,
-                      'provisioner'          => $provisioner,
-                      'reclaimPolicy'        => $reclaim_policy,
-                      'volumeBindingMode'    => $volume_bindin_mode,
-                    } +
-                    $allowed_topologies_content +
-                    $mount_options_content +
-                    $parameters_content
+    'allowVolumeExpansion' => $allow_volume_expansion,
+    'provisioner'          => $provisioner,
+    'reclaimPolicy'        => $reclaim_policy,
+    'volumeBindingMode'    => $volume_bindin_mode,
+  } +
+  $allowed_topologies_content +
+  $mount_options_content +
+  $parameters_content
 
   $object = to_yaml($object_header + $metadata_content + $object_content)
 

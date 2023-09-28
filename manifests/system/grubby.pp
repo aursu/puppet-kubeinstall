@@ -9,7 +9,7 @@ class kubeinstall::system::grubby (
 ) {
   if $manage {
     package { 'grubby':
-      ensure => 'present'
+      ensure => 'present',
     }
   }
 }

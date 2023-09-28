@@ -5,11 +5,9 @@
 # @example
 #   kubeinstall::helm::repo { 'namevar': }
 define kubeinstall::helm::repo (
-  Enum['present', 'absent']
-          $ensure    = 'present',
+  Enum['present', 'absent'] $ensure = 'present',
   String  $repo_name = $name,
-  Optional[Stdlib::HTTPUrl]
-          $url       = undef,
+  Optional[Stdlib::HTTPUrl] $url = undef,
 ) {
   include kubeinstall::install::helm_binary
 

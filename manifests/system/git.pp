@@ -11,7 +11,7 @@ class kubeinstall::system::git (
   # therefore make it possible to disable it here
   if $manage {
     package { 'git':
-      ensure => 'present'
+      ensure => 'present',
     }
   }
 }
