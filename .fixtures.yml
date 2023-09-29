@@ -44,7 +44,7 @@ fixtures:
       puppet_version: ">= 6.0.0"
     bsys:
       repo: aursu/bsys
-      ref: 0.2.0
-  repositories:
+      ref: 0.3.1
     tlsinfo:
-      repo: https://github.com/aursu/puppet-tlsinfo.git
+      repo: aursu/tlsinfo
+      ref: 0.5.0
