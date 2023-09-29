@@ -749,11 +749,12 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.25.0
+## Release 0.25.1
 
 **Features**
 
 * Added Bolt plan `kubeinstall::setup`
+* Added parameter `cert_dir`
 
 **Bugfixes**
 

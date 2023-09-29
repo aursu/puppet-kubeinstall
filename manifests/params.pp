@@ -21,4 +21,6 @@ class kubeinstall::params {
   $helm_charts_path  = "${helm_configs_path}/charts"
 
   $topolvm_scheduler_path = '/var/lib/kubelet/plugins/topolvm.io/scheduler'
+
+  $cert_dir = '/etc/kubernetes/pki'
 }
