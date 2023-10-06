@@ -9,11 +9,20 @@ class kubeinstall::kubectl::binary (
 ) {
   $download_url = "https://dl.k8s.io/release/v${version}/bin/linux/amd64/kubectl"
 
+  exec { 'install-kubectl-sha256':
+    command => "curl -L ${download_url}.sha256 -o kubectl.sha256-${version}",
+    creates => "/usr/local/bin/kubectl.sha256-${version}",
+    path    => '/bin:/usr/bin',
+    cwd     => '/usr/local/bin',
+  }
+
   exec { 'install-kubectl':
     command => "curl -L ${download_url} -o kubectl-${version}",
     creates => "/usr/local/bin/kubectl-${version}",
+    unless  => "echo \"$(cat kubectl.sha256-${version})  kubectl-${version}\" | sha256sum --check",
     path    => '/bin:/usr/bin',
     cwd     => '/usr/local/bin',
+    require => Exec['install-kubectl-sha256'],
   }
 
   file { '/usr/local/bin/kubectl':

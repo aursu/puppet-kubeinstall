@@ -760,11 +760,12 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.26.0
+## Release 0.26.1
 
 **Features**
 
 * Added class `kubeinstall::kubectl::binary` for kubectl installation
+* Added sha256sum check for kubectl
 
 **Bugfixes**
 
