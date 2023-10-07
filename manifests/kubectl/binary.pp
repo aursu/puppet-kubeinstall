@@ -5,8 +5,12 @@
 # @example
 #   include kubeinstall::kubectl::binary
 class kubeinstall::kubectl::binary (
-  Kubeinstall::VersionPrefix $version = $kubeinstall::kubernetes_version,
+  Kubeinstall::VersionPrefix $kubernetes_version = $kubeinstall::kubernetes_version,
 ) {
+  # it could be RPM package version
+  $version_data = split($kubernetes_version, '[-]')
+  $version = $version_data[0]
+
   $download_url = "https://dl.k8s.io/release/v${version}/bin/linux/amd64/kubectl"
 
   exec { 'install-kubectl-sha256':
