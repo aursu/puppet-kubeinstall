@@ -770,3 +770,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.27.0
+
+**Features**
+
+* Added kube-apiserver, kubectl, kube-controller-manager and kube-scheduler binaries installation
+
+**Bugfixes**
+
+**Known Issues**
