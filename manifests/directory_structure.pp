@@ -30,4 +30,28 @@ class kubeinstall::directory_structure (
       owner  => 'root',
       group  => 'root',
   }
+
+  file {
+    default:
+      ensure => directory,
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root',
+      ;
+    # RBAC roles binding objects directory
+    "${manifests_directory}/manifests/clusterrolebindings": ;
+    # RBAC roles objects directory
+    "${manifests_directory}/manifests/clusterroles": ;
+    # persistent volumes objects directory
+    "${manifests_directory}/manifests/persistentvolumes": ;
+    # secret objects directory
+    "${manifests_directory}/manifests/secrets":
+      mode => '0710',
+      ;
+    # services objects directory
+    # https://kubernetes.io/docs/concepts/services-networking/service/
+    "${manifests_directory}/manifests/services": ;
+    # storage classes objects directory
+    "${manifests_directory}/manifests/storageclasses": ;
+  }
 }

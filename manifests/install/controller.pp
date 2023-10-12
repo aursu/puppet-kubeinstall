@@ -14,6 +14,7 @@ class kubeinstall::install::controller (
   include kubeinstall::kubeadm::init_command
   include kubeinstall::install::calico
   include kubeinstall::install::kube_scheduler
+  include kubeinstall::directory_structure
 
   if $web_ui_dashboard {
     include kubeinstall::install::dashboard
@@ -32,26 +33,6 @@ class kubeinstall::install::controller (
   # create bootstrap token
   kubeadm_token { 'default':
     ensure => present,
-  }
-
-  file {
-    default:
-      ensure => directory,
-      mode   => '0755',
-      owner  => 'root',
-      group  => 'root',
-      ;
-    # storage classes objects directory
-    "${manifests_directory}/manifests/storageclasses": ;
-    # persistent volumes objects directory
-    "${manifests_directory}/manifests/persistentvolumes": ;
-    # secret objects directory
-    "${manifests_directory}/manifests/secrets":
-      mode => '0710',
-      ;
-    # services objects directory
-    # https://kubernetes.io/docs/concepts/services-networking/service/
-    "${manifests_directory}/manifests/services": ;
   }
 
   Class['kubeinstall::install::node']
