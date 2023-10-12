@@ -5,7 +5,7 @@
 # @example
 #   kubeinstall::kubectl::apply { 'namevar': }
 define kubeinstall::kubectl::apply (
-  Enum['PersistentVolume', 'StorageClass', 'Secret', 'Service'] $kind,
+  Enum['PersistentVolume', 'StorageClass', 'Secret', 'Service', 'ClusterRole', 'ClusterRoleBinding'] $kind,
   String $resource = $name,
   String $namespace = 'default',
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
@@ -15,6 +15,7 @@ define kubeinstall::kubectl::apply (
       Array[String]
     ]
   ] $unless = undef,
+  Optional[Stdlib::Unixpath] $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   if $namespace == 'default' {
     $apply_command = 'kubectl apply'
@@ -24,18 +25,20 @@ define kubeinstall::kubectl::apply (
   }
 
   $subpath = $kind ? {
-    'PersistentVolume' => 'persistentvolumes',
-    'StorageClass'     => 'storageclasses',
-    'Secret'           => 'secrets',
-    'Service'          => 'services',
+    'ClusterRole'        => 'clusterroles',
+    'ClusterRoleBinding' => 'clusterrolebindings',
+    'PersistentVolume'   => 'persistentvolumes',
+    'StorageClass'       => 'storageclasses',
+    'Secret'             => 'secrets',
+    'Service'            => 'services',
   }
 
   $manifest = "${manifests_directory}/manifests/${subpath}/${resource}.yaml"
 
   exec { "${apply_command} -f ${manifest}":
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
-      'KUBECONFIG=/etc/kubernetes/admin.conf',
+      "KUBECONFIG=${kubeconfig}",
     ],
     refreshonly => true,
     onlyif      => "test -f ${manifest}",
