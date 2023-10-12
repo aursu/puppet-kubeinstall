@@ -780,3 +780,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.28.0
+
+**Features**
+
+* Added 'ClusterRole' and 'ClusterRoleBinding' into kubeinstall::kubectl::apply
+
+**Bugfixes**
+
+**Known Issues**
