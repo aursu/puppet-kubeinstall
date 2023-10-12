@@ -1,7 +1,8 @@
 # @summary Create a PersistentVolume object
 #
 # Create a PersistentVolume object
-# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#persistentvolume-v1-core
+# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#persistentvolume-v1-core
+# https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-v1/
 #
 # @example
 #   kubeinstall::resource::pv { 'namevar': }
@@ -13,7 +14,7 @@
 # @param match_expressions
 #   A list of node selector requirements by node's labels
 #   correspond to nodeAffinity.required.nodeSelectorTerms.matchExpressions
-#   see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#nodeselectorterm-v1-core
+#   see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#nodeselectorterm-v1-core
 #
 # @param match_fields
 #   A list of node selector requirements by node's fields
