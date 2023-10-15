@@ -9,6 +9,7 @@ class kubeinstall::runtime::containerd::nerdctl (
 ) inherits kubeinstall::params {
   include kubeinstall
   include kubeinstall::directory_structure
+
   if $version in ['installed', 'present', 'latest'] {
     $nerdctl_version = $kubeinstall::params::nerdctl_version
   }
@@ -18,15 +19,17 @@ class kubeinstall::runtime::containerd::nerdctl (
 
   $dir = '/usr/local/bin'
   $nerdctl_binaries = [
-    "${dir}/nerdctl",
-    "${dir}/containerd-rootless-setuptool.sh",
-    "${dir}/containerd-rootless.sh",
+    'nerdctl',
+    'containerd-rootless-setuptool.sh',
+    'containerd-rootless.sh',
   ]
 
   # https://github.com/containerd/nerdctl/releases/download/v1.6.2/nerdctl-1.6.2-linux-amd64.tar.gz
   if $version == 'absent' {
-    file { $nerdctl_binaries:
-      ensure => absent,
+    $nerdctl_binaries.each |$binary| {
+      file { "${dir}/${binary}":
+        ensure => absent,
+      }
     }
   }
   else {
@@ -34,24 +37,52 @@ class kubeinstall::runtime::containerd::nerdctl (
     $source = "https://github.com/containerd/nerdctl/releases/download/v${nerdctl_version}/${archive}"
     $checksum_url = "https://github.com/containerd/nerdctl/releases/download/v${nerdctl_version}/SHA256SUMS"
 
-    archive { $archive:
-      path            => "/tmp/${archive}",
-      source          => $source,
-      extract         => true,
-      extract_command => "tar zxf %s --strip-components=1 -C ${dir}",
-      extract_path    => $dir,
-      cleanup         => true,
-      # firewall plugin has been introduced in v0.8.0
-      creates         => "${dir}/nerdctl",
-      checksum_url    => $checksum_url,
-      checksum_type   => 'sha256',
+    $local_dir = "/usr/local/nerdctl-${nerdctl_version}"
+    file { [$local_dir, "${local_dir}/bin", "${local_dir}/lib"]:
+      ensure => directory,
+      before => [
+        Exec["${archive}-SHA256SUMS"],
+        Archive[$archive],
+      ],
     }
 
-    file { $nerdctl_binaries:
-      mode    => '0755',
-      owner   => 'root',
-      group   => 'root',
-      require => Archive[$archive],
+    exec { "${archive}-SHA256SUMS":
+      command => "curl -L ${checksum_url} -O",
+      creates => "${local_dir}/lib/SHA256SUMS",
+      path    => '/bin:/usr/bin',
+      cwd     => "${local_dir}/lib",
+    }
+
+    archive { $archive:
+      path            => "${local_dir}/lib/${archive}",
+      source          => $source,
+      extract         => true,
+      extract_command => "tar zxf %s --strip-components=1 -C ${local_dir}/bin",
+      extract_path    => "${local_dir}/bin",
+      cleanup         => false,
+      # firewall plugin has been introduced in v0.8.0
+      creates         => "${local_dir}/bin/nerdctl",
+    }
+
+    $nerdctl_binaries.each |$binary| {
+      exec { "${dir}/${binary}":
+        command => "cp ${local_dir}/bin/${binary} ${dir}/${binary}",
+        creates => "${dir}/${binary}",
+        onlyif  => "grep ${archive} ${local_dir}/lib/SHA256SUMS | sha256sum --check",
+        path    => '/bin:/usr/bin',
+        cwd     => "${local_dir}/lib",
+        require => [
+          Exec["${archive}-SHA256SUMS"],
+          Archive[$archive],
+        ],
+      }
+
+      file { "${dir}/${binary}":
+        mode    => '0755',
+        owner   => 'root',
+        group   => 'root',
+        require => Exec["${dir}/${binary}"],
+      }
     }
   }
 }

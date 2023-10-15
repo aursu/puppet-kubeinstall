@@ -15,7 +15,7 @@ define kubeinstall::kubectl::apply (
       Array[String]
     ]
   ] $unless = undef,
-  Optional[Stdlib::Unixpath] $kubeconfig = '/etc/kubernetes/admin.conf',
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   if $namespace == 'default' {
     $apply_command = 'kubectl apply'
