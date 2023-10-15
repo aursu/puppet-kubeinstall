@@ -5,7 +5,7 @@
 # @param targets
 #   Nodes for which containerd should be enabled
 #
-plan kubeinstall::runtime::containerd (
+plan kubeinstall::containerd (
   TargetSpec $targets,
   String $version = '1.7.7',
 ) {

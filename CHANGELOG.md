@@ -791,12 +791,14 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.29.0
+## Release 0.29.1
 
 **Features**
 
 * Added containerd Kubernetes runtime installation
 
 **Bugfixes**
+
+* Bugfix: containerd plan name
 
 **Known Issues**
