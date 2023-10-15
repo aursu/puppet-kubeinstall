@@ -5,7 +5,7 @@
 # @example
 #   include kubeinstall::runtime::containerd::nerdctl
 class kubeinstall::runtime::containerd::nerdctl (
-  Kubeinstall::NerdCTL::Versio $version = $kubeinstall::params::nerdctl_version,
+  Kubeinstall::NerdCTL::Version $version = $kubeinstall::params::nerdctl_version,
 ) inherits kubeinstall::params {
   include kubeinstall
   include kubeinstall::directory_structure
