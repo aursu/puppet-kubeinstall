@@ -23,4 +23,12 @@ class kubeinstall::params {
   $topolvm_scheduler_path = '/var/lib/kubelet/plugins/topolvm.io/scheduler'
 
   $cert_dir = '/etc/kubernetes/pki'
+
+  $containerd_version = '1.7.7'
+  $runc_version = '1.1.9'
+  $cni_plugins_version = '1.3.0'
+  $nerdctl_version = '1.6.2'
+
+  $cni_plugins_dir_path = '/opt/cni'
+  $cni_plugins_dir = "${cni_plugins_dir_path}/bin"
 }
