@@ -6,7 +6,7 @@
 #   include kubeinstall::directory_structure
 class kubeinstall::directory_structure (
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
-) {
+) inherits kubeinstall::params {
   # https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/
   file { ['/root/.kube', '/var/lib/kubelet']:
     ensure => directory,
@@ -22,7 +22,7 @@ class kubeinstall::directory_structure (
       '/etc/kubernetes/pki',
       # https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/
       '/etc/cni', '/etc/cni/net.d',
-      '/opt/cni', '/opt/cni/bin',
+      $kubeinstall::params::cni_plugins_dir_path, $kubeinstall::params::cni_plugins_dir,
       $manifests_directory,
     "${manifests_directory}/manifests"].unique: # lint:ignore:unquoted_resource_title
       ensure => directory,
