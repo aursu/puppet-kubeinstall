@@ -790,3 +790,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.29.0
+
+**Features**
+
+* Added containerd Kubernetes runtime installation
+
+**Bugfixes**
+
+**Known Issues**
