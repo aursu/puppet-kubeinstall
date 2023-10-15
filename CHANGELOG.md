@@ -791,7 +791,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.29.3
+## Release 0.29.4
 
 **Features**
 
@@ -802,5 +802,6 @@ All notable changes to this project will be documented in this file.
 * Bugfix: containerd plan name
 * Bugfix: wrong type name for nerdctl installation
 * Bugfix: sha256 checksum check for nerdctl
+* Bugfix: containerd components archive extract
 
 **Known Issues**

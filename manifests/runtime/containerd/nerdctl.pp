@@ -17,7 +17,6 @@ class kubeinstall::runtime::containerd::nerdctl (
     $nerdctl_version = $version
   }
 
-  $dir = '/usr/local/bin'
   $nerdctl_binaries = [
     'nerdctl',
     'containerd-rootless-setuptool.sh',
@@ -27,7 +26,7 @@ class kubeinstall::runtime::containerd::nerdctl (
   # https://github.com/containerd/nerdctl/releases/download/v1.6.2/nerdctl-1.6.2-linux-amd64.tar.gz
   if $version == 'absent' {
     $nerdctl_binaries.each |$binary| {
-      file { "${dir}/${binary}":
+      file { "/usr/local/bin/${binary}":
         ensure => absent,
       }
     }
@@ -54,20 +53,19 @@ class kubeinstall::runtime::containerd::nerdctl (
     }
 
     archive { $archive:
-      path            => "${local_dir}/lib/${archive}",
-      source          => $source,
-      extract         => true,
-      extract_command => "tar zxf %s --strip-components=1 -C ${local_dir}/bin",
-      extract_path    => "${local_dir}/bin",
-      cleanup         => false,
+      path         => "${local_dir}/lib/${archive}",
+      source       => $source,
+      extract      => true,
+      extract_path => "${local_dir}/bin",
+      cleanup      => false,
       # firewall plugin has been introduced in v0.8.0
-      creates         => "${local_dir}/bin/nerdctl",
+      creates      => "${local_dir}/bin/nerdctl",
     }
 
     $nerdctl_binaries.each |$binary| {
-      exec { "${dir}/${binary}":
-        command => "cp ${local_dir}/bin/${binary} ${dir}/${binary}",
-        creates => "${dir}/${binary}",
+      exec { "/usr/local/bin/${binary}":
+        command => "cp ${local_dir}/bin/${binary} /usr/local/bin/${binary}",
+        creates => "/usr/local/bin/${binary}",
         onlyif  => "grep ${archive} ${local_dir}/lib/SHA256SUMS | sha256sum --check",
         path    => '/bin:/usr/bin',
         cwd     => "${local_dir}/lib",
@@ -77,11 +75,11 @@ class kubeinstall::runtime::containerd::nerdctl (
         ],
       }
 
-      file { "${dir}/${binary}":
+      file { "/usr/local/bin/${binary}":
         mode    => '0755',
         owner   => 'root',
         group   => 'root',
-        require => Exec["${dir}/${binary}"],
+        require => Exec["/usr/local/bin/${binary}"],
       }
     }
   }

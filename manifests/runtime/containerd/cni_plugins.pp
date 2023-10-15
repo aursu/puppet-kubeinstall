@@ -49,16 +49,15 @@ class kubeinstall::runtime::containerd::cni_plugins (
     $source = "https://github.com/containernetworking/plugins/releases/download/v${plugins_version}/${archive}"
 
     archive { $archive:
-      path            => "/tmp/${archive}",
-      source          => $source,
-      extract         => true,
-      extract_command => "tar zxf %s --strip-components=1 -C ${dir}",
-      extract_path    => $dir,
-      cleanup         => true,
+      path          => "/tmp/${archive}",
+      source        => $source,
+      extract       => true,
+      extract_path  => $dir,
+      cleanup       => true,
       # firewall plugin has been introduced in v0.8.0
-      creates         => "${dir}/firewall",
-      checksum_url    => "${source}.sha256",
-      checksum_type   => 'sha256',
+      creates       => "${dir}/firewall",
+      checksum_url  => "${source}.sha256",
+      checksum_type => 'sha256',
     }
 
     file { $plugins_binaries:

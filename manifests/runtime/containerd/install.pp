@@ -43,15 +43,14 @@ class kubeinstall::runtime::containerd::install (
     # bin/ctr
 
     archive { $archive:
-      path            => "/tmp/${archive}",
-      source          => $source,
-      extract         => true,
-      extract_command => 'tar zxf %s --strip-components=1 -C /usr/local/',
-      extract_path    => '/usr/local/bin',
-      cleanup         => true,
-      creates         => '/usr/local/bin/containerd',
-      checksum_url    => "${source}.sha256sum",
-      checksum_type   => 'sha256',
+      path          => "/tmp/${archive}",
+      source        => $source,
+      extract       => true,
+      extract_path  => '/usr/local',
+      cleanup       => true,
+      creates       => '/usr/local/bin/containerd',
+      checksum_url  => "${source}.sha256sum",
+      checksum_type => 'sha256',
     }
 
     file { $containerd_binaries:
