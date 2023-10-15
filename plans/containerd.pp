@@ -7,10 +7,11 @@
 #
 plan kubeinstall::runtime::containerd (
   TargetSpec $targets,
+  String $version = '1.7.7',
 ) {
   run_plan(facts, $targets)
   return apply($targets) {
     include kubeinstall
-    class { 'kubeinstall::runtime::containerd': }
+    class { 'kubeinstall::runtime::containerd': version => $version, }
   }
 }
