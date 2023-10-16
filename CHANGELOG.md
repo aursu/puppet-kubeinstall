@@ -806,7 +806,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.30.1
+## Release 0.30.2
 
 **Features**
 
@@ -817,5 +817,6 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 * Added `containerd` service refresh on configuration changes
+* Bugfix: use network configurations instead plugin configurations
 
 **Known Issues**

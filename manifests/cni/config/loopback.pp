@@ -15,11 +15,12 @@ class kubeinstall::cni::config::loopback {
   }
 
   $object_content = { 'plugins' => [$config_loopback] }
+  $object = $object_header + $object_content
 
-  $object = to_json($object_header + $object_content)
-
-  file { '/etc/cni/net.d/200-loopback.conf':
+  file { '/etc/cni/net.d/200-loopback.conflist':
     ensure  => file,
-    content => $object,
+    content => to_json_pretty($object, true, { indent => '    ', space => ' ' }),
   }
+
+  file { '/etc/cni/net.d/200-loopback.conf': ensure => absent }
 }

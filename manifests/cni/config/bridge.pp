@@ -39,11 +39,12 @@ class kubeinstall::cni::config::bridge (
   }
 
   $object_content = { 'plugins' => [$config_bridge] }
+  $object = $object_header + $object_content
 
-  $object = to_json($object_header + $object_content)
-
-  file { '/etc/cni/net.d/100-bridge.conf':
+  file { '/etc/cni/net.d/100-bridge.conflist':
     ensure  => file,
-    content => $object,
+    content => to_json_pretty($object, true, { indent => '    ', space => ' ' }),
   }
+
+  file { '/etc/cni/net.d/100-bridge.conf': ensure => absent }
 }
