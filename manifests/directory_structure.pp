@@ -22,6 +22,8 @@ class kubeinstall::directory_structure (
       '/etc/kubernetes/pki',
       # https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/
       '/etc/cni', '/etc/cni/net.d',
+      # https://github.com/cncf-tags/container-device-interface
+      '/etc/cdi', '/var/run/cdi',
       $kubeinstall::params::cni_plugins_dir_path, $kubeinstall::params::cni_plugins_dir,
       $manifests_directory,
     "${manifests_directory}/manifests"].unique: # lint:ignore:unquoted_resource_title
