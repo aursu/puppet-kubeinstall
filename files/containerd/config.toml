@@ -124,7 +124,7 @@ version = 2
           snapshotter = ""
 
           [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
-            BinaryName = ""
+            BinaryName = "/usr/local/sbin/runc"
             CriuImagePath = ""
             CriuPath = ""
             CriuWorkPath = ""
@@ -134,7 +134,7 @@ version = 2
             NoPivotRoot = false
             Root = ""
             ShimCgroup = ""
-            SystemdCgroup = false
+            SystemdCgroup = true
 
       [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
         base_runtime_spec = ""
