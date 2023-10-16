@@ -28,6 +28,11 @@ describe 'kubeinstall::runtime::containerd::config' do
           is_expected.to contain_file('/etc/containerd/config.toml')
             .with_content(%r{default_runtime_name = "runc"})
         }
+
+        it {
+          is_expected.to contain_file('/etc/containerd/config.toml')
+            .with_content(%r{SystemdCgroup = true})
+        }
       end
     end
   end
