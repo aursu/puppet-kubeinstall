@@ -805,3 +805,15 @@ All notable changes to this project will be documented in this file.
 * Bugfix: containerd components archive extract
 
 **Known Issues**
+
+## Release 0.30.0
+
+**Features**
+
+* Added CNI plugins `bridge` and `loopback` configuration
+* Added `containerd` service management
+* Added `crictl` installation
+
+**Bugfixes**
+
+**Known Issues**
