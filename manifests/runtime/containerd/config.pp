@@ -2,6 +2,11 @@
 #
 # containerd configuation and directory stucture
 #
+# @param content
+#   `/etc/containerd/config.toml` content. If not specified Puppet will generate it using command
+#   `containerd config default`
+#   See: https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd-systemd
+#
 # @example
 #   include kubeinstall::runtime::containerd::config
 class kubeinstall::runtime::containerd::config (
