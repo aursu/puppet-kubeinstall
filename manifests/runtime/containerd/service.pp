@@ -27,9 +27,9 @@ class kubeinstall::runtime::containerd::service {
   }
 
   Class['kubeinstall::runtime::containerd::install'] -> Class['kubeinstall::runtime::containerd::config']
-  Class['kubeinstall::runtime::containerd::config'] -> Service['containerd']
+  Class['kubeinstall::runtime::containerd::config'] ~> Service['containerd']
   Class['kubeinstall::runtime::containerd::runc'] -> Service['containerd']
   Class['kubeinstall::cni::plugins'] -> Service['containerd']
-  Class['kubeinstall::cni::config::bridge'] -> Service['containerd']
-  Class['kubeinstall::cni::config::loopback'] -> Service['containerd']
+  Class['kubeinstall::cni::config::bridge'] ~> Service['containerd']
+  Class['kubeinstall::cni::config::loopback'] ~> Service['containerd']
 }

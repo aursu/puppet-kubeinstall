@@ -806,7 +806,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.30.0
+## Release 0.30.1
 
 **Features**
 
@@ -815,5 +815,7 @@ All notable changes to this project will be documented in this file.
 * Added `crictl` installation
 
 **Bugfixes**
+
+* Added `containerd` service refresh on configuration changes
 
 **Known Issues**
