@@ -5,7 +5,7 @@
 # @example
 #   kubeinstall::component::instance { 'namevar': }
 define kubeinstall::component::instance (
-  Enum['kube-apiserver', 'kubectl', 'kube-controller-manager', 'kube-scheduler']
+  Enum['kube-apiserver', 'kubectl', 'kube-controller-manager', 'kube-scheduler', 'kube-proxy']
   $component = $name,
   Kubeinstall::VersionPrefix $kubernetes_version = $kubeinstall::kubernetes_version,
 ) {
