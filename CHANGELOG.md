@@ -806,13 +806,14 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.30.2
+## Release 0.30.3
 
 **Features**
 
 * Added CNI plugins `bridge` and `loopback` configuration
 * Added `containerd` service management
 * Added `crictl` installation
+* Enabled default config.toml setup for containerd
 
 **Bugfixes**
 

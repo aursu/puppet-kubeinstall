@@ -12,6 +12,10 @@ plan kubeinstall::containerd (
   run_plan(facts, $targets)
   return apply($targets) {
     include kubeinstall
-    class { 'kubeinstall::runtime::containerd': version => $version, }
+
+    class { 'kubeinstall::runtime::containerd':
+      version     => $version,
+      set_content => true, # set default content from Kubeinstall module
+    }
   }
 }
