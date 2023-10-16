@@ -1,10 +1,11 @@
 # @summary CNI network plugins
 #
 # CNI network plugins, maintained by the containernetworking team
+# https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/
 #
 # @example
-#   include kubeinstall::runtime::containerd::cni_plugins
-class kubeinstall::runtime::containerd::cni_plugins (
+#   include kubeinstall::cni::plugins
+class kubeinstall::cni::plugins (
   Kubeinstall::CNIPlugins::Version $version = $kubeinstall::params::cni_plugins_version,
 ) inherits kubeinstall::params {
   include kubeinstall

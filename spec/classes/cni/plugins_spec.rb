@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'kubeinstall::runtime::containerd::cni_plugins' do
+describe 'kubeinstall::cni::plugins' do
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       let(:facts) { os_facts }
