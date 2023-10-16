@@ -6,7 +6,7 @@
 #   include kubeinstall::runtime::containerd::crictl
 class kubeinstall::runtime::containerd::crictl (
   Kubeinstall::Version $version = $kubeinstall::params::cri_tools_version,
-) {
+) inherits kubeinstall::params {
   # https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.28.0/crictl-v1.28.0-linux-amd64.tar.gz
   if $version in ['installed', 'present', 'latest'] {
     $cri_tools_version = $kubeinstall::params::cri_tools_version

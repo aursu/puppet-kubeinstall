@@ -9,7 +9,7 @@ class kubeinstall::runtime::containerd::service {
 
   file { '/etc/systemd/system/containerd.service':
     ensure  => file,
-    content => file('kubeinstall/containerd.service'),
+    content => file('kubeinstall/containerd/containerd.service'),
     notify  => Class['bsys::systemctl::daemon_reload'],
   }
 }

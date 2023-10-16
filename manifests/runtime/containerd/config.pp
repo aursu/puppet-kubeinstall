@@ -6,7 +6,7 @@
 #   include kubeinstall::runtime::containerd::config
 class kubeinstall::runtime::containerd::config (
   Boolean $set_content = false,
-  String $content = file('kubeinstall/config.toml'),
+  String $content = file('kubeinstall/containerd/config.toml'),
 ) {
   file { [
       '/var/lib/containerd',
