@@ -14,8 +14,8 @@ plan kubeinstall::containerd (
     include kubeinstall
 
     class { 'kubeinstall::runtime::containerd':
-      version     => $version,
-      set_content => true, # set default content from Kubeinstall module
+      version    => $version,
+      set_config => true, # set default content from Kubeinstall module
     }
   }
 }
