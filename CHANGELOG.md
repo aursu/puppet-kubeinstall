@@ -822,12 +822,14 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.31.0
+## Release 0.31.1
 
 **Features**
 
 * Added 'kubelet' and 'kube-proxy' Kubernetes components installation
 
 **Bugfixes**
+
+* Bugfix: removed duplicate file resource
 
 **Known Issues**

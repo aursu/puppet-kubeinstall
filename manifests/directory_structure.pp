@@ -8,7 +8,7 @@ class kubeinstall::directory_structure (
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
 ) inherits kubeinstall::params {
   # https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/
-  file { ['/root/.kube', '/var/lib/kubelet']:
+  file { '/root/.kube':
     ensure => directory,
     mode   => '0700',
     owner  => 'root',
