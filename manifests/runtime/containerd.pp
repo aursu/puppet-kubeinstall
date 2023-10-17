@@ -13,10 +13,9 @@
 #   include kubeinstall::runtime::containerd
 class kubeinstall::runtime::containerd (
   Kubeinstall::Containerd::VersionPrefix $version = $kubeinstall::params::containerd_version,
-  Stdlib::IP::Address $bridge_subnet = '10.85.0.0/16',
+  Stdlib::IP::Address $pod_subnet = '10.85.0.0/16',
   Optional[String] $config_content = undef,
   Boolean $set_config = false,
-
 ) inherits kubeinstall::params {
   class { 'kubeinstall::runtime::containerd::install':
     version => $version,
@@ -28,7 +27,7 @@ class kubeinstall::runtime::containerd (
   }
 
   class { 'kubeinstall::cni::config::bridge':
-    ipv4_subnet => $bridge_subnet,
+    ipv4_subnet => $pod_subnet,
   }
 
   include kubeinstall::runtime::containerd::service
