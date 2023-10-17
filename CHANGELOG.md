@@ -821,3 +821,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: use network configurations instead plugin configurations
 
 **Known Issues**
+
+## Release 0.31.0
+
+**Features**
+
+* Added 'kubelet' and 'kube-proxy' Kubernetes components installation
+
+**Bugfixes**
+
+**Known Issues**

@@ -25,8 +25,10 @@ class kubeinstall::directory_structure (
       # https://github.com/cncf-tags/container-device-interface
       '/etc/cdi', '/var/run/cdi',
       $kubeinstall::params::cni_plugins_dir_path, $kubeinstall::params::cni_plugins_dir,
-      $manifests_directory,
-    "${manifests_directory}/manifests"].unique: # lint:ignore:unquoted_resource_title
+      $manifests_directory, "${manifests_directory}/manifests",
+      # kubelet root directory and certificate directory
+      '/var/lib/kubelet', '/var/lib/kubelet/pki',
+    '/var/lib/kube-proxy'].unique: # lint:ignore:unquoted_resource_title
       ensure => directory,
       mode   => '0755',
       owner  => 'root',
