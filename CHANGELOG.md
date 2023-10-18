@@ -833,3 +833,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: removed duplicate file resource
 
 **Known Issues**
+
+## Release 0.32.0
+
+**Features**
+
+* Adjusted components' versions
+
+**Bugfixes**
+
+**Known Issues**

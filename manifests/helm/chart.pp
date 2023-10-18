@@ -26,8 +26,9 @@ define kubeinstall::helm::chart (
   Optional[Stdlib::HTTPUrl] $repo_url = undef,
   Stdlib::Unixpath $cwd = '/root',
   Optional[String] $chart_version = undef,
-  Variant[Kubeinstall::Path, Array[Kubeinstall::Path]] $values = [],
+  Variant[Stdlib::Unixpath, Array[Stdlib::Unixpath]] $values = [],
   Hash[String, String] $set_values = {},
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   # There are five different ways you can express the chart you want to install:
   # 1. By chart reference: helm install mymaria example/mariadb
@@ -118,7 +119,7 @@ define kubeinstall::helm::chart (
     path        => '/usr/local/bin:/usr/bin:/bin',
     cwd         => $cwd,
     environment => [
-      'KUBECONFIG=/etc/kubernetes/admin.conf',
+      "KUBECONFIG=${kubeconfig}",
     ],
     unless      => $unless_command,
   }

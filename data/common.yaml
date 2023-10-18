@@ -28,15 +28,15 @@ kubeinstall::install_calicoctl: true
 # false for backward compatibility
 kubeinstall::install_calico_operator: false
 # https://github.com/projectcalico/calico/releases
-kubeinstall::calico_version: v3.26.1
+kubeinstall::calico_version: v3.26.3
 # https://github.com/helm/helm/releases
-kubeinstall::helm_version: 3.13.0
+kubeinstall::helm_version: 3.13.1
 # https://github.com/kubernetes-sigs/krew/releases
 kubeinstall::krew_version: 0.4.4
 # https://github.com/argoproj/argo-cd/releases
 kubeinstall::argocd_version: v2.8.4
 # https://github.com/topolvm/topolvm/releases
-kubeinstall::lvmd_version: 0.21.0
+kubeinstall::lvmd_version: 0.22.0
 kubeinstall::topolvm_scheduler: false
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
