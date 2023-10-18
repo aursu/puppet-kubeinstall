@@ -834,12 +834,14 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.32.0
+## Release 0.32.1
 
 **Features**
 
 * Adjusted components' versions
 
 **Bugfixes**
+
+* Bugfix: added flag to allow default namespace
 
 **Known Issues**

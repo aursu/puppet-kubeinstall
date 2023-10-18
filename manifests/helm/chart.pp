@@ -15,6 +15,9 @@
 # @param release_name
 #   corresponds to NAME parameter ofr command `helm install`
 #
+# @param default_namespace
+#   Whether namespace is one of default namespaces (eg `default` or `kube-system` etc)
+#
 # @example
 #   kubeinstall::helm::chart { 'namevar': }
 define kubeinstall::helm::chart (
@@ -29,6 +32,7 @@ define kubeinstall::helm::chart (
   Variant[Stdlib::Unixpath, Array[Stdlib::Unixpath]] $values = [],
   Hash[String, String] $set_values = {},
   Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
+  Boolean $default_namespace = false,
 ) {
   # There are five different ways you can express the chart you want to install:
   # 1. By chart reference: helm install mymaria example/mariadb
@@ -129,7 +133,7 @@ define kubeinstall::helm::chart (
   }
 
   if $namespace_param {
-    unless $namespace_create {
+    unless $namespace_create or $default_namespace {
       Kubeinstall::Resource::Ns[$namespace] -> Exec[$exec_command]
     }
   }
