@@ -845,3 +845,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: added flag to allow default namespace
 
 **Known Issues**
+
+## Release 0.33.0
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: corrected cri-o installation on Ubuntu when version is not set
+
+**Known Issues**

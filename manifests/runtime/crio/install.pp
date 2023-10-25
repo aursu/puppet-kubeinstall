@@ -23,16 +23,21 @@ class kubeinstall::runtime::crio::install (
   $osname = $facts['os']['name']
   $version_data  = split($crio_version, '[~]')
 
-  if $osname == 'Ubuntu' {
-    if $version_data[1] {
-      $os_crio_version = $crio_version
-    }
-    else {
-      $os_crio_version = "${crio_version}~0"
-    }
+  if $crio_version in ['installed', 'latest'] {
+    $os_crio_version = $crio_version
   }
   else {
-    $os_crio_version = $crio_version
+    if $osname == 'Ubuntu' {
+      if $version_data[1] {
+        $os_crio_version = $crio_version
+      }
+      else {
+        $os_crio_version = "${crio_version}~0"
+      }
+    }
+    else {
+      $os_crio_version = $crio_version
+    }
   }
 
   package { 'cri-o':
