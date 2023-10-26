@@ -855,3 +855,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: corrected cri-o installation on Ubuntu when version is not set
 
 **Known Issues**
+
+## Release 0.34.0
+
+**Features**
+
+**Bugfixes**
+
+* Bugfix: corrected /etc/containers/policy.json on CentOS 8 Stream
+
+**Known Issues**

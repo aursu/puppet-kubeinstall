@@ -17,17 +17,16 @@ class kubeinstall::runtime::crio::install (
   ] $crio_version = $kubeinstall::crio_version,
   String $crio_runc_version = $kubeinstall::crio_runc_version,
 ) {
+  include bsys::params
   include kubeinstall::repos::crio
   include bsys::systemctl::daemon_reload
-
-  $osname = $facts['os']['name']
-  $version_data  = split($crio_version, '[~]')
 
   if $crio_version in ['installed', 'latest'] {
     $os_crio_version = $crio_version
   }
   else {
-    if $osname == 'Ubuntu' {
+    if $bsys::params::osname == 'Ubuntu' {
+      $version_data  = split($crio_version, '[~]')
       if $version_data[1] {
         $os_crio_version = $crio_version
       }
@@ -46,13 +45,30 @@ class kubeinstall::runtime::crio::install (
     require => Class['kubeinstall::repos::crio'],
   }
 
-  if $facts['os']['family'] == 'Debian' {
-    package { 'cri-o-runc':
-      ensure => $crio_runc_version,
-      before => Package['cri-o'],
-    }
+  case $bsys::params::osfam {
+    'Debian': {
+      package { 'cri-o-runc':
+        ensure => $crio_runc_version,
+        before => Package['cri-o'],
+      }
 
-    # fix sequence of repository update and package installation
-    Class['apt::update'] -> Package['cri-o-runc']
+      # fix sequence of repository update and package installation
+      Class['apt::update'] -> Package['cri-o-runc']
+    }
+    'RedHat': {
+      if $bsys::params::osmaj == '8' and $bsys::params::centos_stream {
+        file {
+          '/etc/containers':
+            ensure => directory,
+            ;
+          '/etc/containers/policy.json':
+            ensure  => file,
+            content => file('kubeinstall/cri-o/policy.json'),
+            require => Package['cri-o'],
+            ;
+        }
+      }
+    }
+    default: {}
   }
 }
