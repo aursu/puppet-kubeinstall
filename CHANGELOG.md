@@ -865,3 +865,14 @@ All notable changes to this project will be documented in this file.
 * Bugfix: corrected /etc/containers/policy.json on CentOS 8 Stream
 
 **Known Issues**
+
+## Release 0.35.0
+
+**Features**
+
+* Updated packages repos for Kubenetes project
+* Added version check for Argo CD
+
+**Bugfixes**
+
+**Known Issues**
