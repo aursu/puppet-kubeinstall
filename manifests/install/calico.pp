@@ -50,7 +50,7 @@ class kubeinstall::install::calico (
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
   if $operator {
     exec { 'calico-operator-install':
-      command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/${version}/manifests/tigera-operator.yaml",
+      command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/tigera-operator.yaml",
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
         'KUBECONFIG=/etc/kubernetes/admin.conf',
@@ -120,7 +120,7 @@ class kubeinstall::install::calico (
   }
   else {
     exec { 'calico-install':
-      command     => "kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/${version}/manifests/calico.yaml",
+      command     => "kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/calico.yaml",
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
         'KUBECONFIG=/etc/kubernetes/admin.conf',
