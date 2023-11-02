@@ -90,19 +90,19 @@ describe 'kubeinstall::helm::chart' do
           let(:params) do
             {
               release_name: 'rook-ceph',
-              values: 'values.yaml',
+              values: '/root/values.yaml',
             }
           end
 
           it {
-            is_expected.to contain_exec('helm install rook-ceph rook-release/rook-ceph -f values.yaml')
+            is_expected.to contain_exec('helm install rook-ceph rook-release/rook-ceph -f /root/values.yaml')
           }
 
           context 'when values in multiple YAML files specified' do
-            let(:params) { super().merge(values: ['values.yaml', 'override.yaml']) }
+            let(:params) { super().merge(values: ['/root/values.yaml', '/root/override.yaml']) }
 
             it {
-              is_expected.to contain_exec('helm install rook-ceph rook-release/rook-ceph -f values.yaml -f override.yaml')
+              is_expected.to contain_exec('helm install rook-ceph rook-release/rook-ceph -f /root/values.yaml -f /root/override.yaml')
             }
           end
         end
