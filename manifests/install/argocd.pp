@@ -12,25 +12,28 @@ class kubeinstall::install::argocd (
   Boolean $expose = false,
   Kubeinstall::DNSName $service_name = 'argocd-server-static',
   Kubeinstall::Port $service_port = 30200,
+  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
 ) {
+  include kubeinstall::directory_structure
+
   # ArgoCD namespace
   kubeinstall::resource::ns { $namespace: }
 
   if $ha {
     # https://argoproj.github.io/argo-cd/operator-manual/high_availability/
-    $install_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/${version}/manifests/ha/install.yaml"
+    $remote_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/${version}/manifests/ha/install.yaml"
   }
   else {
-    $install_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/${version}/manifests/install.yaml"
+    $remote_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/${version}/manifests/install.yaml"
   }
 
   exec { 'argocd-install':
-    command     => "kubectl apply -n ${namespace} -f ${install_manifest}",
+    command     => "kubectl apply -n ${namespace} -f ${remote_manifest}",
     path        => '/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],
-    unless      => "kubectl get -n ${namespace} service/argocd-repo-server",
+    unless      => "kubectl get -n argocd deployment.apps/argocd-server -o jsonpath='{.spec.template.spec.containers[?(@.name == \"argocd-server\")].image}' | grep ${version}",
     require     => Kubeinstall::Resource::Ns[$namespace],
   }
 

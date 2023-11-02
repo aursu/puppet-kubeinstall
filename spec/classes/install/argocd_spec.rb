@@ -47,7 +47,7 @@ YAMLDATA
       it {
         is_expected.to contain_exec('argocd-install')
           .with_command(%r{kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2\.[0-9]+\.[0-9]+/manifests/install.yaml})
-          .with_unless('kubectl get -n argocd service/argocd-repo-server')
+          .with_unless(%r{kubectl get -n argocd deployment.apps/argocd-server -o jsonpath='\{.spec.template.spec.containers\[\?\(@.name == \"argocd-server\"\)\].image\}' | grep v2\.[0-9]*\.[0-9]+})
           .that_requires('Kubeinstall::Resource::Ns[argocd]')
       }
 
