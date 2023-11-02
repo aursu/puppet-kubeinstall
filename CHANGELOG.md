@@ -866,7 +866,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.35.2
+## Release 0.35.3
 
 **Features**
 
@@ -876,5 +876,6 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 * Corrected versions for Argo CD and Calico
+* Updated keyring path to /etc/apt/trusted.gpg.d
 
 **Known Issues**
