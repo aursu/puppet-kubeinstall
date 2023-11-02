@@ -866,11 +866,11 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.35.4
+## Release 0.35.5
 
 **Features**
 
-* Updated packages repos for Kubenetes project
+* Updated packages repos for Kubenetes project and package version for Ubuntu
 * Added version check for Argo CD
 
 **Bugfixes**
