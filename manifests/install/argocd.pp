@@ -21,10 +21,10 @@ class kubeinstall::install::argocd (
 
   if $ha {
     # https://argoproj.github.io/argo-cd/operator-manual/high_availability/
-    $remote_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/${version}/manifests/ha/install.yaml"
+    $remote_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/v${version}/manifests/ha/install.yaml"
   }
   else {
-    $remote_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/${version}/manifests/install.yaml"
+    $remote_manifest = "https://raw.githubusercontent.com/argoproj/argo-cd/v${version}/manifests/install.yaml"
   }
 
   exec { 'argocd-install':
@@ -33,7 +33,7 @@ class kubeinstall::install::argocd (
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],
-    unless      => "kubectl get -n argocd deployment.apps/argocd-server -o jsonpath='{.spec.template.spec.containers[?(@.name == \"argocd-server\")].image}' | grep ${version}",
+    unless      => "kubectl get -n argocd deployment.apps/argocd-server -o jsonpath='{.spec.template.spec.containers[?(@.name == \"argocd-server\")].image}' | grep v${version}",
     require     => Kubeinstall::Resource::Ns[$namespace],
   }
 

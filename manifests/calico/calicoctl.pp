@@ -8,11 +8,11 @@
 class kubeinstall::calico::calicoctl (
   String $version = $kubeinstall::calico_version,
 ) {
-  $download_url = "https://github.com/projectcalico/calico/releases/download/${version}/calicoctl-linux-amd64"
+  $download_url = "https://github.com/projectcalico/calico/releases/download/v${version}/calicoctl-linux-amd64"
 
   exec { 'install-calicoctl':
-    command => "curl -L ${download_url} -o calicoctl-linux-amd64-${version}",
-    creates => "/usr/local/bin/calicoctl-linux-amd64-${version}",
+    command => "curl -L ${download_url} -o calicoctl-linux-amd64-v${version}",
+    creates => "/usr/local/bin/calicoctl-linux-amd64-v${version}",
     path    => '/bin:/usr/bin',
     cwd     => '/usr/local/bin',
   }
@@ -22,7 +22,7 @@ class kubeinstall::calico::calicoctl (
     mode    => '0755',
     owner   => 'root',
     group   => 'root',
-    source  => "file:///usr/local/bin/calicoctl-linux-amd64-${version}",
+    source  => "file:///usr/local/bin/calicoctl-linux-amd64-v${version}",
     require => Exec['install-calicoctl'],
   }
 

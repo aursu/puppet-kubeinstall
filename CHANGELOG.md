@@ -866,7 +866,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.35.0
+## Release 0.35.1
 
 **Features**
 
@@ -874,5 +874,7 @@ All notable changes to this project will be documented in this file.
 * Added version check for Argo CD
 
 **Bugfixes**
+
+* Corrected versions for Argo CD and Calico
 
 **Known Issues**
