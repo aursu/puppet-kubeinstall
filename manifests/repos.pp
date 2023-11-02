@@ -4,33 +4,35 @@
 #
 # @example
 #   include kubeinstall::repos
-class kubeinstall::repos {
+class kubeinstall::repos (
+  Kubeinstall::Release $kuberel = $kubeinstall::kubernetes_release,
+) {
   if $facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'], '7') >= 0 {
     yumrepo { 'kubernetes':
-      ensure        => 'present',
-      baseurl       => 'https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64',
-      descr         => 'Kubernetes',
-      enabled       => '1',
-      gpgcheck      => '1',
-      gpgkey        => 'https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg',
-      repo_gpgcheck => '0',
+      ensure   => 'present',
+      baseurl  => "https://pkgs.k8s.io/core:/stable:/v${kuberel}/rpm/",
+      descr    => 'Kubernetes',
+      enabled  => '1',
+      gpgcheck => '1',
+      gpgkey   => "https://pkgs.k8s.io/core:/stable:/v${kuberel}/rpm/repodata/repomd.xml.key",
     }
   }
   elsif $facts['os']['name'] == 'Ubuntu' {
     $dist = $facts['os']['distro']['codename']
     $release = "kubernetes-${dist}"
 
+    exec { 'curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg':
+      path   => '/usr/bin:/bin',
+      unless => 'gpg /etc/apt/keyrings/kubernetes-apt-keyring.gpg',
+      before => Apt::Source['kubernetes'],
+    }
+
     apt::source { 'kubernetes':
       comment  => 'Kubernetes apt repository',
-      location => 'https://apt.kubernetes.io/',
-      # no bionic, no focal and upper
-      release  => 'kubernetes-xenial',
-      repos    => 'main',
-      key      => {
-        id     => 'A362B822F6DEDC652817EA46B53DC80D13EDEF05',
-        source => 'https://packages.cloud.google.com/apt/doc/apt-key.gpg',
-        ensure => 'refreshed',
-      },
+      location => "https://pkgs.k8s.io/core:/stable:/v${kuberel}/deb/",
+      release  => '',
+      repos    => '/',
+      keyring  => '/etc/apt/keyrings/kubernetes-apt-keyring.gpg',
     }
   }
 }
