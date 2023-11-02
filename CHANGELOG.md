@@ -866,7 +866,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.35.1
+## Release 0.35.2
 
 **Features**
 
