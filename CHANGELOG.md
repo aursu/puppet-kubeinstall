@@ -880,7 +880,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.36.1
+## Release 0.36.2
 
 **Features**
 
@@ -890,5 +890,7 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 * Corrected `path` property for each exec with kubectl in `command` or `unless`
+* Removed hostname from `onlyif` condition `kubectl get nodes` (kubelet could be not installed on
+  control plain) 
 
 **Known Issues**
