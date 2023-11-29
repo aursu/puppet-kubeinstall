@@ -30,7 +30,7 @@ kubeinstall::install_calico_operator: false
 # https://github.com/projectcalico/calico/releases
 kubeinstall::calico_version: 3.26.4
 # https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/tigera-operator.yaml
-kubeinstall::tigera_operator_version: 1.30.9
+kubeinstall::calico_operator_version: 1.30.9
 # https://github.com/helm/helm/releases
 kubeinstall::helm_version: 3.13.2
 # https://github.com/kubernetes-sigs/krew/releases

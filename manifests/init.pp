@@ -30,6 +30,7 @@ class kubeinstall (
   Boolean $disable_ipv6,
   String  $calico_version,
   Boolean $install_calico_operator,
+  String  $calico_operator_version,
   Boolean $join_control_plane,
   Optional[Kubeinstall::Token] $join_token,
   Optional[Kubeinstall::CACertHash] $join_ca_cert_hash,

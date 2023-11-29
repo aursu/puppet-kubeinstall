@@ -38,6 +38,7 @@ class kubeinstall::install::calico (
   Optional[Integer] $mtu = $kubeinstall::calico_mtu,
   Boolean $calicoctl = $kubeinstall::install_calicoctl,
   Boolean $operator  = $kubeinstall::install_calico_operator,
+  String  $operator_version = $kubeinstall::calico_operator_version,
   String $api_server_name = 'default',
   String $installation_name = 'default',
   Pattern[/\/$/] $installation_registry = 'quay.io/',
@@ -57,7 +58,7 @@ class kubeinstall::install::calico (
         "KUBECONFIG=${kubeconfig}",
       ],
       onlyif      => "kubectl get nodes ${node_name}",
-      unless      => 'kubectl -n tigera-operator get deployment tigera-operator',
+      unless      => "kubectl -n tigera-operator get deployment.apps/tigera-operator -o jsonpath='{.spec.template.spec.containers[?(@.name == \"tigera-operator\")].image}' | grep v${operator_version}",
     }
 
     $apiserver_header = {
@@ -114,7 +115,7 @@ class kubeinstall::install::calico (
         "KUBECONFIG=${kubeconfig}",
       ],
       onlyif      => "test -f ${manifest}",
-      unless      => "kubectl get -n calico-system installations.operator.tigera.io/${installation_name}",
+      unless      => "kubectl get -n calico-system daemonset.apps/calico-node -o jsonpath='{.spec.template.spec.containers[?(@.name == \"calico-node\")].image}' | grep v${version}",
       subscribe   => File[$manifest],
       require     => Exec['calico-operator-install'],
     }
