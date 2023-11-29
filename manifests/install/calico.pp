@@ -57,7 +57,7 @@ class kubeinstall::install::calico (
       environment => [
         "KUBECONFIG=${kubeconfig}",
       ],
-      onlyif      => "kubectl get nodes ${node_name}",
+      onlyif      => 'kubectl get nodes',
       unless      => "kubectl -n tigera-operator get deployment.apps/tigera-operator -o jsonpath='{.spec.template.spec.containers[?(@.name == \"tigera-operator\")].image}' | grep v${operator_version}",
     }
 
@@ -127,8 +127,8 @@ class kubeinstall::install::calico (
       environment => [
         "KUBECONFIG=${kubeconfig}",
       ],
-      onlyif      => "kubectl get nodes ${node_name}",
-      unless      => 'kubectl -n kube-system get daemonset calico-node',
+      onlyif      => 'kubectl get nodes',
+      unless      => 'kubectl -n kube-system get daemonset.apps/calico-node',
     }
   }
 
