@@ -45,6 +45,7 @@ class kubeinstall::install::calico (
   Stdlib::IP::Address $cidr = $kubeinstall::pod_network_cidr,
   Kubeinstall::Calico::EncapsulationType $encapsulation = 'VXLANCrossSubnet',
   Enum['Enabled', 'Disabled'] $nat_outgoing = 'Enabled',
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
@@ -53,7 +54,7 @@ class kubeinstall::install::calico (
       command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/tigera-operator.yaml",
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
-        'KUBECONFIG=/etc/kubernetes/admin.conf',
+        "KUBECONFIG=${kubeconfig}",
       ],
       onlyif      => "kubectl get nodes ${node_name}",
       unless      => 'kubectl -n tigera-operator get deployment tigera-operator',
@@ -110,7 +111,7 @@ class kubeinstall::install::calico (
       command     => "kubectl create -f ${manifest}",
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
-        'KUBECONFIG=/etc/kubernetes/admin.conf',
+        "KUBECONFIG=${kubeconfig}",
       ],
       onlyif      => "test -f ${manifest}",
       unless      => "kubectl get -n calico-system installations.operator.tigera.io/${installation_name}",
@@ -123,7 +124,7 @@ class kubeinstall::install::calico (
       command     => "kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/calico.yaml",
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
-        'KUBECONFIG=/etc/kubernetes/admin.conf',
+        "KUBECONFIG=${kubeconfig}",
       ],
       onlyif      => "kubectl get nodes ${node_name}",
       unless      => 'kubectl -n kube-system get daemonset calico-node',
