@@ -879,3 +879,16 @@ All notable changes to this project will be documented in this file.
 * Updated keyring path to /etc/apt/trusted.gpg.d
 
 **Known Issues**
+
+## Release 0.36.1
+
+**Features**
+
+* Introduced calico opeator version (current is: 1.30.9)
+* Updated containerd and runc default versions
+
+**Bugfixes**
+
+* Corrected `path` property for each exec with kubectl in `command` or `unless`
+
+**Known Issues**

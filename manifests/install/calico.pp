@@ -53,7 +53,7 @@ class kubeinstall::install::calico (
   if $operator {
     exec { 'calico-operator-install':
       command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/tigera-operator.yaml",
-      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
         "KUBECONFIG=${kubeconfig}",
       ],
@@ -110,7 +110,7 @@ class kubeinstall::install::calico (
 
     exec { 'calico-install':
       command     => "kubectl create -f ${manifest}",
-      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
         "KUBECONFIG=${kubeconfig}",
       ],
@@ -123,7 +123,7 @@ class kubeinstall::install::calico (
   else {
     exec { 'calico-install':
       command     => "kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/calico.yaml",
-      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
       environment => [
         "KUBECONFIG=${kubeconfig}",
       ],

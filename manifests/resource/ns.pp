@@ -7,15 +7,16 @@
 #   kubeinstall::resource::ns { 'namevar': }
 define kubeinstall::resource::ns (
   Kubeinstall::DNSName $namespace_name = $name,
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   unless $namespace_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a Namespace object must be a valid DNS subdomain name.')
   }
 
   exec { "kubectl create namespace ${namespace_name}":
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
-      'KUBECONFIG=/etc/kubernetes/admin.conf',
+      "KUBECONFIG=${kubeconfig}",
     ],
     unless      => "kubectl get namespace ${namespace_name}",
   }

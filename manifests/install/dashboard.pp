@@ -15,7 +15,7 @@ class kubeinstall::install::dashboard (
   # https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
   exec { 'dashboard-install':
     command     => "kubectl apply -f ${dashboard_configuration}",
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],

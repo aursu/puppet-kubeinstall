@@ -29,7 +29,7 @@ class kubeinstall::install::argocd (
 
   exec { 'argocd-install':
     command     => "kubectl apply -n ${namespace} -f ${remote_manifest}",
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
       'KUBECONFIG=/etc/kubernetes/admin.conf',
     ],

@@ -7,6 +7,7 @@
 #   include kubeinstall::calico::veth_mtu
 class kubeinstall::calico::veth_mtu (
   Integer $mtu = $kubeinstall::calico_mtu,
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   unless $mtu == $facts['kubectl_calico_veth_mtu'] {
     $veth_mtu = {
@@ -18,9 +19,9 @@ class kubeinstall::calico::veth_mtu (
 
     exec {
       default:
-        path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+        path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
         environment => [
-          'KUBECONFIG=/etc/kubernetes/admin.conf',
+          "KUBECONFIG=${kubeconfig}",
         ],
         ;
       'patch-configmap-calico-config':
