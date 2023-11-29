@@ -9,7 +9,11 @@ class kubeinstall::runtime::containerd::service {
 
   include kubeinstall::runtime::containerd::install
   include kubeinstall::runtime::containerd::config
+  # Step 2: Installing runc
+  # https://github.com/containerd/containerd/blob/main/docs/getting-started.md#step-2-installing-runc
   include kubeinstall::runtime::containerd::runc
+  # Step 3: Installing CNI plugins
+  # https://github.com/containerd/containerd/blob/main/docs/getting-started.md#step-3-installing-cni-plugins
   include kubeinstall::cni::plugins
   include kubeinstall::cni::config::bridge
   include kubeinstall::cni::config::loopback

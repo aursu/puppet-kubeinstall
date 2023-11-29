@@ -50,6 +50,8 @@ class kubeinstall::runtime::containerd::runc (
       cwd     => '/usr/local/runc/lib',
     }
 
+    # Download the runc.<ARCH> binary from https://github.com/opencontainers/runc/releases, verify
+    # its sha256sum, and install it as /usr/local/sbin/runc.
     $component = 'runc.amd64'
     $download_url = "https://github.com/opencontainers/runc/releases/download/v${runc_version}/${component}"
 

@@ -11,6 +11,9 @@ class kubeinstall::cni::plugins (
   include kubeinstall
   include kubeinstall::directory_structure
 
+  # Download the cni-plugins-<OS>-<ARCH>-<VERSION>.tgz archive from
+  # https://github.com/containernetworking/plugins/releases, verify its sha256sum, and extract it
+  # under /opt/cni/bin:
   $dir = $kubeinstall::params::cni_plugins_dir
   $plugins_binaries = [
     "${dir}/loopback",
