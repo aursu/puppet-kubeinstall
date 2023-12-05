@@ -912,6 +912,7 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added ability to setup differet kubeconfig for ArgoCD installation
+* Updated default ArgoCD version to 2.9.3
 
 **Bugfixes**
 

@@ -36,7 +36,7 @@ kubeinstall::helm_version: 3.13.2
 # https://github.com/kubernetes-sigs/krew/releases
 kubeinstall::krew_version: 0.4.4
 # https://github.com/argoproj/argo-cd/releases
-kubeinstall::argocd_version: 2.9.2
+kubeinstall::argocd_version: 2.9.3
 # https://github.com/topolvm/topolvm/releases
 kubeinstall::lvmd_version: 0.23.0
 kubeinstall::topolvm_scheduler: false
