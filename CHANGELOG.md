@@ -906,3 +906,13 @@ All notable changes to this project will be documented in this file.
 * Bugfix: change include to contain for calicactl
 
 **Known Issues**
+
+## Release 0.38.0
+
+**Features**
+
+* Added ability to setup differet kubeconfig for ArgoCD installation
+
+**Bugfixes**
+
+**Known Issues**

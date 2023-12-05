@@ -45,6 +45,7 @@ define kubeinstall::resource::svc (
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
   Boolean $apply = false,
   Optional[Kubeinstall::ClusterIP] $cluster_ip = undef,
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   $object_header  = {
     'apiVersion' => 'v1',
@@ -99,8 +100,9 @@ define kubeinstall::resource::svc (
 
   if $apply {
     kubeinstall::kubectl::apply { $object_name:
-      kind      => 'Service',
-      subscribe => File[$object_name],
+      kind       => 'Service',
+      kubeconfig => $kubeconfig,
+      subscribe  => File[$object_name],
     }
   }
 }

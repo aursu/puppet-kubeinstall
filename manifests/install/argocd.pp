@@ -13,6 +13,7 @@ class kubeinstall::install::argocd (
   Kubeinstall::DNSName $service_name = 'argocd-server-static',
   Kubeinstall::Port $service_port = 30200,
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
+  Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   include kubeinstall::directory_structure
 
@@ -31,7 +32,7 @@ class kubeinstall::install::argocd (
     command     => "kubectl apply -n ${namespace} -f ${remote_manifest}",
     path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
     environment => [
-      'KUBECONFIG=/etc/kubernetes/admin.conf',
+      "KUBECONFIG=${kubeconfig}",
     ],
     unless      => "kubectl get -n argocd deployment.apps/argocd-server -o jsonpath='{.spec.template.spec.containers[?(@.name == \"argocd-server\")].image}' | grep v${version}",
     require     => Kubeinstall::Resource::Ns[$namespace],
