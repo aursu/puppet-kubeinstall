@@ -894,3 +894,15 @@ All notable changes to this project will be documented in this file.
   control plain) 
 
 **Known Issues**
+
+## Release 0.37.0
+
+**Features**
+
+* Added ability to remove label from node
+
+**Bugfixes**
+
+* Bugfix: change include to contain for calicactl
+
+**Known Issues**

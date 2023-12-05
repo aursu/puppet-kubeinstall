@@ -57,6 +57,7 @@ class kubeinstall::install::calico (
       environment => [
         "KUBECONFIG=${kubeconfig}",
       ],
+      # https://kubernetes.io/docs/concepts/architecture/nodes/
       onlyif      => 'kubectl get nodes',
       unless      => "kubectl -n tigera-operator get deployment.apps/tigera-operator -o jsonpath='{.spec.template.spec.containers[?(@.name == \"tigera-operator\")].image}' | grep v${operator_version}",
     }
@@ -149,6 +150,6 @@ class kubeinstall::install::calico (
   }
 
   if $calicoctl {
-    include kubeinstall::calico::calicoctl
+    contain kubeinstall::calico::calicoctl
   }
 }
