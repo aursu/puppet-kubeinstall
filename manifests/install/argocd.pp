@@ -58,6 +58,13 @@ class kubeinstall::install::argocd (
           nodePort   => $service_port,
           targetPort => 8080
         },
+        {
+          name       => 'http',
+          port       => 80,
+          protocol   => 'TCP',
+          nodePort   => $service_port,
+          targetPort => 8080
+        },
       ],
       selector   => {
         'app.kubernetes.io/name' => 'argocd-server',

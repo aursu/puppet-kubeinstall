@@ -102,6 +102,7 @@ define kubeinstall::resource::svc (
     kubeinstall::kubectl::apply { $object_name:
       kind       => 'Service',
       kubeconfig => $kubeconfig,
+#      unless     => "kubectl get -n ${namespace} service/${object_name}",
       subscribe  => File[$object_name],
     }
   }
