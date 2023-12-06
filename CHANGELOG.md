@@ -907,12 +907,13 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.38.2
+## Release 0.38.3
 
 **Features**
 
 * Added ability to setup differet kubeconfig for ArgoCD installation
 * Updated default ArgoCD version to 2.9.3
+* Added port 80 into static ArgoCD servicee
 
 **Bugfixes**
 
