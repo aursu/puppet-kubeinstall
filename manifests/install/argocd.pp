@@ -41,16 +41,16 @@ class kubeinstall::install::argocd (
 
   if $expose {
     kubeinstall::resource::svc { $service_name:
-      namespace => $namespace,
-      metadata  => {
+      namespace  => $namespace,
+      metadata   => {
         labels => {
           'app.kubernetes.io/component' => 'server',
           'app.kubernetes.io/name'      => $service_name,
           'app.kubernetes.io/part-of'   => 'argocd',
         },
       },
-      type      => 'NodePort',
-      ports     => [
+      type       => 'NodePort',
+      ports      => [
         {
           name       => 'https',
           port       => 443,
@@ -59,11 +59,12 @@ class kubeinstall::install::argocd (
           targetPort => 8080
         },
       ],
-      selector  => {
+      selector   => {
         'app.kubernetes.io/name' => 'argocd-server',
       },
-      apply     => true,
-      require   => Exec['argocd-install'],
+      apply      => true,
+      kubeconfig => $kubeconfig,
+      require    => Exec['argocd-install'],
     }
   }
 }
