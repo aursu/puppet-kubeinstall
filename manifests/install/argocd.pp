@@ -12,13 +12,14 @@ class kubeinstall::install::argocd (
   Boolean $expose = false,
   Kubeinstall::DNSName $service_name = 'argocd-server-static',
   Kubeinstall::Port $service_port = 30200,
-  Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
   Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   include kubeinstall::directory_structure
 
   # ArgoCD namespace
-  kubeinstall::resource::ns { $namespace: }
+  kubeinstall::resource::ns { $namespace:
+    kubeconfig => $kubeconfig,
+  }
 
   if $ha {
     # https://argoproj.github.io/argo-cd/operator-manual/high_availability/
