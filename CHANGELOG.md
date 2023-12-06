@@ -907,7 +907,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.38.1
+## Release 0.38.2
 
 **Features**
 
