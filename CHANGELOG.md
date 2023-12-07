@@ -907,7 +907,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.38.3
+## Release 0.38.4
 
 **Features**
 
@@ -916,5 +916,7 @@ All notable changes to this project will be documented in this file.
 * Added port 80 into static ArgoCD servicee
 
 **Bugfixes**
+
+* Added separate NodePort port for HTTP service port
 
 **Known Issues**

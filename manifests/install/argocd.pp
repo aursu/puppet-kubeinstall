@@ -11,7 +11,8 @@ class kubeinstall::install::argocd (
   Boolean $ha = false,
   Boolean $expose = false,
   Kubeinstall::DNSName $service_name = 'argocd-server-static',
-  Kubeinstall::Port $service_port = 30200,
+  Kubeinstall::Port $service_port = 30200, # gRPC/HTTPS port
+  Kubeinstall::Port $service_port_http = 30280, # HTTP (redirects to HTTPS)
   Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
 ) {
   include kubeinstall::directory_structure
@@ -62,7 +63,7 @@ class kubeinstall::install::argocd (
           name       => 'http',
           port       => 80,
           protocol   => 'TCP',
-          nodePort   => $service_port,
+          nodePort   => $service_port_http,
           targetPort => 8080
         },
       ],
