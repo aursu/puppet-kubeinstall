@@ -920,3 +920,13 @@ All notable changes to this project will be documented in this file.
 * Added separate NodePort port for HTTP service port
 
 **Known Issues**
+
+## Release 0.38.5
+
+**Features**
+
+* Added auto-refresh for repo upon changes
+
+**Bugfixes**
+
+**Known Issues**

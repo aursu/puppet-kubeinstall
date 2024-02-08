@@ -7,6 +7,8 @@
 class kubeinstall::repos (
   Kubeinstall::Release $kuberel = $kubeinstall::kubernetes_release,
 ) {
+  include bsys::repo
+
   if $facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'], '7') >= 0 {
     yumrepo { 'kubernetes':
       ensure   => 'present',
@@ -16,6 +18,8 @@ class kubeinstall::repos (
       gpgcheck => '1',
       gpgkey   => "https://pkgs.k8s.io/core:/stable:/v${kuberel}/rpm/repodata/repomd.xml.key",
     }
+
+    Yumrepo['kubernetes'] ~> Class['bsys::repo']
   }
   elsif $facts['os']['name'] == 'Ubuntu' {
     $dist = $facts['os']['distro']['codename']
@@ -33,5 +37,7 @@ class kubeinstall::repos (
       repos    => '/',
       keyring  => '/etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg',
     }
+
+    Apt::Source['kubernetes'] ~> Class['bsys::repo']
   }
 }
