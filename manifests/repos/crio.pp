@@ -6,8 +6,30 @@
 #   include kubeinstall::repos::crio
 class kubeinstall::repos::crio (
   Kubeinstall::Release $kuberel = $kubeinstall::kubernetes_release,
+  Variant[
+    Enum['installed', 'latest'],
+    Pattern[/^1\.[0-9]+\.[0-9]+(~[0-9]+)?$/]
+  ] $crio_version = $kubeinstall::crio_version,
 ) inherits kubeinstall::params {
   include bsys::params
+
+  if $crio_version in ['installed', 'latest'] {
+    $criorel = $kuberel
+  }
+  else {
+    if $bsys::params::osname == 'Ubuntu' {
+      $version_data  = split($crio_version, '[~]')
+      if $version_data[1] {
+        $criorel = $version_data[0]
+      }
+      else {
+        $criorel = $crio_version
+      }
+    }
+    else {
+      $criorel = $crio_version
+    }
+  }
 
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
   $osname = $facts['os']['name']
@@ -30,13 +52,13 @@ class kubeinstall::repos::crio (
       gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/repodata/repomd.xml.key",
     }
 
-    yumrepo { "devel_kubic_libcontainers_stable_cri-o_${kuberel}":
+    yumrepo { "devel_kubic_libcontainers_stable_cri-o_${criorel}":
       ensure   => 'present',
-      baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${kuberel}/${os}/",
-      descr    => "devel:kubic:libcontainers:stable:cri-o:${kuberel} (${os})",
+      baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",
+      descr    => "devel:kubic:libcontainers:stable:cri-o:${criorel} (${os})",
       enabled  => '1',
       gpgcheck => '1',
-      gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${kuberel}/${os}/repodata/repomd.xml.key",
+      gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/repodata/repomd.xml.key",
     }
   }
   elsif $osname == 'Ubuntu' {
@@ -55,9 +77,9 @@ class kubeinstall::repos::crio (
       },
     }
 
-    apt::source { "devel:kubic:libcontainers:stable:cri-o:${kuberel}":
-      comment  => "packaged versions of CRI-O for Kubernetes ${kuberel}",
-      location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${kuberel}/${os}/",
+    apt::source { "devel:kubic:libcontainers:stable:cri-o:${criorel}":
+      comment  => "packaged versions of CRI-O for Kubernetes ${criorel}",
+      location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",
       release  => '',
       repos    => '/',
       key      => {

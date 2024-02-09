@@ -940,3 +940,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.39.2
+
+**Features**
+
+* Allow cri-o version be different then kubernetes version
+
+**Bugfixes**
+
+**Known Issues**
