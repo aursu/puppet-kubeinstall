@@ -931,7 +931,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.39.0
+## Release 0.39.1
 
 **Features**
 
