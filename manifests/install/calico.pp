@@ -51,6 +51,7 @@ class kubeinstall::install::calico (
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
   if $operator {
+    # https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
     exec { 'calico-operator-install':
       command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/tigera-operator.yaml",
       path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',

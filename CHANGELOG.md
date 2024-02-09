@@ -930,3 +930,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.39.0
+
+**Features**
+
+* Components and versions upgrade
+
+**Bugfixes**
+
+**Known Issues**
