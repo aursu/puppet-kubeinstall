@@ -5,7 +5,7 @@
 # @example
 #   include kubeinstall::repos::crio
 class kubeinstall::repos::crio (
-  Kubeinstall::Release $kuberel = $kubeinstall::kubernetes_release,
+  Kubeinstall::Release $kubernetes_release = $kubeinstall::kubernetes_release,
   Variant[
     Enum['installed', 'latest'],
     Pattern[/^1\.[0-9]+\.[0-9]+(~[0-9]+)?$/]
@@ -13,22 +13,17 @@ class kubeinstall::repos::crio (
 ) inherits kubeinstall::params {
   include bsys::params
 
-  if $crio_version in ['installed', 'latest'] {
-    $criorel = $kuberel
+  $version_data = split($crio_version, '[.]')
+  if $version_data[1] {
+    $major_version = $version_data[0]
+    $minor_version = $version_data[1]
+
+    # crio_release is CRI-O version up to minor part
+    $criorel = "${major_version}.${minor_version}"
   }
   else {
-    if $bsys::params::osname == 'Ubuntu' {
-      $version_data  = split($crio_version, '[~]')
-      if $version_data[1] {
-        $criorel = $version_data[0]
-      }
-      else {
-        $criorel = $crio_version
-      }
-    }
-    else {
-      $criorel = $crio_version
-    }
+    # installed, latest
+    $criorel = $kubernetes_release
   }
 
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
