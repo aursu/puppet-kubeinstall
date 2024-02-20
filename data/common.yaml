@@ -7,7 +7,7 @@ kubeinstall::crio_runc_version: installed
 kubeinstall::crio_config_template: kubeinstall/crio.conf.epp
 kubeinstall::crio_config_path: /etc/crio/crio.conf
 # https://kubernetes.io/releases/
-kubeinstall::kubernetes_version: 1.29.1
+kubeinstall::kubernetes_version: 1.29.2
 kubeinstall::container_runtime: cri-o
 # https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver
 # Note: In v1.22, if the user is not setting the cgroupDriver field under

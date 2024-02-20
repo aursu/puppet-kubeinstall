@@ -1,2 +1,2 @@
 ---
-kubeinstall::kubernetes_version: 1.28.2-1.1
+kubeinstall::kubernetes_version: 1.29.2-1.1

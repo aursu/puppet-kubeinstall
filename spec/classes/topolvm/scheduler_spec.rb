@@ -8,7 +8,7 @@ describe 'kubeinstall::topolvm::scheduler' do
   let(:config_content) do
     <<-YAMLDATA
 ---
-apiVersion: kubescheduler.config.k8s.io/v1beta3
+apiVersion: kubescheduler.config.k8s.io/v1
 kind: KubeSchedulerConfiguration
 leaderElection:
   leaderElect: true

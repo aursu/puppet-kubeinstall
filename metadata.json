@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.39.3",
+  "version": "0.39.4",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
     },
     {
       "name": "aursu/dockerinstall",
-      "version_requirement": ">= 0.17.0 < 1.0.0"
+      "version_requirement": ">= 0.17.1 < 1.0.0"
     },
     {
       "name": "puppet/kmod",

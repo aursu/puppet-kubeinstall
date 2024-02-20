@@ -1,4 +1,3 @@
 ---
-kubeinstall::dockerd_version: 24.0.7-1.el7
-kubeinstall::containerd_version: 1.6.25-3.1.el7
-kubeinstall::kubernetes_version: 1.28.2-0
+kubeinstall::dockerd_version: 25.0.3-1.el7
+kubeinstall::containerd_version: 1.6.28-3.1.el7

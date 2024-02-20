@@ -15,29 +15,20 @@ describe 'kubeinstall::install' do
       when %r{ubuntu}
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.28.2-1.1')
+            .with_ensure('1.29.2-1.1')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.28.2-1.1')
-        }
-      when %r{centos-7}
-        it {
-          is_expected.to contain_package('kubectl')
-            .with_ensure('1.28.2-0')
-        }
-        it {
-          is_expected.to contain_package('kubeadm')
-            .with_ensure('1.28.2-0')
+            .with_ensure('1.29.2-1.1')
         }
       else
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.28.2')
+            .with_ensure('1.29.2')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.28.2')
+            .with_ensure('1.29.2')
         }
       end
 

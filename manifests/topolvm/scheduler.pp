@@ -24,9 +24,9 @@ class kubeinstall::topolvm::scheduler (
   Boolean $manage_path   = true,
   Stdlib::Unixpath $path = $kubeinstall::params::topolvm_scheduler_path,
   Boolean $manage_config = true,
-  String  $config_file   = 'kubeinstall/topolvm/scheduler-config.yaml',
+  String  $config_file   = $kubeinstall::globals::topolvm_scheduler_config,
   Optional[String] $config_content = undef,
-) {
+) inherits kubeinstall::globals {
   if $manage_path {
     exec { "mkdir -p ${path}":
       path    => '/usr/bin:/bin',

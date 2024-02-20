@@ -950,3 +950,15 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.39.4
+
+**Features**
+
+* Upgraded default versions of components
+
+**Bugfixes**
+
+* Added support of Kubernetes 1.29.x for TopoLVM scheduler config
+
+**Known Issues**

@@ -27,6 +27,11 @@ spec:
     protocol: TCP
     nodePort: 30200
     targetPort: 8080
+  - name: http
+    port: 80
+    protocol: TCP
+    nodePort: 30280
+    targetPort: 8080
 YAMLDATA
   end
 
