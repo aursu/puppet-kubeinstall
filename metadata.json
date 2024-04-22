@@ -18,7 +18,7 @@
     },
     {
       "name": "aursu/dockerinstall",
-      "version_requirement": ">= 0.17.1 < 1.0.0"
+      "version_requirement": ">= 0.18.0 < 1.0.0"
     },
     {
       "name": "puppet/kmod",

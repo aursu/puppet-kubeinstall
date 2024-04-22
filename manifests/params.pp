@@ -24,11 +24,11 @@ class kubeinstall::params {
 
   $cert_dir = '/etc/kubernetes/pki'
 
-  $containerd_version = '1.7.9'
-  $runc_version = '1.1.10'
-  $cni_plugins_version = '1.3.0'
-  $nerdctl_version = '1.6.2'
-  $cri_tools_version = '1.28.0'
+  $containerd_version = '1.7.15'
+  $runc_version = '1.1.12'
+  $cni_plugins_version = '1.4.1'
+  $nerdctl_version = '1.7.5'
+  $cri_tools_version = '1.30.0'
 
   $cni_plugins_dir_path = '/opt/cni'
   $cni_plugins_dir = "${cni_plugins_dir_path}/bin"

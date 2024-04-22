@@ -16,13 +16,13 @@ describe 'kubeinstall::runtime::docker' do
         it {
           is_expected.to contain_package('docker')
             .with_name('docker-ce')
-            .with_ensure('25.0.3-1.el7')
+            .with_ensure('26.1.0-1.el7')
         }
 
         it {
           is_expected.to contain_package('containerd.io')
             .with_name('containerd.io')
-            .with_ensure('1.6.28-3.1.el7')
+            .with_ensure('1.6.31-3.1.el7')
         }
       end
 

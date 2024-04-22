@@ -1,5 +1,8 @@
-# https://kubernetes.io/docs/setup/release/version-skew-policy/
+# https://kubernetes.io/releases/patch-releases/#detailed-release-history-for-active-branches
 type Kubeinstall::VersionPrefix = Variant[
-  Pattern[/^1\.1[6-9]\.[0-9]+/],
-  Pattern[/^1\.2[0-9]\.[0-9]+/],
+  # EOL
+  Pattern[/^1\.2[0-6]\.[0-9]/],
+  Pattern[/^(1\.2[06]\.1[0-5]|1\.25\.1[0-6]|1\.2[2-4]\.1[0-7]|1\.21\.1[0-4])/],
+  # Active
+  Pattern[/^(1\.2[7-8]\.[0-9]|1\.27\.1[0-3]|1\.29\.[0-4]|1\.30\.0)/]
 ]
