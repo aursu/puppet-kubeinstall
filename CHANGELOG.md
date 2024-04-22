@@ -968,6 +968,7 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added PVC resource definition for Persistence volume claims
+* Upgraded default versions of components
 
 **Bugfixes**
 
