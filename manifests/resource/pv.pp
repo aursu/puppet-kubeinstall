@@ -27,16 +27,15 @@ define kubeinstall::resource::pv (
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#volume-mode
   Kubeinstall::VolumeMode $volume_mode = 'Filesystem',
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
-  Array[Enum['ReadWriteOnce', 'ReadOnlyMany', 'ReadWriteMany']]
-  $access_modes = ['ReadWriteOnce'],
+  Array[Kubeinstall::AccessMode] $access_modes = ['ReadWriteOnce'],
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming
   Enum['Delete', 'Retain', 'Recycle'] $reclaim_policy = 'Delete',
-  Optional[String] $storage_class_name = undef,
-  Optional[Stdlib::Unixpath] $local_path = undef,
   Kubeinstall::NodeSelectorTerms $match_expressions = [],
   Kubeinstall::NodeSelectorTerms $match_fields = [],
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
   Boolean $apply = false,
+  Optional[String] $storage_class_name = undef,
+  Optional[Stdlib::Unixpath] $local_path = undef,
 ) {
   unless $volume_name =~ Kubeinstall::DNSSubdomain {
     fail('The name of a PersistentVolume object must be a valid DNS subdomain name.')
