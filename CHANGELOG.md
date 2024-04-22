@@ -962,3 +962,13 @@ All notable changes to this project will be documented in this file.
 * Added support of Kubernetes 1.29.x for TopoLVM scheduler config
 
 **Known Issues**
+
+## Release 0.40.0
+
+**Features**
+
+* Added PVC resource definition for Persistence volume claims
+
+**Bugfixes**
+
+**Known Issues**
