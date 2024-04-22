@@ -982,4 +982,6 @@ All notable changes to this project will be documented in this file.
 
 **Bugfixes**
 
+* Fixed unit tests to match new versions of components
+
 **Known Issues**
