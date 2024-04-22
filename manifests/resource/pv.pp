@@ -20,6 +20,10 @@
 #   A list of node selector requirements by node's fields
 #   correspond to nodeAffinity.required.nodeSelectorTerms.matchFields
 #
+# @param claim_ref
+#   claimRef is part of a bi-directional binding between PersistentVolume and PersistentVolumeClaim.
+#   see https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reserving-a-persistentvolume
+#
 define kubeinstall::resource::pv (
   Kubeinstall::Quantity $volume_storage,
   Kubeinstall::DNSName $volume_name = $name,
@@ -37,6 +41,7 @@ define kubeinstall::resource::pv (
   Boolean $apply = false,
   Optional[String] $storage_class_name = undef,
   Optional[Stdlib::Unixpath] $local_path = undef,
+  Optional[Kubeinstall::ClaimObjectReference] $claim_ref = undef,
 ) {
   $object_kind = 'PersistentVolume'
 
@@ -101,11 +106,17 @@ define kubeinstall::resource::pv (
     $spec_affinity = {}
   }
 
+  $spec_claim = $claim_ref ? {
+    Undef   => {},
+    default => { 'claimRef' => $claim_ref },
+  }
+
   $object_spec = {
     'spec' => $spec_pv +
     $spec_storage_class +
     $spec_local +
-    $spec_affinity,
+    $spec_affinity +
+    $spec_claim,
   }
 
   $object = to_yaml($object_header + $object_metadata + $object_spec)

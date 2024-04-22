@@ -10,11 +10,12 @@ define kubeinstall::resource::pv::local (
   Stdlib::Fqdn $hostname,
   Kubeinstall::Metadata $metadata = {},
   Hash[String, String] $labels = {},
-  Optional[String] $storage_class_name = undef,
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming
   Kubeinstall::ReclaimPolicy $reclaim_policy = 'Delete',
   Kubeinstall::VolumeMode $volume_mode = 'Filesystem',
   Boolean $apply = false,
+  Optional[String] $storage_class_name = undef,
+  Optional[Kubeinstall::ClaimObjectReference] $claim_ref = undef,
 ) {
   if empty($labels) {
     $metadata_labels = {}
@@ -38,5 +39,6 @@ define kubeinstall::resource::pv::local (
     reclaim_policy     => $reclaim_policy,
     volume_mode        => $volume_mode,
     apply              => $apply,
+    claim_ref          => $claim_ref,
   }
 }

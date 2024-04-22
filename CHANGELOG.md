@@ -973,3 +973,13 @@ All notable changes to this project will be documented in this file.
 **Bugfixes**
 
 **Known Issues**
+
+## Release 0.40.1
+
+**Features**
+
+* Added claimRef into PV resource definition
+
+**Bugfixes**
+
+**Known Issues**
