@@ -12,7 +12,7 @@ define kubeinstall::resource::pv::local (
   Hash[String, String] $labels = {},
   Optional[String] $storage_class_name = undef,
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming
-  Enum['Delete', 'Retain', 'Recycle'] $reclaim_policy = 'Delete',
+  Kubeinstall::ReclaimPolicy $reclaim_policy = 'Delete',
   Kubeinstall::VolumeMode $volume_mode = 'Filesystem',
   Boolean $apply = false,
 ) {

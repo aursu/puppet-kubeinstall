@@ -1,7 +1,7 @@
 # @summary Create a PersistentVolume object
 #
 # Create a PersistentVolume object
-# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#persistentvolume-v1-core
+# https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#persistentvolume-v1-core
 # https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/persistent-volume-v1/
 #
 # @example
@@ -14,7 +14,7 @@
 # @param match_expressions
 #   A list of node selector requirements by node's labels
 #   correspond to nodeAffinity.required.nodeSelectorTerms.matchExpressions
-#   see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#nodeselectorterm-v1-core
+#   see https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#nodeselectorterm-v1-core
 #
 # @param match_fields
 #   A list of node selector requirements by node's fields
@@ -23,13 +23,14 @@
 define kubeinstall::resource::pv (
   Kubeinstall::Quantity $volume_storage,
   Kubeinstall::DNSName $volume_name = $name,
+  Kubeinstall::DNSName $object_name = $volume_name,
   Kubeinstall::Metadata $metadata = {},
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#volume-mode
   Kubeinstall::VolumeMode $volume_mode = 'Filesystem',
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
   Array[Kubeinstall::AccessMode] $access_modes = ['ReadWriteOnce'],
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaiming
-  Enum['Delete', 'Retain', 'Recycle'] $reclaim_policy = 'Delete',
+  Kubeinstall::ReclaimPolicy $reclaim_policy = 'Delete',
   Kubeinstall::NodeSelectorTerms $match_expressions = [],
   Kubeinstall::NodeSelectorTerms $match_fields = [],
   Stdlib::Unixpath $manifests_directory = $kubeinstall::manifests_directory,
@@ -37,28 +38,30 @@ define kubeinstall::resource::pv (
   Optional[String] $storage_class_name = undef,
   Optional[Stdlib::Unixpath] $local_path = undef,
 ) {
-  unless $volume_name =~ Kubeinstall::DNSSubdomain {
-    fail('The name of a PersistentVolume object must be a valid DNS subdomain name.')
+  $object_kind = 'PersistentVolume'
+
+  unless $object_name =~ Kubeinstall::DNSSubdomain {
+    fail("The name of a ${object_kind} object must be a valid DNS subdomain name.")
   }
 
-  $pv_header  = {
+  $object_header  = {
     'apiVersion' => 'v1',
-    'kind' => 'PersistentVolume',
+    'kind' => $object_kind,
   }
 
-  $pv_metadata = {
+  $object_metadata = {
     'metadata' => {
-      'name' => $volume_name,
+      'name' => $object_name,
     } +
     $metadata,
   }
 
   $spec_pv = {
-    'capacity'    => {
+    'capacity' => {
       'storage' => $volume_storage,
     },
-    'volumeMode'                    => $volume_mode,
-    'accessModes'                   => $access_modes,
+    'volumeMode' => $volume_mode,
+    'accessModes' => $access_modes,
     'persistentVolumeReclaimPolicy' => $reclaim_policy,
   }
 
@@ -68,8 +71,9 @@ define kubeinstall::resource::pv (
   }
 
   # local volume source
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#localvolumesource-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#localvolumesource-v1-core
   $spec_local = $local_path ? {
+    # local represents directly-attached storage with node affinity
     String  => { 'local' => { 'path' => $local_path } },
     default => {}
   }
@@ -97,26 +101,26 @@ define kubeinstall::resource::pv (
     $spec_affinity = {}
   }
 
-  $pv_spec = {
+  $object_spec = {
     'spec' => $spec_pv +
     $spec_storage_class +
     $spec_local +
     $spec_affinity,
   }
 
-  $pv_object = to_yaml($pv_header + $pv_metadata + $pv_spec)
+  $object = to_yaml($object_header + $object_metadata + $object_spec)
 
-  file { $volume_name:
+  file { $object_name:
     ensure  => file,
-    path    => "${manifests_directory}/manifests/persistentvolumes/${volume_name}.yaml",
-    content => $pv_object,
+    path    => "${manifests_directory}/manifests/persistentvolumes/${object_name}.yaml",
+    content => $object,
     mode    => '0600',
   }
 
   if $apply {
-    kubeinstall::kubectl::apply { $volume_name:
-      kind      => 'PersistentVolume',
-      subscribe => File[$volume_name],
+    kubeinstall::kubectl::apply { $object_name:
+      kind      => $object_kind,
+      subscribe => File[$object_name],
     }
   }
 }
