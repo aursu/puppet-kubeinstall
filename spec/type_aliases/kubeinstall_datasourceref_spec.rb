@@ -56,9 +56,9 @@ describe 'Kubeinstall::DataSourceRef' do
     )
   }
 
-  # any
+  # any (is accepted by Kubeinstall::DataSourceRef)
   it {
-    is_expected.not_to allow_value(
+    is_expected.to allow_value(
       {
         'name'     => 'example-name',
         'kind'     => 'ExampleDataSource',
@@ -67,9 +67,9 @@ describe 'Kubeinstall::DataSourceRef' do
     )
   }
 
-  # PersistentVolumeClaim not in core
+  # PersistentVolumeClaim not in core (is accepted by Kubeinstall::DataSourceRef)
   it {
-    is_expected.not_to allow_value(
+    is_expected.to allow_value(
       {
         'name'     => 'existing-src-pvc-name',
         'kind'     => 'PersistentVolumeClaim',
@@ -80,7 +80,7 @@ describe 'Kubeinstall::DataSourceRef' do
 
   # VolumeSnapshot in wrong API group (must not!!)
   it {
-    is_expected.not_to allow_value(
+    is_expected.to allow_value(
       {
         'name'     => 'new-snapshot-test',
         'kind'     => 'VolumeSnapshot',
