@@ -25,12 +25,13 @@ define kubeinstall::kubectl::apply (
   }
 
   $subpath = $kind ? {
-    'ClusterRole'        => 'clusterroles',
-    'ClusterRoleBinding' => 'clusterrolebindings',
-    'PersistentVolume'   => 'persistentvolumes',
-    'StorageClass'       => 'storageclasses',
-    'Secret'             => 'secrets',
-    'Service'            => 'services',
+    'ClusterRole'           => 'clusterroles',
+    'ClusterRoleBinding'    => 'clusterrolebindings',
+    'PersistentVolume'      => 'persistentvolumes',
+    'StorageClass'          => 'storageclasses',
+    'Secret'                => 'secrets',
+    'Service'               => 'services',
+    'PersistentVolumeClaim' => 'persistentvolumeclaims',
   }
 
   $manifest = "${manifests_directory}/manifests/${subpath}/${resource}.yaml"

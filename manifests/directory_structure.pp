@@ -48,6 +48,8 @@ class kubeinstall::directory_structure (
     "${manifests_directory}/manifests/clusterroles": ;
     # persistent volumes objects directory
     "${manifests_directory}/manifests/persistentvolumes": ;
+    # directory of persistent volume claim objects
+    "${manifests_directory}/manifests/persistentvolumeclaims": ;
     # secret objects directory
     "${manifests_directory}/manifests/secrets":
       mode => '0710',
