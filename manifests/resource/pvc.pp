@@ -91,7 +91,8 @@ define kubeinstall::resource::pvc (
   Boolean $apply = false,
   Optional[Kubeinstall::DataSource] $data_source = undef,
   Optional[Kubeinstall::DataSourceRef] $data_source_ref = undef,
-  Optional[Kubeinstall::LabelSelector] $selector = undef,
+  Array[Kubeinstall::LabelSelectorRequirement] $match_expressions = [],
+  Hash[String, String] $match_labels = {},
   Optional[String] $storage_class = undef,
   Optional[String] $volume_name = undef,
 ) {
@@ -156,9 +157,25 @@ define kubeinstall::resource::pvc (
     default => { 'dataSourceRef' => $data_source_ref },
   }
 
-  $spec_selector = $selector ? {
-    Undef   => {},
-    default => { 'selector' => $selector },
+  if $match_expressions[0] {
+    $selector_expressions = { 'matchExpressions' => $match_expressions }
+  }
+  else {
+    $selector_expressions = {}
+  }
+
+  if $match_labels.empty {
+    $selector_labels = {}
+  }
+  else {
+    $selector_labels = { 'matchLabels' => $match_labels }
+  }
+
+  if $selector_labels.empty and $selector_expressions.empty {
+    $spec_selector = {}
+  }
+  else {
+    $spec_selector = { 'selector' => $selector_expressions + $selector_labels }
   }
 
   $spec_class = $storage_class ? {

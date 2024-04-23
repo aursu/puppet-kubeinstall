@@ -985,3 +985,13 @@ All notable changes to this project will be documented in this file.
 * Fixed unit tests to match new versions of components
 
 **Known Issues**
+
+## Release 0.41.0
+
+**Features**
+
+* Replaced `selector` parameter with `match_expressions` and `match_labels`
+
+**Bugfixes**
+
+**Known Issues**
