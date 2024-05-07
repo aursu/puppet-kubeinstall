@@ -66,6 +66,8 @@ class kubeinstall::cluster (
     'controller': {
       # Local persistent volumes collect
       Kubeinstall::Resource::Pv::Local <<| tag == $cluster_name |>>
+      # Collect PVCs to ensure volumes are bound in a specific order
+      Kubeinstall::Resource::Pvc <<| tag == $cluster_name |>>
       Kubeinstall::Node::Label <<| tag == $cluster_name |>>
     }
     'worker': {

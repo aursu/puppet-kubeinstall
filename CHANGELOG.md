@@ -986,11 +986,12 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.41.0
+## Release 0.41.1
 
 **Features**
 
 * Replaced `selector` parameter with `match_expressions` and `match_labels`
+* Added exported PVC resources collector into `kubeinstall::cluster`
 
 **Bugfixes**
 
