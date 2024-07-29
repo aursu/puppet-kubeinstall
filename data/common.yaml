@@ -7,7 +7,7 @@ kubeinstall::crio_runc_version: installed
 kubeinstall::crio_config_template: kubeinstall/crio.conf.epp
 kubeinstall::crio_config_path: /etc/crio/crio.conf
 # https://kubernetes.io/releases/
-kubeinstall::kubernetes_version: 1.30.0
+kubeinstall::kubernetes_version: 1.30.3
 kubeinstall::container_runtime: cri-o
 # https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver
 # Note: In v1.22, if the user is not setting the cgroupDriver field under
@@ -28,17 +28,17 @@ kubeinstall::install_calicoctl: true
 # false for backward compatibility
 kubeinstall::install_calico_operator: false
 # https://github.com/projectcalico/calico/releases
-kubeinstall::calico_version: 3.27.3
-# https://raw.githubusercontent.com/projectcalico/calico/v3.27.3/manifests/tigera-operator.yaml
-kubeinstall::calico_operator_version: 1.32.7
+kubeinstall::calico_version: 3.27.4
+# https://raw.githubusercontent.com/projectcalico/calico/v3.27.4/manifests/tigera-operator.yaml
+kubeinstall::calico_operator_version: 1.32.10
 # https://github.com/helm/helm/releases
-kubeinstall::helm_version: 3.14.4
+kubeinstall::helm_version: 3.15.3
 # https://github.com/kubernetes-sigs/krew/releases
 kubeinstall::krew_version: 0.4.4
 # https://github.com/argoproj/argo-cd/releases
-kubeinstall::argocd_version: 2.10.7
+kubeinstall::argocd_version: 2.11.7
 # https://github.com/topolvm/topolvm/releases
-kubeinstall::lvmd_version: 0.28.0
+kubeinstall::lvmd_version: 0.32.0
 kubeinstall::topolvm_scheduler: false
 kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
