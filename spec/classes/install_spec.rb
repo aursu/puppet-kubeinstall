@@ -24,11 +24,11 @@ describe 'kubeinstall::install' do
       else
         it {
           is_expected.to contain_package('kubectl')
-            .with_ensure('1.30.0')
+            .with_ensure('1.31.1')
         }
         it {
           is_expected.to contain_package('kubeadm')
-            .with_ensure('1.30.0')
+            .with_ensure('1.31.1')
         }
       end
 
