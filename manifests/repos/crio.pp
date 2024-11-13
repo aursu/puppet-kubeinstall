@@ -41,7 +41,7 @@ class kubeinstall::repos::crio (
   }
   elsif $osname == 'Ubuntu' {
     # https://github.com/cri-o/packaging/blob/main/README.md#usage
-    exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
+    exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
       path   => '/usr/bin:/bin',
       unless => "gpg /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg",
       before => Apt::Source['cri-o'],

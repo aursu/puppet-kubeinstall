@@ -20,7 +20,7 @@ describe 'kubeinstall::repos' do
       when 'Debian'
         it {
           is_expected.to contain_file('/etc/apt/sources.list.d/kubernetes.list')
-            .with_content(%r{^deb \[signed-by=/etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg\] https://pkgs.k8s.io/core:/stable:/v1.27/deb/  /})
+            .with_content(%r{^deb \[signed-by=/etc/apt/trusted.gpg.d/kubernetes-v1\.27-apt-keyring.gpg\] https://pkgs.k8s.io/core:/stable:/v1.27/deb/  /})
         }
       end
     end
