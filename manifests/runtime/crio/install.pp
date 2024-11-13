@@ -56,18 +56,18 @@ class kubeinstall::runtime::crio::install (
       Class['apt::update'] -> Package['cri-o-runc']
     }
     'RedHat': {
-      if $bsys::params::osmaj == '8' and $bsys::params::centos_stream {
-        file {
-          '/etc/containers':
-            ensure => directory,
-            ;
-          '/etc/containers/policy.json':
-            ensure  => file,
-            content => file('kubeinstall/cri-o/policy.json'),
-            require => Package['cri-o'],
-            ;
-        }
-      }
+      # if $bsys::params::osmaj == '8' and $bsys::params::centos_stream {
+      #   file {
+      #     '/etc/containers':
+      #       ensure => directory,
+      #       ;
+      #     '/etc/containers/policy.json':
+      #       ensure  => file,
+      #       content => file('kubeinstall/cri-o/policy.json'),
+      #       require => Package['cri-o'],
+      #       ;
+      #   }
+      # }
     }
     default: {}
   }

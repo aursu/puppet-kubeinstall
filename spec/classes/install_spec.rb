@@ -21,6 +21,15 @@ describe 'kubeinstall::install' do
           is_expected.to contain_package('kubeadm')
             .with_ensure('1.31.2-1.1')
         }
+      when 'centos-7-x86_64'
+        it {
+          is_expected.to contain_package('kubectl')
+            .with_ensure('1.31.2-150500.1.1')
+        }
+        it {
+          is_expected.to contain_package('kubeadm')
+            .with_ensure('1.31.2-150500.1.1')
+        }
       else
         it {
           is_expected.to contain_package('kubectl')
