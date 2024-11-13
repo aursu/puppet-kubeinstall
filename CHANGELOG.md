@@ -997,12 +997,13 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.42.0
+## Release 0.42.1
 
 **Features**
 
 * Upgraded default versions of components
 * Upgraded cri-o repos
+* Removed CentOS 8 Stream support
 
 **Bugfixes**
 
