@@ -997,7 +997,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.43.1
+## Release 0.43.2
 
 **Features**
 
@@ -1007,5 +1007,7 @@ All notable changes to this project will be documented in this file.
 * Rolled back devel:kubic:libcontainers:stable
 
 **Bugfixes**
+
+* cri-o installation bugfix for packages hosted on pkgs.k8s.io
 
 **Known Issues**
