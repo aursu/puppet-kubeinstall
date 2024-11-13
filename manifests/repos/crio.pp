@@ -28,8 +28,25 @@ class kubeinstall::repos::crio (
 
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
   $osname = $facts['os']['name']
+  $osmaj  = $facts['os']['release']['major']
 
   if $osname in ['CentOS', 'Rocky'] {
+    if $osmaj in ['8', '9'] {
+      $os = "${osname}_${osmaj}_Stream"
+    }
+    else {
+      $os = "${osname}_${osmaj}"
+    }
+
+    yumrepo { 'devel_kubic_libcontainers_stable':
+      ensure   => 'present',
+      baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
+      descr    => "Stable Releases of Upstream github.com/containers packages (${os})",
+      enabled  => '1',
+      gpgcheck => '1',
+      gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/repodata/repomd.xml.key",
+    }
+
     yumrepo { 'cri-o':
       ensure   => 'present',
       baseurl  => "https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/rpm/",
@@ -40,6 +57,26 @@ class kubeinstall::repos::crio (
     }
   }
   elsif $osname == 'Ubuntu' {
+    if $osmaj == '24.04' {
+      $os = "x${osname}_22.04"
+    }
+    else {
+      $os = "x${osname}_${osmaj}"
+    }
+
+    # https://github.com/cri-o/cri-o/blob/main/install.md#apt-based-operating-systems
+    apt::source { 'devel:kubic:libcontainers:stable':
+      comment  => 'packaged versions of CRI-O',
+      location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
+      release  => '', # no release folder
+      repos    => '/',
+      key      => {
+        id     => '2472D6D0D2F66AF87ABA8DA34D64390375060AA4',
+        source => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key",
+        ensure => 'refreshed',
+      },
+    }
+
     # https://github.com/cri-o/packaging/blob/main/README.md#usage
     exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
       path   => '/usr/bin:/bin',
