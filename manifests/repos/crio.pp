@@ -28,60 +28,31 @@ class kubeinstall::repos::crio (
 
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
   $osname = $facts['os']['name']
-  $osmaj  = $facts['os']['release']['major']
 
-  if $osname == 'CentOS' {
-    if $bsys::params::centos_stream {
-      $os = "${osname}_${osmaj}_Stream"
-    }
-    else {
-      $os = "${osname}_${osmaj}"
-    }
-
-    yumrepo { 'devel_kubic_libcontainers_stable':
+  if $osname in ['CentOS', 'Rocky'] {
+    yumrepo { 'cri-o':
       ensure   => 'present',
-      baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
-      descr    => "Stable Releases of Upstream github.com/containers packages (${os})",
+      baseurl  => "https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/rpm/",
+      descr    => 'CRI-O',
       enabled  => '1',
       gpgcheck => '1',
-      gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/repodata/repomd.xml.key",
-    }
-
-    yumrepo { "devel_kubic_libcontainers_stable_cri-o_${criorel}":
-      ensure   => 'present',
-      baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",
-      descr    => "devel:kubic:libcontainers:stable:cri-o:${criorel} (${os})",
-      enabled  => '1',
-      gpgcheck => '1',
-      gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/repodata/repomd.xml.key",
+      gpgkey   => "https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/rpm/repodata/repomd.xml.key",
     }
   }
   elsif $osname == 'Ubuntu' {
-    $os = "x${osname}_${osmaj}"
-
-    # https://github.com/cri-o/cri-o/blob/main/install.md#apt-based-operating-systems
-    apt::source { 'devel:kubic:libcontainers:stable':
-      comment  => 'packaged versions of CRI-O',
-      location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
-      release  => '', # no release folder
-      repos    => '/',
-      key      => {
-        id     => '2472D6D0D2F66AF87ABA8DA34D64390375060AA4',
-        source => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key",
-        ensure => 'refreshed',
-      },
+    # https://github.com/cri-o/packaging/blob/main/README.md#usage
+    exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
+      path   => '/usr/bin:/bin',
+      unless => "gpg /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg",
+      before => Apt::Source['cri-o'],
     }
 
-    apt::source { "devel:kubic:libcontainers:stable:cri-o:${criorel}":
-      comment  => "packaged versions of CRI-O for Kubernetes ${criorel}",
-      location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",
+    apt::source { 'cri-o':
+      comment  => 'cri-o apt repository',
+      location => "https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/deb/",
       release  => '',
       repos    => '/',
-      key      => {
-        id     => '2472D6D0D2F66AF87ABA8DA34D64390375060AA4',
-        source => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key",
-        ensure => 'refreshed',
-      },
+      keyring  => "/etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg",
     }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "aursu-kubeinstall",
-  "version": "0.41.3",
+  "version": "0.42.0",
   "author": "aursu",
   "summary": "Innstall and manage Kubernetes cluster",
   "license": "Apache-2.0",
@@ -26,7 +26,7 @@
     },
     {
       "name": "puppet/selinux",
-      "version_requirement": ">= 3.2.0 < 5.0.0"
+      "version_requirement": ">= 3.2.0 < 6.0.0"
     },
     {
       "name": "puppetlabs/apt",
@@ -46,21 +46,28 @@
     },
     {
       "name": "puppet/systemd",
-      "version_requirement": ">= 4.2.0 < 7.0.0"
+      "version_requirement": ">= 4.2.0 < 8.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7",
-        "8"
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8",
+        "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "20.04"
+        "22.04",
+        "24.04"
       ]
     }
   ],

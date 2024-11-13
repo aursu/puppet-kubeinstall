@@ -24,9 +24,9 @@ class kubeinstall::repos (
   elsif $facts['os']['name'] == 'Ubuntu' {
     $dist = $facts['os']['distro']['codename']
 
-    exec { "curl -fsSL https://pkgs.k8s.io/core:/stable:/v${kuberel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg":
+    exec { "curl -fsSL https://pkgs.k8s.io/core:/stable:/v${kuberel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes-v${kuberel}-apt-keyring.gpg":
       path   => '/usr/bin:/bin',
-      unless => 'gpg /etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg',
+      unless => "gpg /etc/apt/trusted.gpg.d/kubernetes-v${kuberel}-apt-keyring.gpg",
       before => Apt::Source['kubernetes'],
     }
 
@@ -35,7 +35,7 @@ class kubeinstall::repos (
       location => "https://pkgs.k8s.io/core:/stable:/v${kuberel}/deb/",
       release  => '',
       repos    => '/',
-      keyring  => '/etc/apt/trusted.gpg.d/kubernetes-apt-keyring.gpg',
+      keyring  => "/etc/apt/trusted.gpg.d/kubernetes-v${kuberel}-apt-keyring.gpg",
     }
 
     Apt::Source['kubernetes'] ~> Class['bsys::repo']
