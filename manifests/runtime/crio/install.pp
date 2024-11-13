@@ -26,7 +26,7 @@ class kubeinstall::runtime::crio::install (
   }
   else {
     if $bsys::params::osname == 'Ubuntu' {
-      if versioncmp($criorel, '1.28.2') >= 0 {
+      if versioncmp($crio_version, '1.28.2') >= 0 {
         # there is slightly different build version since 1.28.2 hosted on pkgs.k8s.io
         $version_data  = split($crio_version, '[-]')
         if $version_data[1] {
