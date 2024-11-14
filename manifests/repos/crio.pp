@@ -76,9 +76,9 @@ class kubeinstall::repos::crio (
       $os = "x${osname}_${osmaj}"
     }
 
-    exec { "curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/devel:kubic:libcontainers:stable-apt-keyring.gpg":
+    exec { "curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg":
       path   => '/usr/bin:/bin',
-      unless => 'gpg /etc/apt/trusted.gpg.d/devel:kubic:libcontainers:stable-apt-keyring.gpg',
+      unless => 'gpg /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
       before => Apt::Source['devel:kubic:libcontainers:stable'],
     }
 
@@ -88,7 +88,7 @@ class kubeinstall::repos::crio (
       location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
       release  => '',
       repos    => '/',
-      keyring  => '/etc/apt/trusted.gpg.d/devel:kubic:libcontainers:stable-apt-keyring.gpg',
+      keyring  => '/etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
     }
 
     if versioncmp($criorel, '1.28.2') >= 0 {
@@ -113,7 +113,7 @@ class kubeinstall::repos::crio (
         location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",
         release  => '',
         repos    => '/',
-        keyring  => '/etc/apt/trusted.gpg.d/devel:kubic:libcontainers:stable-apt-keyring.gpg',
+        keyring  => '/etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
       }
     }
   }
