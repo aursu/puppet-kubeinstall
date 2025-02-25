@@ -997,7 +997,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.43.3
+## Release 0.43.4
 
 **Features**
 
@@ -1005,6 +1005,7 @@ All notable changes to this project will be documented in this file.
 * Upgraded cri-o repos
 * Removed CentOS 8 Stream support
 * Rolled back devel:kubic:libcontainers:stable
+* dependencies update
 
 **Bugfixes**
 
