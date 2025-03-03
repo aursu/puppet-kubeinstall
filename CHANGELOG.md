@@ -997,7 +997,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.43.4
+## Release 0.43.5
 
 **Features**
 
