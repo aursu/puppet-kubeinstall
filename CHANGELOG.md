@@ -1013,3 +1013,13 @@ All notable changes to this project will be documented in this file.
 * fixed gpg key file name for devel:kubic:libcontainers:stable
 
 **Known Issues**
+
+## Release 0.43.7
+
+**Features**
+
+* Made argocd binary available for all users - not just root
+
+**Bugfixes**
+
+**Known Issues**

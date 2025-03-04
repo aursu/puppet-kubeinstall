@@ -29,7 +29,7 @@ class kubeinstall::install::argocd::cli (
       ensure  => file,
       owner   => 'root',
       group   => 'root',
-      mode    => '0750',
+      mode    => '0755',
       source  => "file:///var/lib/argocd/argocd-v${version}",
       require => Exec['argocd-cli-install'],
     }
