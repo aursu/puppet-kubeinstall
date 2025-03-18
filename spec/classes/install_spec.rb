@@ -11,35 +11,14 @@ describe 'kubeinstall::install' do
 
       it { is_expected.to compile }
 
-      case os
-      when %r{ubuntu}
-        it {
-          is_expected.to contain_package('kubectl')
-            .with_ensure('1.31.2-1.1')
-        }
-        it {
-          is_expected.to contain_package('kubeadm')
-            .with_ensure('1.31.2-1.1')
-        }
-      when 'centos-7-x86_64'
-        it {
-          is_expected.to contain_package('kubectl')
-            .with_ensure('1.31.2-150500.1.1')
-        }
-        it {
-          is_expected.to contain_package('kubeadm')
-            .with_ensure('1.31.2-150500.1.1')
-        }
-      else
-        it {
-          is_expected.to contain_package('kubectl')
-            .with_ensure('1.31.2')
-        }
-        it {
-          is_expected.to contain_package('kubeadm')
-            .with_ensure('1.31.2')
-        }
-      end
+      it {
+        is_expected.to contain_package('kubectl')
+          .with_ensure(%r{^1\.32\.})
+      }
+      it {
+        is_expected.to contain_package('kubeadm')
+          .with_ensure(%r{^1\.32\.})
+      }
 
       context 'when exact versions' do
         let(:params) do

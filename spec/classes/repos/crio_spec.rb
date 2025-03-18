@@ -58,7 +58,7 @@ describe 'kubeinstall::repos::crio' do
 
         it {
           is_expected.to contain_file('/etc/apt/sources.list.d/cri-o.list')
-            .with_content(%r{deb \[signed-by=/etc/apt/trusted.gpg.d/cri-o-v1.31-apt-keyring.gpg\] https://pkgs.k8s.io/addons:/cri-o:/stable:/v1.31/deb/  /})
+            .with_content(%r{deb \[signed-by=/etc/apt/trusted.gpg.d/cri-o-v1.32-apt-keyring.gpg\] https://pkgs.k8s.io/addons:/cri-o:/stable:/v1.32/deb/  /})
             .that_notifies('Class[apt::update]')
         }
       end

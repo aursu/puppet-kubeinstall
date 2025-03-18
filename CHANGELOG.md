@@ -1014,11 +1014,12 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.43.7
+## Release 0.43.8
 
 **Features**
 
 * Made argocd binary available for all users - not just root
+* Upgraded default versions of components
 
 **Bugfixes**
 
