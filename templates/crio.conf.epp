@@ -1,5 +1,6 @@
 <% |
   Boolean $selinux = true,
+	Optional[Enum['cgroupfs', 'systemd']] $cgroup_driver = undef,
 | -%>
 # The CRI-O configuration file specifies all of the available configuration
 # options and command-line flags for the crio(8) OCI Kubernetes Container Runtime
@@ -24,6 +25,10 @@
 
 # If true, SELinux will be used for pod separation on the host.
 selinux = <%= "${selinux}" %>
+<% if $cgroup_driver == 'cgroupfs' { -%>
+conmon_cgroup = "pod"
+cgroup_manager = "cgroupfs"
+<% } -%>
 
 # The crio.network table containers settings pertaining to the management of
 # CNI plugins.
