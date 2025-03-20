@@ -20,10 +20,12 @@ class kubeinstall::repos::crio (
 
     # crio_release is CRI-O version up to minor part
     $criorel = "${major_version}.${minor_version}"
+    $crio_release = $crio_version
   }
   else {
     # installed, latest
     $criorel = $kubernetes_release
+    $crio_release = "${criorel}.0"
   }
 
   # https://kubernetes.io/docs/setup/production-environment/container-runtimes/#cri-o
@@ -47,7 +49,7 @@ class kubeinstall::repos::crio (
       gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/repodata/repomd.xml.key",
     }
 
-    if versioncmp($criorel, '1.28.2') >= 0 {
+    if versioncmp($crio_release, '1.28.2') >= 0 {
       yumrepo { 'cri-o':
         ensure   => 'present',
         baseurl  => "https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/rpm/",
@@ -91,7 +93,7 @@ class kubeinstall::repos::crio (
       keyring  => '/etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
     }
 
-    if versioncmp($criorel, '1.28.2') >= 0 {
+    if versioncmp($crio_release, '1.28.2') >= 0 {
       # https://github.com/cri-o/packaging/blob/main/README.md#usage
       exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
         path   => '/usr/bin:/bin',
