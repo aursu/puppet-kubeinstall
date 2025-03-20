@@ -1014,7 +1014,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.43.8
+## Release 0.43.9
 
 **Features**
 
@@ -1022,5 +1022,7 @@ All notable changes to this project will be documented in this file.
 * Upgraded default versions of components
 
 **Bugfixes**
+
+* repositories setup for k8s 1.28.x
 
 **Known Issues**
