@@ -6,14 +6,14 @@
 #   include kubeinstall::cluster
 #
 # @param cluster_role
-#   Role inside cluster - either 'worker' or 'controller'
+#   Role inside cluster - either 'worker' or 'controller' (or 'joined_controller')
 #
 class kubeinstall::cluster (
   Kubeinstall::Address $apiserver_address = $kubeinstall::apiserver_advertise_address,
   Integer $apiserver_port = $kubeinstall::apiserver_bind_port,
   String  $cluster_name = $kubeinstall::cluster_name,
   Optional[Kubeinstall::CACertHash] $ca_cert_hash = $facts['kubeadm_discovery_token_ca_cert_hash'],
-  Optional[Enum['controller', 'worker']] $cluster_role = undef,
+  Optional[Enum['controller', 'joined_controller', 'worker']] $cluster_role = undef,
   Hash[Kubeinstall::DNSSubdomain, Kubeinstall::LocalPV] $local_persistent_volumes = {},
   Hash[String, String] $node_labels = {},
 ) {
@@ -28,7 +28,7 @@ class kubeinstall::cluster (
   # https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-join/
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#join-nodes
   # kubeadm join --token <token> <control-plane-host>:<control-plane-port> --discovery-token-ca-cert-hash sha256:<hash>
-  if $bootstrap_token and $ca_cert_hash {
+  if $bootstrap_token and $ca_cert_hash and $cluster_role == 'controller' {
     @@kubeinstall::token_discovery { $bootstrap_token:
       ca_cert_hash      => $ca_cert_hash,
       apiserver_address => $apiserver_address,
