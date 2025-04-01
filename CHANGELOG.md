@@ -1014,12 +1014,13 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.43.9
+## Release 0.44.0
 
 **Features**
 
 * Made argocd binary available for all users - not just root
 * Upgraded default versions of components
+* Added server type `joined_controller`
 
 **Bugfixes**
 
