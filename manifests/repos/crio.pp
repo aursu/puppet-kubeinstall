@@ -94,8 +94,13 @@ class kubeinstall::repos::crio (
     }
 
     if versioncmp($crio_release, '1.28.2') >= 0 {
+      $keyrel = $criorel ? {
+        '1.28' => '1.29',
+        default => $criorel,
+      }
+
       # https://github.com/cri-o/packaging/blob/main/README.md#usage
-      exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
+      exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${keyrel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
         path   => '/usr/bin:/bin',
         unless => "gpg /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg",
         before => Apt::Source['cri-o'],
