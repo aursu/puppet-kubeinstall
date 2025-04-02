@@ -35,6 +35,13 @@ class kubeinstall::install::controller (
     -> Class['kubeinstall::kubeadm::init_command']
     -> Class['kubeinstall::install::calico']
   }
+  else {
+    class { 'kubeinstall::kubeadm::join_command':
+      control_plane => true,
+    }
+
+    Class['kubeinstall::install::node'] -> Class['kubeinstall::kubeadm::join_command']
+  }
 
   if $setup_admin_config {
     include kubeinstall::kubectl::config
@@ -42,10 +49,10 @@ class kubeinstall::install::controller (
     if $cluster_role == 'controller' {
       Class['kubeinstall::kubeadm::init_command'] -> Class['kubeinstall::kubectl::config']
     }
+    else {
+      Class['kubeinstall::kubeadm::join_command'] -> Class['kubeinstall::kubectl::config']
+    }
   }
-
-  Class['kubeinstall::install::node'] -> Class['kubeinstall::install::calico']
-
   # TODO: https://kubernetes.io/docs/setup/best-practices/certificates/
   # TODO: https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#options-for-software-load-balancing
 }
