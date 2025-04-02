@@ -40,12 +40,12 @@ class kubeinstall::kubeadm::join_command (
     $apiserver_port    = $kubeinstall::cluster::join_apiserver_port + 0
   }
 
-  if $control_plane {
-    $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf --control-plane'
-  }
-  else {
-    $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf'
-  }
+  # if $control_plane {
+  #   $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf --control-plane'
+  # }
+  # else {
+  $kubeadm_join_command = 'kubeadm join --config=/etc/kubernetes/kubeadm-join.conf'
+  # }
 
   # we can proceed only haing token, ca_cert_hash and apiserver_address in place
   if $token and $ca_cert_hash and $apiserver_address {
