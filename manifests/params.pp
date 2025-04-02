@@ -13,7 +13,9 @@ class kubeinstall::params {
   $service_cidr            = '10.96.0.0/12'
   $pod_network_cidr        = '172.16.0.0/16'
   $service_node_port_range = '30000-32767'
-  $dashboard_configuration = 'https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml'
+  # 2.7.0 is the last version of dashboard with manifest installation method
+  $dashboard_configuration = 'https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml'
+  $dashboard_version        = '7.1.0'
   # directory where to store static manifests under folder 'manifests'
   $manifests_directory     = '/etc/kubectl'
 
@@ -24,11 +26,16 @@ class kubeinstall::params {
 
   $cert_dir = '/etc/kubernetes/pki'
 
-  $containerd_version = '1.7.15'
-  $runc_version = '1.1.12'
-  $cni_plugins_version = '1.4.1'
-  $nerdctl_version = '1.7.5'
-  $cri_tools_version = '1.30.0'
+  # https://github.com/containerd/containerd/releases
+  $containerd_version = '1.7.27'
+  # https://github.com/opencontainers/runc/releases
+  $runc_version = '1.2.6'
+  # https://github.com/containernetworking/plugins/releases
+  $cni_plugins_version = '1.6.2'
+  # https://github.com/containerd/nerdctl/releases
+  $nerdctl_version = '2.0.4'
+  # https://github.com/kubernetes-sigs/cri-tools/releases
+  $cri_tools_version = '1.32.0'
 
   $cni_plugins_dir_path = '/opt/cni'
   $cni_plugins_dir = "${cni_plugins_dir_path}/bin"
