@@ -5,40 +5,35 @@ require 'securerandom'
 require 'time'
 require 'fileutils'
 
+JSON_FILE = '/etc/puppetlabs/facter/facts.d/kubeadm_certificate_key.json'
+TTL_HOURS = 2
+
 def create_certificate_key
   certificate_key_size = 32
-  begin
-    rand_bytes = SecureRandom.random_bytes(certificate_key_size)
-    return rand_bytes.unpack1('H*')  # Converts bytes to a hex string
-  rescue => e
-    return nil, e
-  end
+  rand_bytes = SecureRandom.random_bytes(certificate_key_size)
+  [rand_bytes.unpack1('H*'), nil]
+rescue => e
+  [nil, e]
 end
 
 Facter.add(:kubeadm_discovery_certificate_key) do
   confine { File.exist?('/etc/kubernetes/admin.conf') && File.executable?('/usr/bin/kubeadm') }
 
   setcode do
-    json_file = '/etc/puppetlabs/facter/facts.d/kubeadm_certificate_key.json'
-    ttl_hours = 2
     current_key = nil
 
-    # Try to read current key and TTL
-    if File.exist?(json_file)
+    if File.exist?(JSON_FILE)
       begin
-        data = JSON.parse(File.read(json_file))
+        data = JSON.parse(File.read(JSON_FILE))
         key = data['key']
-        ttl = Time.parse(data['ttl']) rescue nil
-
-        if key && ttl && Time.now < ttl
-          current_key = key
-        end
+        ttl = Time.parse(data['ttl'])
+        current_key = key if key && ttl && Time.now < ttl
+        Facter.debug("Existing certificate key valid until #{ttl}") if current_key
       rescue => e
-        Facter.debug("Could not parse #{json_file}: #{e}")
+        Facter.debug("Failed to parse #{JSON_FILE}: #{e}")
       end
     end
 
-    # If key missing or expired, generate new one and upload certs
     if current_key.nil?
       new_key, err = create_certificate_key
 
@@ -47,16 +42,17 @@ Facter.add(:kubeadm_discovery_certificate_key) do
         next nil
       end
 
-      ttl_time = (Time.now + ttl_hours * 3600).utc.iso8601
+      ttl_time = (Time.now + TTL_HOURS * 3600).utc.iso8601
       cmd = "/usr/bin/kubeadm init phase upload-certs --upload-certs --certificate-key #{new_key}"
       output = `#{cmd}`
 
       if $CHILD_STATUS.success?
         current_key = new_key
-        FileUtils.mkdir_p(File.dirname(json_file))
-        File.write(json_file, JSON.pretty_generate({ "key" => current_key, "ttl" => ttl_time }))
+        FileUtils.mkdir_p(File.dirname(JSON_FILE))
+        File.write(JSON_FILE, JSON.pretty_generate({ "key" => current_key, "ttl" => ttl_time }), perm: 0600)
+        Facter.debug("Generated new certificate key, valid until #{ttl_time}")
       else
-        Facter.warning("Failed to upload certs: #{output}")
+        Facter.warning("Failed to upload certs: #{output.strip}")
         current_key = nil
       end
     end
