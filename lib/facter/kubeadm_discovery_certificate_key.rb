@@ -6,10 +6,6 @@ require 'time'
 require 'fileutils'
 require 'open3'
 
-JSON_FILE = '/etc/puppetlabs/facter/facts.d/kubeadm_certificate_key.json'
-TTL_HOURS = 2
-KUBEADM = Facter::Core::Execution.which('kubeadm') || '/usr/bin/kubeadm'
-
 def create_certificate_key
   SecureRandom.random_bytes(32).unpack1('H*')
 rescue => e
@@ -19,16 +15,21 @@ end
 
 Facter.add(:kubeadm_discovery_certificate_key) do
   confine do
-    File.exist?('/etc/kubernetes/admin.conf') && File.executable?(KUBEADM)
+    kubeadm = Facter::Core::Execution.which('kubeadm') || '/usr/bin/kubeadm'
+    File.exist?('/etc/kubernetes/admin.conf') && File.executable?(kubeadm)
   end
 
   setcode do
+    json_file = '/etc/puppetlabs/facter/facts.d/kubeadm_certificate_key.json'
+    ttl_hours = 2
+    kubeadm = Facter::Core::Execution.which('kubeadm') || '/usr/bin/kubeadm'
+
     current_key = nil
     now = Time.now.utc
 
-    if File.exist?(JSON_FILE)
+    if File.exist?(json_file)
       begin
-        data = JSON.parse(File.read(JSON_FILE))
+        data = JSON.parse(File.read(json_file))
         key = data['key']
         ttl = Time.parse(data['ttl']).utc rescue nil
         if key && ttl && now < ttl
@@ -36,9 +37,9 @@ Facter.add(:kubeadm_discovery_certificate_key) do
           Facter.debug("Existing certificate key valid until #{ttl}")
         end
       rescue JSON::ParserError => e
-        Facter.debug("JSON parsing error in #{JSON_FILE}: #{e.message}")
+        Facter.debug("JSON parsing error in #{json_file}: #{e.message}")
       rescue => e
-        Facter.debug("Unknown error while reading #{JSON_FILE}: #{e.message}")
+        Facter.debug("Unknown error while reading #{json_file}: #{e.message}")
       end
     end
 
@@ -49,20 +50,20 @@ Facter.add(:kubeadm_discovery_certificate_key) do
         next nil
       end
 
-      ttl_time = (now + TTL_HOURS * 3600).iso8601
-      cmd = "#{KUBEADM} init phase upload-certs --upload-certs --certificate-key #{new_key}"
+      ttl_time = (now + ttl_hours * 3600).iso8601
+      cmd = "#{kubeadm} init phase upload-certs --upload-certs --certificate-key #{new_key}"
 
       stdout, stderr, status = Open3.capture3(cmd)
       if status.success?
         current_key = new_key
         begin
-          FileUtils.mkdir_p(File.dirname(JSON_FILE))
-          File.write(JSON_FILE, JSON.pretty_generate({ "key" => current_key, "ttl" => ttl_time }))
-          File.chown(0, 0, JSON_FILE)
-          File.chmod(0600, JSON_FILE)
+          FileUtils.mkdir_p(File.dirname(json_file))
+          File.write(json_file, JSON.pretty_generate({ "key" => current_key, "ttl" => ttl_time }))
+          File.chown(0, 0, json_file)
+          File.chmod(0600, json_file)
           Facter.debug("Generated new certificate key, valid until #{ttl_time}")
         rescue => e
-          Facter.warning("Failed to write JSON file #{JSON_FILE}: #{e.message}")
+          Facter.warning("Failed to write JSON file #{json_file}: #{e.message}")
           current_key = nil
         end
       else
