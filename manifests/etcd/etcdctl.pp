@@ -19,14 +19,14 @@ class kubeinstall::etcd::etcdctl (
   }
 
   archive { $archive_name:
-    path             => "/tmp/${archive_name}",
-    source           => $archive_url,
-    extract          => true,
-    extract_path     => $install_dir,
-    cleanup          => true,
-    creates          => "${install_dir}/etcdctl",
-    strip_components => 1,
-    require          => File[$install_dir],
+    path          => "/tmp/${archive_name}",
+    source        => $archive_url,
+    extract       => true,
+    extract_path  => $install_dir,
+    cleanup       => true,
+    creates       => "${install_dir}/etcdctl",
+    extract_flags => '--strip-components=1 zxf',
+    require       => File[$install_dir],
   }
 
   file { '/usr/local/bin/etcdctl':
