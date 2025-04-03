@@ -100,6 +100,10 @@ Puppet::Type.type(:kubeadm_token).provide(:kubeadm) do
     id, secret = token.split('.', 2)
     entity_name = (@default_token == token) ? 'default' : "bootstrap-token-#{id}"
 
+    # Skip if this is a special proxy token used for managing TTL of the kubeadm-certs secret
+    # which may not have a 'usages' field
+    return unless entity['usages'].is_a?(Array)
+
     if entity['expires']
       expiration = DateTime.parse(entity['expires'])
       current = DateTime.now

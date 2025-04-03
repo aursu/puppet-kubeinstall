@@ -1029,12 +1029,13 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.45.0
+## Release 0.45.1
 
 **Features**
 
 **Bugfixes**
 
 * Added support for the `--certificate-key` parameter when joining a control plane node
+* Fixed token prefetch behavior in the `kubeadm` provider for the `kubeadm_token` Puppet type
 
 **Known Issues**
