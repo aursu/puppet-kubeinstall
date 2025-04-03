@@ -1029,9 +1029,11 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.45.1
+## Release 0.46.0
 
 **Features**
+
+* Added cgroup drive management for crio configuration
 
 **Bugfixes**
 
