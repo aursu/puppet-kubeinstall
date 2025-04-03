@@ -15,6 +15,20 @@ describe 'kubeinstall::runtime::crio::config' do
         is_expected.to contain_file('/etc/crio/crio.conf')
           .with_content(%r{^selinux = true})
       }
+
+      context 'when cgroup driver cgroupfs' do
+        let(:params) do
+          {
+            cgroup_driver: 'cgroupfs',
+          }
+        end
+
+        it {
+          is_expected.to contain_file('/etc/crio/crio.conf')
+            .with_content(%r{conmon_cgroup = "pod"})
+            .with_content(%r{cgroup_manager = "cgroupfs"})
+        }
+      end
     end
   end
 end

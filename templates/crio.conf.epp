@@ -1,6 +1,6 @@
 <% |
   Boolean $selinux = true,
-	Optional[Enum['cgroupfs', 'systemd']] $cgroup_driver = undef,
+	Optional[Kubeinstall::CgroupDriver] $cgroup_driver = undef,
 | -%>
 # The CRI-O configuration file specifies all of the available configuration
 # options and command-line flags for the crio(8) OCI Kubernetes Container Runtime
