@@ -1028,3 +1028,13 @@ All notable changes to this project will be documented in this file.
 * removed join command option `--control-plane` in favor of config file
 
 **Known Issues**
+
+## Release 0.45.0
+
+**Features**
+
+**Bugfixes**
+
+* Added support for the `--certificate-key` parameter when joining a control plane node
+
+**Known Issues**
