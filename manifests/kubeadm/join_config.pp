@@ -16,6 +16,11 @@
 # @param control_plane
 #   Whether to create a new control plane instance on this node
 #
+# @param certificate_key
+#   is the key that is used for decryption of certificates after they are downloaded from the
+#   secret upon joining a new control plane node. The corresponding encryption key is in the
+#   InitConfiguration. The certificate key is a hex encoded string that is an AES key of size 32 bytes.
+#
 class kubeinstall::kubeadm::join_config (
   Kubeinstall::Token $token,
   Kubeinstall::CACertHash $ca_cert_hash,
@@ -27,6 +32,7 @@ class kubeinstall::kubeadm::join_config (
   Stdlib::Fqdn $node_name = $kubeinstall::node_name,
   Boolean $control_plane = $kubeinstall::join_control_plane,
   Kubeinstall::CgroupDriver $cgroup_driver = $kubeinstall::cgroup_driver,
+  Optional[Kubeinstall::CertificateKey] $certificate_key = $kubeinstall::join_certificate_key,
 ) {
   # https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#JoinConfiguration
   # kubeadm config print join-defaults
@@ -52,13 +58,20 @@ class kubeinstall::kubeadm::join_config (
   }
 
   if $control_plane {
+    if $certificate_key {
+      $control_plane_certificate_key = { 'certificateKey' => $certificate_key }
+    }
+    else {
+      $control_plane_certificate_key = {}
+    }
+
     $join_control_plane = {
       'controlPlane' => {
         'localAPIEndpoint' => {
           'advertiseAddress' => $apiserver_advertise_address,
           'bindPort'         => $apiserver_bind_port,
         },
-      },
+      } + $control_plane_certificate_key,
     }
   }
   else {

@@ -34,6 +34,7 @@ class kubeinstall (
   Boolean $join_control_plane,
   Optional[Kubeinstall::Token] $join_token,
   Optional[Kubeinstall::CACertHash] $join_ca_cert_hash,
+  Optional[Kubeinstall::CertificateKey] $join_certificate_key,
   Optional[Kubeinstall::Address] $join_apiserver_address,
   Kubeinstall::CgroupDriver $cgroup_driver,
   Integer $join_apiserver_port,

@@ -44,5 +44,6 @@ kubeinstall::calico_mtu: ~
 kubeinstall::cluster_name: kubernetes
 kubeinstall::join_token: ~
 kubeinstall::join_ca_cert_hash: ~
+kubeinstall::join_certificate_key: ~
 kubeinstall::join_apiserver_address: ~
 kubeinstall::join_apiserver_port: 6443
