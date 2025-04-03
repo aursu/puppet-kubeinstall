@@ -25,7 +25,7 @@ class kubeinstall::etcd::etcdctl (
     extract_path  => $install_dir,
     cleanup       => true,
     creates       => "${install_dir}/etcdctl",
-    extract_flags => '--strip-components=1 zxf',
+    extract_flags => '--strip-components=1 -xzf',
     require       => File[$install_dir],
   }
 
