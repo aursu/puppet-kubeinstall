@@ -9,11 +9,10 @@ JSON_FILE = '/etc/puppetlabs/facter/facts.d/kubeadm_certificate_key.json'
 TTL_HOURS = 2
 
 def create_certificate_key
-  certificate_key_size = 32
-  rand_bytes = SecureRandom.random_bytes(certificate_key_size)
-  [rand_bytes.unpack1('H*'), nil]
+  SecureRandom.random_bytes(32).unpack1('H*')
 rescue => e
-  [nil, e]
+  Facter.warning("Certificate key generation error: #{e.message}")
+  nil
 end
 
 Facter.add(:kubeadm_discovery_certificate_key) do
@@ -40,7 +39,7 @@ Facter.add(:kubeadm_discovery_certificate_key) do
     end
 
     if current_key.nil?
-      new_key, err = create_certificate_key
+      new_key = create_certificate_key
       if new_key.nil?
         Facter.warning("Failed to generate certificate key: #{err}")
         next nil
