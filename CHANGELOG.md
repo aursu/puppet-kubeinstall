@@ -1034,6 +1034,7 @@ All notable changes to this project will be documented in this file.
 **Features**
 
 * Added cgroup drive management for crio configuration
+* Added `etcdctl` tool installation
 
 **Bugfixes**
 
