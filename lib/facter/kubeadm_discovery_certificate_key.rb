@@ -46,21 +46,21 @@ Facter.add(:kubeadm_discovery_certificate_key) do
     if current_key.nil?
       new_key = create_certificate_key
       if new_key.nil?
-        Facter.warning("Certificate key could not be generated")
+        Facter.warning('Certificate key could not be generated')
         next nil
       end
 
       ttl_time = (now + ttl_hours * 3600).iso8601
       cmd = "#{kubeadm} init phase upload-certs --upload-certs --certificate-key #{new_key}"
 
-      stdout, stderr, status = Open3.capture3(cmd)
+      _, stderr, status = Open3.capture3(cmd)
       if status.success?
         current_key = new_key
         begin
           FileUtils.mkdir_p(File.dirname(json_file))
-          File.write(json_file, JSON.pretty_generate({ "key" => current_key, "ttl" => ttl_time }))
+          File.write(json_file, JSON.pretty_generate({ 'key' => current_key, 'ttl' => ttl_time }))
           File.chown(0, 0, json_file)
-          File.chmod(0600, json_file)
+          File.chmod(0o600, json_file)
           Facter.debug("Generated new certificate key, valid until #{ttl_time}")
         rescue => e
           Facter.warning("Failed to write JSON file #{json_file}: #{e.message}")
