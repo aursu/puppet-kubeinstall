@@ -33,22 +33,6 @@ class kubeinstall::repos::crio (
   $osmaj  = $facts['os']['release']['major']
 
   if $osname in ['CentOS', 'Rocky'] {
-    if $osmaj in ['8', '9'] {
-      $os = "${osname}_${osmaj}_Stream"
-    }
-    else {
-      $os = "${osname}_${osmaj}"
-    }
-
-    yumrepo { 'devel_kubic_libcontainers_stable':
-      ensure   => 'present',
-      baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
-      descr    => "Stable Releases of Upstream github.com/containers packages (${os})",
-      enabled  => '1',
-      gpgcheck => '1',
-      gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/repodata/repomd.xml.key",
-    }
-
     if versioncmp($crio_release, '1.28.2') >= 0 {
       yumrepo { 'cri-o':
         ensure   => 'present',
@@ -60,6 +44,22 @@ class kubeinstall::repos::crio (
       }
     }
     else {
+      if $osmaj in ['8', '9'] {
+        $os = "${osname}_${osmaj}_Stream"
+      }
+      else {
+        $os = "${osname}_${osmaj}"
+      }
+
+      yumrepo { 'devel_kubic_libcontainers_stable':
+        ensure   => 'present',
+        baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
+        descr    => "Stable Releases of Upstream github.com/containers packages (${os})",
+        enabled  => '1',
+        gpgcheck => '1',
+        gpgkey   => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/repodata/repomd.xml.key",
+      }
+
       yumrepo { "devel_kubic_libcontainers_stable_cri-o_${criorel}":
         ensure   => 'present',
         baseurl  => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",
@@ -71,28 +71,6 @@ class kubeinstall::repos::crio (
     }
   }
   elsif $osname == 'Ubuntu' {
-    if $osmaj == '24.04' {
-      $os = "x${osname}_22.04"
-    }
-    else {
-      $os = "x${osname}_${osmaj}"
-    }
-
-    exec { "curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg":
-      path   => '/usr/bin:/bin',
-      unless => 'gpg /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
-      before => Apt::Source['devel:kubic:libcontainers:stable'],
-    }
-
-    # https://github.com/cri-o/cri-o/blob/main/install.md#apt-based-operating-systems
-    apt::source { 'devel:kubic:libcontainers:stable':
-      comment  => 'packaged versions of CRI-O',
-      location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
-      release  => '',
-      repos    => '/',
-      keyring  => '/etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
-    }
-
     if versioncmp($crio_release, '1.28.2') >= 0 {
       $keyrel = $criorel ? {
         '1.28' => '1.29',
@@ -115,6 +93,28 @@ class kubeinstall::repos::crio (
       }
     }
     else {
+      if $osmaj == '24.04' {
+        $os = "x${osname}_22.04"
+      }
+      else {
+        $os = "x${osname}_${osmaj}"
+      }
+
+      exec { "curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg":
+        path   => '/usr/bin:/bin',
+        unless => 'gpg /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
+        before => Apt::Source['devel:kubic:libcontainers:stable'],
+      }
+
+      # https://github.com/cri-o/cri-o/blob/main/install.md#apt-based-operating-systems
+      apt::source { 'devel:kubic:libcontainers:stable':
+        comment  => 'packaged versions of CRI-O',
+        location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/",
+        release  => '',
+        repos    => '/',
+        keyring  => '/etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
+      }
+
       apt::source { "devel:kubic:libcontainers:stable:cri-o:${criorel}":
         comment  => "packaged versions of CRI-O for Kubernetes ${criorel}",
         location => "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${criorel}/${os}/",

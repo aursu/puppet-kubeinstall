@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.3
+
+**Features**
+
+* Restructured CRI-O repository configuration for better version handling
+* Improved conditional logic for CRI-O package repositories (CentOS/Rocky and Ubuntu)
+* Better separation of concerns for different CRI-O version ranges
+
+**Bugfixes**
+
+* Fixed Rubocop compliance issues in Ruby code
+* Corrected rescue statement alignment in kubeadm_discovery_certificate_key.rb
+* Improved error handling patterns following Ruby best practices
+
+**Known Issues**
+
 ## Release 0.46.2
 
 **Features**
