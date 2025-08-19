@@ -6,14 +6,12 @@ All notable changes to this project will be documented in this file.
 
 **Features**
 
-* Restructured CRI-O repository configuration for better version handling
+* Restructured CRI-O repository configuration
 * Improved conditional logic for CRI-O package repositories (CentOS/Rocky and Ubuntu)
-* Better separation of concerns for different CRI-O version ranges
 
 **Bugfixes**
 
 * Fixed Rubocop compliance issues in Ruby code
-* Corrected rescue statement alignment in kubeadm_discovery_certificate_key.rb
 * Improved error handling patterns following Ruby best practices
 
 **Known Issues**
