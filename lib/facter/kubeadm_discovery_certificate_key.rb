@@ -31,7 +31,11 @@ Facter.add(:kubeadm_discovery_certificate_key) do
       begin
         data = JSON.parse(File.read(json_file))
         key = data['key']
-        ttl = Time.parse(data['ttl']).utc rescue nil
+        ttl = begin
+          Time.parse(data['ttl']).utc
+        rescue
+          nil
+        end
         if key && ttl && now < ttl
           current_key = key
           Facter.debug("Existing certificate key valid until #{ttl}")
