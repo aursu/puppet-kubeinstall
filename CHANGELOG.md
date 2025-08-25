@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.4
+
+**Features**
+
+* Added explicit support for Kubernetes version 1.29.10 in type validation
+* Enhanced RSpec test coverage for version validation edge cases
+
+**Bugfixes**
+
+* Fixed Kubeinstall::Version type to properly allow version 1.29.10
+* Corrected version pattern matching to align with RSpec test expectations
+
+**Known Issues**
+
 ## Release 0.46.3
 
 **Features**
