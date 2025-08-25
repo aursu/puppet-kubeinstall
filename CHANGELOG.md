@@ -6,13 +6,11 @@ All notable changes to this project will be documented in this file.
 
 **Features**
 
-* Added explicit support for Kubernetes version 1.29.10 in type validation
-* Enhanced RSpec test coverage for version validation edge cases
+* Added IP autodetection configuration support for Calico installation
 
 **Bugfixes**
 
-* Fixed Kubeinstall::Version type to properly allow version 1.29.10
-* Corrected version pattern matching to align with RSpec test expectations
+* Corrected rescue statement alignment in kubeadm_discovery_certificate_key.rb
 
 **Known Issues**
 

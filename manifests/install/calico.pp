@@ -47,6 +47,7 @@ class kubeinstall::install::calico (
   Kubeinstall::Calico::EncapsulationType $encapsulation = 'VXLANCrossSubnet',
   Enum['Enabled', 'Disabled'] $nat_outgoing = 'Enabled',
   Stdlib::Unixpath $kubeconfig = '/etc/kubernetes/admin.conf',
+  Array[Stdlib::IP::Address] $ip_autodetection_cidrs = [],
 ) {
   # https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises#install-calico-with-kubernetes-api-datastore-50-nodes-or-less
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
@@ -61,6 +62,17 @@ class kubeinstall::install::calico (
       # https://kubernetes.io/docs/concepts/architecture/nodes/
       onlyif      => 'kubectl get nodes',
       unless      => "kubectl -n tigera-operator get deployment.apps/tigera-operator -o jsonpath='{.spec.template.spec.containers[?(@.name == \"tigera-operator\")].image}' | grep v${operator_version}",
+    }
+
+    if $ip_autodetection_cidrs[0] {
+      $node_v4_address_autodetection_cidrs = {
+        'nodeAddressAutodetectionV4' => {
+          'cidrs' => $ip_autodetection_cidrs,
+        },
+      }
+    }
+    else {
+      $node_v4_address_autodetection_cidrs = {}
     }
 
     $apiserver_header = {
@@ -96,7 +108,7 @@ class kubeinstall::install::calico (
               'nodeSelector'  => 'all()',
             },
           ],
-        },
+        } + $node_v4_address_autodetection_cidrs,
       },
     }
 
