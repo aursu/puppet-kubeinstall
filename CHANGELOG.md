@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.5
+
+**Features**
+
+* Added new versions - 1.33.5, 1.32.9 and 1.31.13
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.46.4
 
 **Features**
