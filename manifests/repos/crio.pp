@@ -33,7 +33,17 @@ class kubeinstall::repos::crio (
   $osmaj  = $facts['os']['release']['major']
 
   if $osname in ['CentOS', 'Rocky'] {
-    if versioncmp($crio_release, '1.28.2') >= 0 {
+    if versioncmp($crio_release, '1.33.0') >= 0 {
+      yumrepo { 'cri-o':
+        ensure   => 'present',
+        baseurl  => "https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${criorel}/rpm/",
+        descr    => 'CRI-O',
+        enabled  => '1',
+        gpgcheck => '1',
+        gpgkey   => "https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${criorel}/rpm/repodata/repomd.xml.key",
+      }
+    }
+    elsif versioncmp($crio_release, '1.28.2') >= 0 {
       yumrepo { 'cri-o':
         ensure   => 'present',
         baseurl  => "https://pkgs.k8s.io/addons:/cri-o:/stable:/v${criorel}/rpm/",
@@ -71,7 +81,22 @@ class kubeinstall::repos::crio (
     }
   }
   elsif $osname == 'Ubuntu' {
-    if versioncmp($crio_release, '1.28.2') >= 0 {
+    if versioncmp($crio_release, '1.33.0') >= 0 {
+      exec { "curl -fsSL https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/cri-o-v${criorel}-apt-keyring.gpg":
+        path   => '/usr/bin:/bin',
+        unless => "gpg /etc/apt/keyrings/cri-o-v${criorel}-apt-keyring.gpg",
+        before => Apt::Source['cri-o'],
+      }
+
+      apt::source { 'cri-o':
+        comment  => 'cri-o apt repository',
+        location => "https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${criorel}/deb/",
+        release  => '',
+        repos    => '/',
+        keyring  => "/etc/apt/keyrings/cri-o-v${criorel}-apt-keyring.gpg",
+      }
+    }
+    elsif versioncmp($crio_release, '1.28.2') >= 0 {
       $keyrel = $criorel ? {
         '1.28' => '1.29',
         default => $criorel,

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.6
+
+**Features**
+
+* Updated repository configuration for CRI-O
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.46.5
 
 **Features**
