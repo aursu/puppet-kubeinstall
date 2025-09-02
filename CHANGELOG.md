@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release 0.46.6
+## Release 0.46.7
 
 **Features**
 
@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release 0.46.5
+## Release 0.46.6
 
 **Features**
 
