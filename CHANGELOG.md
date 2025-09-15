@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.9
+
+**Features**
+
+* Added support for Kubernetes 1.34 versions (1.34.0 and 1.34.1)
+* Updated version patterns in Release, Version, and VersionPrefix types to include Kubernetes 1.34
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.46.8
 
 **Features**
