@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.8
+
+**Features**
+
+* Refactored CRI-O installation logic for new versions
+* Added conditional logic for cri-o-runc package installation (only for versions < 1.28.2)
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.46.7
 
 **Features**
