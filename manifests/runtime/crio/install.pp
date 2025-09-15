@@ -11,6 +11,7 @@
 # @example
 #   include kubeinstall::runtime::crio::install
 class kubeinstall::runtime::crio::install (
+  Kubeinstall::Release $kubernetes_release = $kubeinstall::kubernetes_release,
   Variant[
     Enum['installed', 'latest'],
     Pattern[/^1\.[0-9]+\.[0-9]+(~[0-9]+)?$/]
@@ -23,6 +24,8 @@ class kubeinstall::runtime::crio::install (
 
   if $crio_version in ['installed', 'latest'] {
     $os_crio_version = $crio_version
+    $criorel = $kubernetes_release
+    $crio_release = "${criorel}.0"
   }
   else {
     if $bsys::params::osname == 'Ubuntu' {
@@ -49,6 +52,7 @@ class kubeinstall::runtime::crio::install (
     else {
       $os_crio_version = $crio_version
     }
+    $crio_release = $crio_version
   }
 
   package { 'cri-o':
@@ -59,13 +63,15 @@ class kubeinstall::runtime::crio::install (
 
   case $bsys::params::osfam {
     'Debian': {
-      package { 'cri-o-runc':
-        ensure => $crio_runc_version,
-        before => Package['cri-o'],
-      }
+      if versioncmp($crio_release, '1.28.2') < 0 {
+        package { 'cri-o-runc':
+          ensure => $crio_runc_version,
+          before => Package['cri-o'],
+        }
 
-      # fix sequence of repository update and package installation
-      Class['apt::update'] -> Package['cri-o-runc']
+        # fix sequence of repository update and package installation
+        Class['apt::update'] -> Package['cri-o-runc']
+      }
     }
     'RedHat': {
       # if $bsys::params::osmaj == '8' and $bsys::params::centos_stream {
