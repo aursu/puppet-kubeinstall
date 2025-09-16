@@ -2,12 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release 0.46.10
+## Release 0.46.11
 
 **Features**
 
-* Added support for Calico custom resources installation for versions 3.30.0 and above
-* Enhanced Calico installation process with conditional custom-resources.yaml deployment
+* Added support for Calico operator CRDs installation for versions 3.30.0 and above
 
 **Bugfixes**
 

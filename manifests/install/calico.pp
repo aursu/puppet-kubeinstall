@@ -65,8 +65,8 @@ class kubeinstall::install::calico (
     }
 
     if versioncmp($version, '3.30.0') >= 0 {
-      exec { 'calico-custom-resources':
-        command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/custom-resources.yaml",
+      exec { 'calico-operator-crds':
+        command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/operator-crds.yaml",
         path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
         environment => [
           "KUBECONFIG=${kubeconfig}",
@@ -74,7 +74,7 @@ class kubeinstall::install::calico (
         # https://kubernetes.io/docs/concepts/architecture/nodes/
         onlyif      => 'kubectl get nodes',
         unless      => 'kubectl get crd/installations.operator.tigera.io',
-        require     => Exec['calico-operator-install'],
+        before      => Exec['calico-operator-install'],
       }
     }
 
