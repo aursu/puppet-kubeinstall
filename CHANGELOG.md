@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.46.10
+
+**Features**
+
+* Added support for Calico custom resources installation for versions 3.30.0 and above
+* Enhanced Calico installation process with conditional custom-resources.yaml deployment
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.46.9
 
 **Features**

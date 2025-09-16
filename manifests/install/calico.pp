@@ -64,6 +64,20 @@ class kubeinstall::install::calico (
       unless      => "kubectl -n tigera-operator get deployment.apps/tigera-operator -o jsonpath='{.spec.template.spec.containers[?(@.name == \"tigera-operator\")].image}' | grep v${operator_version}",
     }
 
+    if versioncmp($version, '3.30.0') >= 0 {
+      exec { 'calico-custom-resources':
+        command     => "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v${version}/manifests/custom-resources.yaml",
+        path        => '/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin',
+        environment => [
+          "KUBECONFIG=${kubeconfig}",
+        ],
+        # https://kubernetes.io/docs/concepts/architecture/nodes/
+        onlyif      => 'kubectl get nodes',
+        unless      => 'kubectl get crd/installations.operator.tigera.io',
+        require     => Exec['calico-operator-install'],
+      }
+    }
+
     if $ip_autodetection_cidrs[0] {
       $node_v4_address_autodetection_cidrs = {
         'nodeAddressAutodetectionV4' => {
