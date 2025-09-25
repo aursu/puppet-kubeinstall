@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 * Updated kubeadm join configuration to API version v1beta4
 * Enhanced kubeadm join configuration with comprehensive timeout settings
 * Improved CRI socket configuration with proper unix:// prefixes
-* Refactored kubeletExtraArgs from hash to array format for better compatibility
+* Refactored kubeletExtraArgs from hash to array format for compatibility
 * Added granular timeout configuration for various kubeadm operations (discovery, etcd, kubelet health checks, etc.)
 
 **Bugfixes**
