@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.47.1
+
+**Features**
+
+**Bugfixes**
+
+* Fixed CRI socket handling to properly apply unix:// prefix in kubeadm configuration files
+* Reverted socket paths in params.pp to plain paths while ensuring proper prefix application in config and join_config classes
+* Improved CRI socket configuration consistency between init and join configurations
+
+**Known Issues**
+
 ## Release 0.47.0
 
 **Features**

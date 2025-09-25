@@ -84,7 +84,7 @@ class kubeinstall::kubeadm::config (
       'bindPort'         => $apiserver_bind_port,
     },
     'nodeRegistration' => {
-      'criSocket' => $cri_socket,
+      'criSocket' => "unix://${cri_socket}",
       'name'      => $node_name,
       'taints'    => [
         {

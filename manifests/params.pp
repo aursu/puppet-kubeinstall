@@ -7,8 +7,8 @@
 class kubeinstall::params {
   $apiserver_bind_port     = 6443
   # https://kubernetes.io/docs/tasks/administer-cluster/migrating-from-dockershim/
-  $docker_socket           = 'unix:///var/run/dockershim.sock'
-  $crio_socket             = 'unix:///var/run/crio/crio.sock'
+  $docker_socket           = '/var/run/dockershim.sock'
+  $crio_socket             = '/var/run/crio/crio.sock'
   $service_dns_domain      = 'cluster.local'
   $service_cidr            = '10.96.0.0/12'
   $pod_network_cidr        = '172.16.0.0/16'

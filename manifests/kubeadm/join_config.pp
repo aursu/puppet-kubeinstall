@@ -53,7 +53,7 @@ class kubeinstall::kubeadm::join_config (
   $join_base = {
     'caCertPath' => '/etc/kubernetes/pki/ca.crt',
     'nodeRegistration' => {
-      'criSocket'        => $cri_socket,
+      'criSocket'        => "unix://${cri_socket}",
       'name'             => $node_name,
       'taints'           => [],
       'kubeletExtraArgs' => $kubelet_extra_args,
