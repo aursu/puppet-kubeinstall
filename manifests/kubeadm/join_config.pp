@@ -37,15 +37,18 @@ class kubeinstall::kubeadm::join_config (
   # https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#JoinConfiguration
   # kubeadm config print join-defaults
   $join_header  = {
-    'apiVersion' => 'kubeadm.k8s.io/v1beta3',
+    'apiVersion' => 'kubeadm.k8s.io/v1beta4',
     'kind' => 'JoinConfiguration',
   }
 
   # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#configure-cgroup-driver-used-by-kubelet-on-control-plane-node
-  $kubelet_extra_args = {
+  $kubelet_extra_args = [
     # Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag
-    # 'cgroup-driver' => $cgroup_driver,
-  }
+    # {
+    #   'name' => 'cgroup-driver',
+    #   'value' => $cgroup_driver,
+    # },
+  ]
 
   $join_base = {
     'caCertPath' => '/etc/kubernetes/pki/ca.crt',
@@ -86,12 +89,23 @@ class kubeinstall::kubeadm::join_config (
         'unsafeSkipCAVerification' => false,
         'caCertHashes'             => [$ca_cert_hash],
       },
-      'timeout'           => '5m0s',
       'tlsBootstrapToken' => $token,
     },
   }
 
-  $join_configuration = to_yaml($join_header + $join_base + $join_discovery + $join_control_plane)
+  $join_timeouts = {
+    'timeouts' => {
+      'controlPlaneComponentHealthCheck' => '4m0s',
+      'discovery' => '5m0s',
+      'etcdAPICall' => '2m0s',
+      'kubeletHealthCheck' => '4m0s',
+      'kubernetesAPICall' => '1m0s',
+      'tlsBootstrap' => '5m0s',
+      'upgradeManifests' => '5m0s',
+    },
+  }
+
+  $join_configuration = to_yaml($join_header + $join_base + $join_discovery + $join_control_plane + $join_timeouts)
 
   file { '/etc/kubernetes/kubeadm-join.conf':
     ensure  => file,

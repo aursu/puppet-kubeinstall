@@ -20,7 +20,7 @@ describe 'kubeinstall::kubeadm::join_config' do
 
       it {
         is_expected.to contain_file('/etc/kubernetes/kubeadm-join.conf')
-          .with_content(%r{kubeletExtraArgs: \{\}$})
+          .with_content(%r{kubeletExtraArgs: \[\]$})
       }
     end
   end
