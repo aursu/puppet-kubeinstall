@@ -33,21 +33,31 @@ class kubeinstall::topolvm::lvmd (
     mode   => '0755',
   }
 
+  file { "/opt/lvmd-${version}":
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
   archive { $archive:
-    path         => "/tmp/${archive}",
-    source       => $source,
-    extract      => true,
-    extract_path => '/opt/sbin',
-    cleanup      => true,
-    creates      => '/opt/sbin/lvmd',
-    require      => File['/opt/sbin'],
+    path            => "/tmp/${archive}",
+    source          => $source,
+    extract         => true,
+    extract_command => "tar zxf %s -C /opt/lvmd-${version}",
+    extract_path    => "/opt/lvmd-${version}",
+    cleanup         => true,
+    creates         => "/opt/lvmd-${version}/lvmd",
+    require         => File["/opt/lvmd-${version}"],
   }
 
   file { '/opt/sbin/lvmd':
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
+    source  => "/opt/lvmd-${version}/lvmd",
     require => Archive[$archive],
+    notify  => Systemd::Unit_file['lvmd.service'],
   }
 
   $device_classes_config = $device_classes.map |$dev_class| {
@@ -99,6 +109,7 @@ class kubeinstall::topolvm::lvmd (
     ensure  => file,
     content => to_yaml($config),
     mode    => '0644',
+    notify  => Systemd::Unit_file['lvmd.service'],
   }
 
   if $install_xfs {
@@ -119,6 +130,5 @@ class kubeinstall::topolvm::lvmd (
     content => file("${module_name}/topolvm/systemd/lvmd.service"),
     enable  => true,
     active  => true,
-    require => File['/etc/topolvm/lvmd.yaml'],
   }
 }
