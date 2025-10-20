@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.48.0
+
+**Features**
+
+* Updated Kubernetes version from 1.32.3 to 1.34.1
+* Updated Calico version from 3.29.2 to 3.30.4 
+* Updated Calico operator version from 1.36.5 to 1.38.7
+* Updated Helm version from 3.17.2 to 3.19.0
+* Updated ArgoCD version from 2.14.6 to 3.1.9
+* Updated TopoLVM lvmd version from 0.36.2 to 0.38.0
+* Enhanced lvmd installation with versioned directory structure
+* Improved lvmd service management with proper file sourcing and notifications
+
+**Bugfixes**
+
+* Fixed lvmd binary installation to use versioned directory structure
+* Added proper service notifications for lvmd configuration changes
+* Improved lvmd service dependency management
+
+**Known Issues**
+
 ## Release 0.47.1
 
 **Features**
