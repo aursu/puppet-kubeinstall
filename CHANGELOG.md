@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.49.0
+
+**Features**
+
+* Extended `Kubeinstall::Release` to accept the 1.35 and 1.36 minor releases
+* Extended `Kubeinstall::Version`/`Kubeinstall::VersionPrefix` EOL patterns to cover 1.31 and 1.32 patch releases
+* Updated active version ranges to 1.33.1-1.33.13, 1.34.1-1.34.9, 1.35.1-1.35.6, and 1.36.1-1.36.2
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.48.0
 
 **Features**
