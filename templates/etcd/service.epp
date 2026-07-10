@@ -1,0 +1,9 @@
+<%- | String $description,
+      String $exec_start,
+| -%>
+[Unit]
+Description=<%= $description %>
+
+[Service]
+Type=oneshot
+ExecStart=<%= $exec_start %>

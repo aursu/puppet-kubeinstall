@@ -1,0 +1,12 @@
+<%- | String $description,
+      String $on_calendar,
+| -%>
+[Unit]
+Description=<%= $description %>
+
+[Timer]
+OnCalendar=<%= $on_calendar %>
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,19 @@
+<%- | String $env_file,
+      String $lockfile,
+| -%>
+#!/usr/bin/env bash
+# MANAGED BY PUPPET (kubeinstall::etcd::backup) — restic repository prune
+set -euo pipefail
+
+# Exclusive with the backup job (shared lock, fd 9).
+exec 9>'<%= $lockfile %>'
+if ! flock -w 3600 9; then
+  echo "etcd prune: repository lock busy, skipping" >&2
+  exit 1
+fi
+
+set -a
+# shellcheck disable=SC1090
+source '<%= $env_file %>'
+set +a
+restic prune
