@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.50.0
+
+**Features**
+
+* Added `kubeinstall::restic` class to install a pinned restic backup client (self-contained via puppet-archive)
+* Implemented `kubeinstall::etcd::backup` (replacing the stub) — takes an `etcdctl snapshot save`, verifies it with `etcdutl snapshot status`, backs the verified snapshot up into a restic repository, applies retention, and removes the local snapshot; scheduled via systemd timers with a separate prune timer
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release 0.49.0
 
 **Features**
