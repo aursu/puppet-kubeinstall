@@ -1,13 +1,17 @@
 # @summary Back up an etcd cluster with restic
 #
-# Self-contained etcd backup for control-plane nodes: takes an `etcdctl snapshot
-# save` to a real file, verifies it with `etcdutl snapshot status`, streams the
-# verified snapshot into a restic repository, applies retention (`forget`), and
-# removes the local snapshot. A separate `prune` timer reclaims space.
+# Etcd backup for control-plane nodes. The etcd-specific work lives here — take
+# an `etcdctl snapshot save` to a real file and verify it with `etcdutl snapshot
+# status` — while all the generic restic mechanics (install, repository env +
+# init + prune, backup wrapper, retention, scheduling, locking) are delegated to
+# the `aursu/restic` module.
 #
-# Scheduling uses systemd timers (kubeinstall is systemd-centric). restic is
-# installed by `kubeinstall::restic` (self-contained — see the tech-debt note
-# there); etcdctl/etcdutl by `kubeinstall::etcd::etcdctl`.
+# The snapshot is modelled as a `restic::job` in **path mode**: a `pre_command`
+# writes and verifies the snapshot file, restic backs that file up, and a
+# `post_command` (`trap … EXIT`) removes it — so a failed run never leaves a
+# stale snapshot behind. Scheduling uses systemd timers (kubeinstall is
+# systemd-centric). restic is installed by the `restic` class; etcdctl/etcdutl
+# by `kubeinstall::etcd::etcdctl`.
 #
 # Apply only on control-plane nodes (the etcd members).
 #
@@ -49,21 +53,12 @@ class kubeinstall::etcd::backup (
   Boolean                            $manage_prune      = true,
   String                             $prune_on_calendar = '*-*-* 04:20:00',
 ) {
-  include kubeinstall::restic
+  include restic
   include kubeinstall::etcd::etcdctl
 
-  $config_dir   = $kubeinstall::restic::config_dir
-  $bin_dir      = $kubeinstall::restic::bin_dir
-  $env_file      = "${config_dir}/etcd.env"
-  $lockfile      = '/run/restic-etcd.lock'
-  $backup_script = "${bin_dir}/etcd-backup.sh"
-  $prune_script  = "${bin_dir}/etcd-restic-prune.sh"
-
-  $pass = $password =~ Sensitive ? {
-    true    => $password.unwrap,
-    default => $password,
-  }
-  $forget_flags = $keep.map |$rule, $count| { "--keep-${rule} ${count}" }
+  $bin_dir         = $restic::bin_dir
+  $snapshot        = "${snapshot_dir}/etcd-snapshot.db"
+  $snapshot_script = "${bin_dir}/etcd-snapshot.sh"
 
   # transient snapshot workspace
   file { $snapshot_dir:
@@ -73,123 +68,50 @@ class kubeinstall::etcd::backup (
     mode   => '0700',
   }
 
-  # restic repository env
-  file { $env_file:
-    ensure    => file,
-    owner     => 'root',
-    group     => 'root',
-    mode      => '0600',
-    show_diff => false,
-    content   => Sensitive(epp('kubeinstall/etcd/restic.env.epp', {
-          repository => $repository,
-          password   => $pass,
-          env        => $repo_env,
-    })),
-    require   => Class['kubeinstall::restic'],
-  }
-
-  # local repo backing dir (no-op for s3:/remote backends)
-  if $manage_directory and $repository =~ Stdlib::Absolutepath {
-    $repo_parent = dirname($repository)
-
-    exec { 'kubeinstall-etcd-restic-mkdir':
-      command => "mkdir -p '${repo_parent}'",
-      creates => $repo_parent,
-      path    => ['/usr/bin', '/bin'],
-    }
-
-    file { $repository:
-      ensure  => directory,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0700',
-      require => Exec['kubeinstall-etcd-restic-mkdir'],
-    }
-
-    $init_require = [File[$env_file], File[$repository], File['/usr/local/bin/restic']]
-  }
-  else {
-    $init_require = [File[$env_file], File['/usr/local/bin/restic']]
-  }
-
-  # backup wrapper: snapshot -> verify -> restic -> forget -> cleanup
-  file { $backup_script:
+  # etcd-specific snapshot+verify helper (invoked as the job's pre_command)
+  file { $snapshot_script:
     ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0750',
-    content => epp('kubeinstall/etcd/backup.sh.epp', {
-        env_file     => $env_file,
-        lockfile     => $lockfile,
-        snapshot_dir => $snapshot_dir,
-        endpoints    => $endpoints,
-        cacert       => $cacert,
-        cert         => $cert,
-        key          => $key,
-        forget_flags => $forget_flags,
+    content => epp('kubeinstall/etcd/snapshot.sh.epp', {
+        endpoints => $endpoints,
+        cacert    => $cacert,
+        cert      => $cert,
+        key       => $key,
     }),
-    require => [Class['kubeinstall::restic'], File[$env_file], File[$snapshot_dir]],
+    require => Class['restic'],
   }
 
-  # idempotent repository init
-  if $init {
-    exec { 'kubeinstall-etcd-restic-init':
-      command => "/bin/bash -c 'set -a; . ${env_file}; set +a; restic init'",
-      unless  => "/bin/bash -c 'set -a; . ${env_file}; set +a; restic cat config >/dev/null 2>&1'",
-      path    => ['/usr/local/bin', '/usr/bin', '/bin'],
-      require => $init_require,
-    }
+  # restic repository (systemd-timer prune) — generic mechanics in aursu/restic
+  restic::repository { 'etcd':
+    repository        => $repository,
+    password          => $password,
+    env               => $repo_env,
+    init              => $init,
+    manage_directory  => $manage_directory,
+    manage_prune      => $manage_prune,
+    schedule_provider => 'systemd_timer',
+    prune_on_calendar => $prune_on_calendar,
+    enable            => $enable,
   }
 
-  # systemd service + timer for the backup
-  systemd::unit_file { 'etcd-backup.service':
-    content => epp('kubeinstall/etcd/service.epp', {
-        description => 'etcd snapshot backup (restic)',
-        exec_start  => $backup_script,
-    }),
-    require => File[$backup_script],
-  }
-
-  systemd::unit_file { 'etcd-backup.timer':
-    content => epp('kubeinstall/etcd/timer.epp', {
-        description => 'etcd snapshot backup (restic)',
-        on_calendar => $on_calendar,
-    }),
-    enable  => $enable,
-    active  => $enable,
-    require => Systemd::Unit_file['etcd-backup.service'],
-  }
-
-  # prune on its own schedule (single lock owner, expensive/exclusive)
-  if $manage_prune {
-    file { $prune_script:
-      ensure  => file,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0750',
-      content => epp('kubeinstall/etcd/prune.sh.epp', {
-          env_file => $env_file,
-          lockfile => $lockfile,
-      }),
-      require => File[$env_file],
-    }
-
-    systemd::unit_file { 'etcd-restic-prune.service':
-      content => epp('kubeinstall/etcd/service.epp', {
-          description => 'etcd restic repository prune',
-          exec_start  => $prune_script,
-      }),
-      require => File[$prune_script],
-    }
-
-    systemd::unit_file { 'etcd-restic-prune.timer':
-      content => epp('kubeinstall/etcd/timer.epp', {
-          description => 'etcd restic repository prune',
-          on_calendar => $prune_on_calendar,
-      }),
-      enable  => $enable,
-      active  => $enable,
-      require => Systemd::Unit_file['etcd-restic-prune.service'],
-    }
+  # backup job in path mode: snapshot+verify (pre) → restic backup → forget,
+  # with the snapshot removed on any exit (post/trap).
+  restic::job { 'etcd':
+    repository        => 'etcd',
+    paths             => [$snapshot],
+    pre_command       => "'${snapshot_script}' '${snapshot}'",
+    post_command      => "rm -f '${snapshot}'",
+    snapshot_tag      => 'etcd',
+    keep              => $keep,
+    schedule_provider => 'systemd_timer',
+    on_calendar       => $on_calendar,
+    enable            => $enable,
+    require           => [
+      File[$snapshot_dir],
+      File[$snapshot_script],
+      Class['kubeinstall::etcd::etcdctl'],
+    ],
   }
 }

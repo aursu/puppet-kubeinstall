@@ -1,0 +1,21 @@
+<%- | String $endpoints,
+      String $cacert,
+      String $cert,
+      String $key,
+| -%>
+#!/usr/bin/env bash
+# MANAGED BY PUPPET (kubeinstall::etcd::backup) — snapshot etcd to $1 and verify.
+# Never writes to /dev/stdout: `etcdctl snapshot save` requires a real file.
+set -euo pipefail
+
+snap="${1:?usage: etcd-snapshot.sh <target-file>}"
+
+ETCDCTL_API=3 etcdctl \
+  --endpoints='<%= $endpoints %>' \
+  --cacert='<%= $cacert %>' \
+  --cert='<%= $cert %>' \
+  --key='<%= $key %>' \
+  snapshot save "$snap"
+
+# Verify the snapshot before trusting it (etcdutl is installed alongside etcdctl).
+etcdutl snapshot status "$snap" >/dev/null

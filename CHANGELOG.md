@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.51.0
+
+**Features**
+
+* Added `aursu/restic` as a dependency
+
+**Backwards-incompatible changes**
+
+* Removed the self-contained `kubeinstall::restic` install class and the `etcd/{restic.env,backup.sh,prune.sh,service,timer}.epp` templates
+* Refactored `kubeinstall::etcd::backup` to delegate all generic restic mechanics (install, repository env/init/prune, backup wrapper, retention, scheduling, locking) to the dedicated `aursu/restic` module; the etcd snapshot+verify step is now a `restic::job` `pre_command` and the snapshot cleanup a `post_command`. Behaviour (systemd timers, separate prune timer, snapshot→verify→restic→forget→cleanup) is unchanged; the systemd unit names change to `restic-backup-etcd.*` / `restic-prune-etcd.*`.
+
 ## Release 0.50.0
 
 **Features**

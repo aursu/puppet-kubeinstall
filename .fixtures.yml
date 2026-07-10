@@ -51,3 +51,7 @@ fixtures:
     tlsinfo:
       repo: aursu/tlsinfo
       ref: 0.8.0
+  repositories:
+    restic:
+      repo: "https://github.com/aursu/puppet-restic.git"
+      ref: "v0.1.0"
