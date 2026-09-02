@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.52.0
+
+**Features**
+
+* New class **`kubeinstall::repos::cleanup`**, included from
+  `kubeinstall::profile::kubernetes`, which removes package repositories this
+  module no longer uses.
+
+  CRI-O used to be packaged in openSUSE's `devel:kubic:libcontainers:stable`.
+  That project is discontinued; packaging moved to the cri-o project's own
+  repositories, and `kubeinstall::repos::crio` follows it — `isv:/cri-o:/stable`
+  from 1.33.0, `pkgs.k8s.io` from 1.28.2, kubic only in the `else` branch below
+  that. So every host built when cri-o was older than 1.28.2 still carries the
+  kubic sources while the module declares something else entirely, because
+  Puppet forgets rather than removes.
+
+  ⚠ Not cosmetic: the kubic packages carry **epoch 100**, deliberately chosen to
+  outrank the distribution's. Epoch dominates Debian version comparison, so
+  `100:2.48-1` beats noble's `1:2.66-5ubuntu2.4` — apt will not replace them,
+  dependencies are satisfied on epoch alone, and one of the packages is
+  `libpam-cap`, a PAM module. The 22.04 flavour also 404s for 24.04.
+
+  The class removes the sources and the keyring only. Packages already installed
+  from them are deliberately left: downgrading `libcap2`, `libcap2-bin` and
+  `libpam-cap` has to be verified against SSH and systemd before an OS upgrade,
+  which is a gated operation rather than a side effect of tidying apt.
+
 ## Release 0.51.0
 
 **Features**
