@@ -82,7 +82,15 @@ class kubeinstall::repos::crio (
   }
   elsif $osname == 'Ubuntu' {
     if versioncmp($crio_release, '1.33.0') >= 0 {
-      exec { "curl -fsSL https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
+      # --batch --yes is load-bearing, not tidiness. gpg --dearmor opens the
+      # output file BEFORE reading its input, so a failed fetch still leaves a
+      # zero-byte keyring behind. The unless guard then correctly fails on that
+      # empty file and re-runs this command - which, without --yes, stops to ask
+      # "File exists. Overwrite?" on a stdin Puppet does not provide, and exits
+      # non-zero. The result is a self-sustaining loop: one network blip breaks
+      # the host permanently, and every subsequent run fails identically while
+      # the file stays empty. Measured on five CEM hosts, broken for a year.
+      exec { "curl -fsSL https://download.opensuse.org/repositories/isv:/cri-o:/stable:/v${criorel}/deb/Release.key | gpg --batch --yes --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
         path   => '/usr/bin:/bin',
         unless => "gpg /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg",
         before => Apt::Source['cri-o'],
@@ -103,7 +111,15 @@ class kubeinstall::repos::crio (
       }
 
       # https://github.com/cri-o/packaging/blob/main/README.md#usage
-      exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${keyrel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
+      # --batch --yes is load-bearing, not tidiness. gpg --dearmor opens the
+      # output file BEFORE reading its input, so a failed fetch still leaves a
+      # zero-byte keyring behind. The unless guard then correctly fails on that
+      # empty file and re-runs this command - which, without --yes, stops to ask
+      # "File exists. Overwrite?" on a stdin Puppet does not provide, and exits
+      # non-zero. The result is a self-sustaining loop: one network blip breaks
+      # the host permanently, and every subsequent run fails identically while
+      # the file stays empty. Measured on five CEM hosts, broken for a year.
+      exec { "curl -fsSL https://pkgs.k8s.io/addons:/cri-o:/stable:/v${keyrel}/deb/Release.key | gpg --batch --yes --dearmor -o /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg":
         path   => '/usr/bin:/bin',
         unless => "gpg /etc/apt/trusted.gpg.d/cri-o-v${criorel}-apt-keyring.gpg",
         before => Apt::Source['cri-o'],
@@ -125,7 +141,15 @@ class kubeinstall::repos::crio (
         $os = "x${osname}_${osmaj}"
       }
 
-      exec { "curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg":
+      # --batch --yes is load-bearing, not tidiness. gpg --dearmor opens the
+      # output file BEFORE reading its input, so a failed fetch still leaves a
+      # zero-byte keyring behind. The unless guard then correctly fails on that
+      # empty file and re-runs this command - which, without --yes, stops to ask
+      # "File exists. Overwrite?" on a stdin Puppet does not provide, and exits
+      # non-zero. The result is a self-sustaining loop: one network blip breaks
+      # the host permanently, and every subsequent run fails identically while
+      # the file stays empty. Measured on five CEM hosts, broken for a year.
+      exec { "curl -fsSL https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${os}/Release.key | gpg --batch --yes --dearmor -o /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg":
         path   => '/usr/bin:/bin',
         unless => 'gpg /etc/apt/trusted.gpg.d/devel-kubic-libcontainers-stable-apt-keyring.gpg',
         before => Apt::Source['devel:kubic:libcontainers:stable'],

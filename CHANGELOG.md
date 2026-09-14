@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.52.1
+
+**Bugfixes**
+
+* **The repository keyring Execs can no longer wedge a host permanently.** All four
+  `gpg --dearmor` invocations now pass `--batch --yes`.
+
+  The failure mode is worth recording, because nothing about it is obvious from a Puppet report.
+  `gpg --dearmor -o FILE` opens its output **before** reading input, so a failed fetch still
+  leaves a **zero-byte keyring** behind and exits 2. The `unless` guard then correctly fails on
+  that empty file and re-runs the command - which, without `--yes`, stops to ask
+  `File exists. Overwrite? (y/N)` on a stdin Puppet does not provide, and exits non-zero.
+
+  The result is self-sustaining: **one network blip breaks the host permanently.** Every
+  subsequent run fails identically, the file stays empty, and because these Execs run early and
+  are `before => Apt::Source[...]`, the whole catalogue aborts there - so every unrelated change
+  on that host silently stops converging too.
+
+  Measured on five CEM hosts, where the keyring had been zero bytes since 2025-09-02 and Puppet
+  had been failing on it for a year. With `--yes` the next run overwrites the empty file and the
+  host repairs itself.
+
+* The `unless` guards are deliberately unchanged. `gpg` already exits 2 on an empty file, so the
+  guards detect the corruption correctly - the defect was only ever in the repair step.
+
 ## Release 0.52.0
 
 **Features**

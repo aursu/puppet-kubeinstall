@@ -24,7 +24,15 @@ class kubeinstall::repos (
   elsif $facts['os']['name'] == 'Ubuntu' {
     $dist = $facts['os']['distro']['codename']
 
-    exec { "curl -fsSL https://pkgs.k8s.io/core:/stable:/v${kuberel}/deb/Release.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/kubernetes-v${kuberel}-apt-keyring.gpg":
+    # --batch --yes is load-bearing, not tidiness. gpg --dearmor opens the
+    # output file BEFORE reading its input, so a failed fetch still leaves a
+    # zero-byte keyring behind. The unless guard then correctly fails on that
+    # empty file and re-runs this command - which, without --yes, stops to ask
+    # "File exists. Overwrite?" on a stdin Puppet does not provide, and exits
+    # non-zero. The result is a self-sustaining loop: one network blip breaks
+    # the host permanently, and every subsequent run fails identically while
+    # the file stays empty. Measured on five CEM hosts, broken for a year.
+    exec { "curl -fsSL https://pkgs.k8s.io/core:/stable:/v${kuberel}/deb/Release.key | gpg --batch --yes --dearmor -o /etc/apt/trusted.gpg.d/kubernetes-v${kuberel}-apt-keyring.gpg":
       path   => '/usr/bin:/bin',
       unless => "gpg /etc/apt/trusted.gpg.d/kubernetes-v${kuberel}-apt-keyring.gpg",
       before => Apt::Source['kubernetes'],
