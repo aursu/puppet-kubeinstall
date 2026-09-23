@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release 0.53.0
+
+**Features**
+
+* **New class `kubeinstall::topolvm::lvmd::decommission`** - stops, disables and removes the `lvmd` unit installed by `kubeinstall::topolvm::lvmd`, and optionally the binary, configuration and socket directory. For a host that has left its Kubernetes cluster and so has no CSI driver left to talk to `lvmd`, where the daemon otherwise keeps running with no consumer - and, if its metrics listener is wildcard-bound, keeps serving an unauthenticated endpoint on every address the host holds.
+* **It does not touch LVM.** Volume groups, logical volumes, filesystems and mounts are untouched; `lvmd` is the means of asking for a volume, not the storage itself. `xfsprogs` and `e2fsprogs` are left installed, because anything on the host may depend on them.
+* **The unit resource title is shared with the installing class on purpose.** Declaring both on one host is a duplicate-declaration failure at catalogue compilation rather than two classes starting and stopping the service in alternate agent runs - the same technique `lsys::hardening::nfs` uses for `Service[rpcbind]`.
+
 ## Release 0.52.1
 
 **Bugfixes**
